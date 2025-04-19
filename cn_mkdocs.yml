@@ -11,6 +11,7 @@ docs_dir: cn_docs
 site_dir: site
 theme:
   name: material
+  language: zh
   custom_dir: docs/.overrides
   language: en
   favicon: assets/images/logo.svg
@@ -48,108 +49,108 @@ theme:
     - navigation.tabs.sticky
 
 nav:
-  - Home:
-    - About: index.md
-    - Walkthrough:
-      - Installation: install.md
-      - Introduction: intro.md
-      - Environments: environment.md
-      - Versioning: version.md
-      - Builds: build.md
-      - Publishing: publish.md
-    - Learn:
-      - Next steps: next-steps.md
-      - Why Hatch?: why.md
-    - History:
+  - 首页:
+    - 关于: index.md
+    - 演练/走查:
+      - 安装: install.md
+      - 简介: intro.md
+      - 环境: environment.md
+      - 版本: version.md
+      - 构建: build.md
+      - 发布: publish.md
+    - 学习:
+      - 下一步: next-steps.md
+      - 为什么选择 Hatch?: why.md
+    - 历史:
       - Hatch: history/hatch.md
       - Hatchling: history/hatchling.md
-    - Community:
-      - Users: community/users.md
-      - Highlights: community/highlights.md
-      - Contributing: community/contributing.md
-  - Configuration:
-    - Metadata: config/metadata.md
-    - Dependencies: config/dependency.md
-    - Build: config/build.md
-    - Environments:
-      - Overview: config/environment/overview.md
-      - Advanced: config/environment/advanced.md
-    - Internal:
-      - Testing: config/internal/testing.md
-      - Static analysis: config/internal/static-analysis.md
-      - Building: config/internal/build.md
-    - Context formatting: config/context.md
-    - Project templates: config/project-templates.md
+    - 社区:
+      - 用户: community/users.md
+      - 社区亮点: community/highlights.md
+      - 贡献: community/contributing.md
+  - 配置:
+    - 元数据: config/metadata.md
+    - 依赖项: config/dependency.md
+    - 构建: config/build.md
+    - 环境:
+      - 概览: config/environment/overview.md
+      - 高级: config/environment/advanced.md
+    - 内部:
+      - 测试: config/internal/testing.md
+      - 静态分析: config/internal/static-analysis.md
+      - 构建: config/internal/build.md
+    - 上下文格式: config/context.md
+    - 项目模板: config/project-templates.md
     - Hatch: config/hatch.md
   - CLI:
-    - About: cli/about.md
-    - Reference: cli/reference.md
-  - Plugins:
-    - About: plugins/about.md
-    - Builder:
-      - Reference: plugins/builder/reference.md
+    - 关于: cli/about.md
+    - 参考: cli/reference.md
+  - 插件:
+    - 关于: plugins/about.md
+    - 构建器:
+      - 参考: plugins/builder/reference.md
       - Wheel: plugins/builder/wheel.md
-      - Source distribution: plugins/builder/sdist.md
-      - Binary: plugins/builder/binary.md
-      - Custom: plugins/builder/custom.md
-    - Build hook:
-      - Reference: plugins/build-hook/reference.md
+      - 源分发: plugins/builder/sdist.md
+      - 二进制: plugins/builder/binary.md
+      - 自定义: plugins/builder/custom.md
+    - 构建钩子:
+      - 参考: plugins/build-hook/reference.md
       - Version: plugins/build-hook/version.md
-      - Custom: plugins/build-hook/custom.md
-    - Metadata hook:
-      - Reference: plugins/metadata-hook/reference.md
-      - Custom: plugins/metadata-hook/custom.md
-    - Environment:
-      - Reference: plugins/environment/reference.md
-      - Virtual: plugins/environment/virtual.md
-    - Environment collector:
-      - Reference: plugins/environment-collector/reference.md
-      - Custom: plugins/environment-collector/custom.md
-      - Default: plugins/environment-collector/default.md
-    - Publisher:
-      - Reference: plugins/publisher/reference.md
-      - Index: plugins/publisher/package-index.md
-    - Version source:
-      - Reference: plugins/version-source/reference.md
-      - Regex: plugins/version-source/regex.md
-      - Code: plugins/version-source/code.md
-      - Environment: plugins/version-source/env.md
-    - Version scheme:
-      - Reference: plugins/version-scheme/reference.md
-      - Standard: plugins/version-scheme/standard.md
-    - Utilities: plugins/utilities.md
+      - 自定义: plugins/build-hook/custom.md
+    - 元数据钩子:
+      - 参考: plugins/metadata-hook/reference.md
+      - 自定义: plugins/metadata-hook/custom.md
+    - 环境:
+      - 参考: plugins/environment/reference.md
+      - 虚拟: plugins/environment/virtual.md
+    - 环境收集器:
+      - 参考: plugins/environment-collector/reference.md
+      - 自定义: plugins/environment-collector/custom.md
+      - 默认: plugins/environment-collector/default.md
+    - 发布者:
+      - 参考: plugins/publisher/reference.md
+      - 索引: plugins/publisher/package-index.md
+    - 版本源:
+      - 参考: plugins/version-source/reference.md
+      - 正则: plugins/version-source/regex.md
+      - 代码: plugins/version-source/code.md
+      - 环境: plugins/version-source/env.md
+    - 版本 scheme:
+      - 参考: plugins/version-scheme/reference.md
+      - 标准: plugins/version-scheme/standard.md
+    - 工具: plugins/utilities.md
   - How-to:
     - Meta:
-      - Report issues: how-to/meta/report-issues.md
-    - Integrate:
-      - Visual Studio Code: how-to/integrate/vscode.md
-    - Run:
-      - Python scripts: how-to/run/python-scripts.md
-    - Config:
-      - Dynamic metadata: how-to/config/dynamic-metadata.md
-    - Environments:
-      - Select installer: how-to/environment/select-installer.md
-      - Dependency resolution: how-to/environment/dependency-resolution.md
-    - Static analysis:
-      - Customize behavior: how-to/static-analysis/behavior.md
+      - 报告问题: how-to/meta/report-issues.md
+    - 集成:
+      - VS Code: how-to/integrate/vscode.md
+    - 运行:
+      - Python 脚本: how-to/run/python-scripts.md
+    - 配置:
+      - 动态元数据: how-to/config/dynamic-metadata.md
+    - 环境:
+      - 选择安装程序: how-to/environment/select-installer.md
+      - 依赖关系解析: how-to/environment/dependency-resolution.md
+    - 静态分析:
+      - 自定义行为: how-to/static-analysis/behavior.md
     - Python:
-      - Custom distributions: how-to/python/custom.md
-    - Publishing:
-      - Authentication: how-to/publish/auth.md
-      - Repository selection: how-to/publish/repo.md
-    - Plugins:
-      - Testing builds: how-to/plugins/testing-builds.md
-  - Tutorials:
+      - 自定义分发: how-to/python/custom.md
+    - 发布:
+      - 身份认证: how-to/publish/auth.md
+      - 仓库选择: how-to/publish/repo.md
+    - 插件:
+      - 测试构建: how-to/plugins/testing-builds.md
+  - 教程:
     - Python:
-      - Management: tutorials/python/manage.md
-    - Environments:
-      - Basic usage: tutorials/environment/basic-usage.md
-    - Testing:
-      - Overview: tutorials/testing/overview.md
+      - 管理: tutorials/python/manage.md
+    - 环境:
+      - 基本用法: tutorials/environment/basic-usage.md
+    - 测试:
+      - 概览: tutorials/testing/overview.md
   - Meta:
     - FAQ: meta/faq.md
-    - Authors: meta/authors.md
-  - Blog:
+    - 作者: meta/authors.md
+  - 博客:
     - blog/index.md
 
 watch:
