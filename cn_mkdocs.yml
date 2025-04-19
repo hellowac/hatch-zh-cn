@@ -11,9 +11,8 @@ docs_dir: cn_docs
 site_dir: site
 theme:
   name: material
-  language: zh
   custom_dir: docs/.overrides
-  language: en
+  language: zh
   favicon: assets/images/logo.svg
   icon:
     repo: fontawesome/brands/github-alt

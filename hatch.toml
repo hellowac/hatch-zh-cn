@@ -127,6 +127,7 @@ MKDOCS_CONFIG = "cn_mkdocs.yml"
 [envs.cn_docs.scripts]
 build = "mkdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
 serve = "mkdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
+gh-deploy = "mkdocs gh-deploy --config-file {env:MKDOCS_CONFIG}"
 ci-build = "mike deploy --config-file {env:MKDOCS_CONFIG} --update-aliases {args}"
 validate = "linkchecker --config .linkcheckerrc site"
 # https://github.com/linkchecker/linkchecker/issues/678
