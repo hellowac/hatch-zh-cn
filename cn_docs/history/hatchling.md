@@ -1,79 +1,77 @@
-# Hatchling history
+# Hatchling 历史记录
 
 -----
 
-All notable changes to Hatchling will be documented in this file.
+本文档记录了 Hatchling 项目的所有重要变更。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## Unreleased
+## 未发布（Unreleased）
 
 ## [1.27.0](https://github.com/pypa/hatch/releases/tag/hatchling-v1.27.0) - 2024-11-26 ## {: #hatchling-v1.27.0 }
 
-***Added:***
+***新增：***
 
-- Update the default version of core metadata to 2.4
+- 将核心元数据的默认版本更新为 2.4
 
 ## [1.26.3](https://github.com/pypa/hatch/releases/tag/hatchling-v1.26.3) - 2024-11-12 ## {: #hatchling-v1.26.3 }
 
-***Fixed:***
+***修复：***
 
-- Support an old import path that is still used by some consumers like Hatch
+- 支持仍被一些用户（如 Hatch）使用的旧导入路径
 
 ## [1.26.2](https://github.com/pypa/hatch/releases/tag/hatchling-v1.26.2) - 2024-11-12 ## {: #hatchling-v1.26.2 }
 
-***Fixed:***
+***修复：***
 
-- Back-populate string `license` fields (`License-Expression`) for core metadata versions prior to 2.4
-- Remove the `License-Expression` and `License-Files` core metadata from version 2.2 that was missed in the previous minor release
+- 为核心元数据版本低于 2.4 的情况填充字符串 `license` 字段（`License-Expression`）
+- 移除在上一个小版本中遗漏的版本 2.2 的 `License-Expression` 和 `License-Files` 核心元数据字段
 
 ## [1.26.1](https://github.com/pypa/hatch/releases/tag/hatchling-v1.26.1) - 2024-11-10 ## {: #hatchling-v1.26.1 }
 
-***Fixed:***
+***修复：***
 
-- Add backward compatibility for the old `license-files` metadata field
-- Support an old import path that is still used by some consumers like Hatch
+- 为旧版 `license-files` 元数据字段添加向后兼容性
+- 支持仍被一些用户（如 Hatch）使用的旧导入路径
 
 ## [1.26.0](https://github.com/pypa/hatch/releases/tag/hatchling-v1.26.0) - 2024-11-10 ## {: #hatchling-v1.26.0 }
 
-***Changed:***
+***变更：***
 
-- The `license-files` metadata field has been updated to the latest spec and is now just an array of glob patterns
+- `license-files` 元数据字段已更新为最新规格，现在仅为 glob 模式数组
 
-***Added:***
+***新增：***
 
-- Support version 2.4 of core metadata for the `wheel` and `sdist` targets
-- Add `HATCH_METADATA_CLASSIFIERS_NO_VERIFY` environment variable to disable trove classifier verification
-- Add `.pixi` to the list of directories that cannot be traversed
-- Bump the minimum supported version of `packaging` to 24.2
+- 支持 `wheel` 和 `sdist` 目标的核心元数据 2.4 版本
+- 新增 `HATCH_METADATA_CLASSIFIERS_NO_VERIFY` 环境变量，用于禁用 Trove 分类器验证
+- 将 `.pixi` 添加到无法遍历的目录列表中
+- 将 `packaging` 的最低支持版本提升至 24.2
 
-***Fixed:***
+***修复：***
 
-- No longer write package metadata for license expressions and files for versions of core metadata prior to 2.4
-- Properly enable Zip64 support for the `wheel` target
-- Properly ignore parent `.gitingore` files when the project root matches one of the patterns
+- 对于核心元数据版本低于 2.4 的情况，不再写入许可证表达式和文件的包元数据
+- 正确启用 `wheel` 目标的 Zip64 支持
+- 正确忽略当项目根目录匹配某个模式时的父级 `.gitignore` 文件
 
 ## [1.25.0](https://github.com/pypa/hatch/releases/tag/hatchling-v1.25.0) - 2024-06-22 ## {: #hatchling-v1.25.0 }
 
-***Changed:***
+***变更：***
 
-- The `macos-max-compat` option for the `wheel` target is now disabled by default and will be removed in a future release
+- `wheel` 目标的 `macos-max-compat` 选项默认已禁用，并将在未来版本中移除
 
-***Added:***
+***新增：***
 
-- Artifacts for the `wheel` and `sdist` targets now have their permission bits normalized
+- `wheel` 和 `sdist` 目标的工件现在已经标准化其权限位
 
-***Fixed:***
+***修复：***
 
-- Ignore `manylinux`/`musllinux` tags for the `wheel` target artifact name when enabling the `infer_tag` build data
-- The `wheel` target build data `infer_tag` when enabled now respects the `MACOSX_DEPLOYMENT_TARGET` environment variable
+- 在启用 `infer_tag` 构建数据时，忽略 `manylinux` / `musllinux` 标签在 `wheel` 目标工件名称中的影响
+- 启用 `infer_tag` 时，`wheel` 目标构建数据现在会尊重 `MACOSX_DEPLOYMENT_TARGET` 环境变量
 
 ## [1.24.2](https://github.com/pypa/hatch/releases/tag/hatchling-v1.24.2) - 2024-04-22 ## {: #hatchling-v1.24.2 }
 
-***Fixed:***
+***修复：***
 
-- Add `.venv` to the list of directories that cannot be traversed
-- Output from the core Application utility now writes to stderr
+- 将 `.venv` 添加到无法遍历的目录列表中
+- 核心应用程序实用工具的输出现在写入 `stderr`
 
 ## [1.24.1](https://github.com/pypa/hatch/releases/tag/hatchling-v1.24.1) - 2024-04-18 ## {: #hatchling-v1.24.1 }
 

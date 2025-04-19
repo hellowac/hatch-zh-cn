@@ -1,28 +1,39 @@
-# How to configure custom dynamic metadata
+# 如何配置自定义动态元数据
 
 ----
 
-If you have [project metadata](../../config/metadata.md) that is not appropriate for static entry into `pyproject.toml` you will need to provide a [custom metadata hook](../../plugins/metadata-hook/custom.md) to apply such data during builds.
+如果您的 [项目元数据](../../config/metadata.md) 不适合以静态方式写入 `pyproject.toml`，则需要通过 [自定义元数据钩子](../../plugins/metadata-hook/custom.md) 在构建时动态提供这些数据。
 
-!!! abstract "Alternatives"
-    Dynamic metadata is a way to have a single source of truth that will be available at build time and at run time. Another way to achieve that is to enter the build data statically and then look up the same information dynamically in the program or package, using [importlib.metadata](https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata).
+!!! abstract "替代方案"
+    动态元数据是一种在构建时和运行时都可用的“单一真实来源”的实现方式。另一种方式是将构建数据静态写入，并在程序或包中动态查询这些信息，例如使用 [importlib.metadata](https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata)。
 
-    If the [version field](../../config/metadata.md#version) is the only metadata of concern, Hatchling provides a few built-in ways such as the [`regex` version source](../../plugins/version-source/regex.md) and also [third-party plugins](../../plugins/version-source/reference.md). The approach here will also work, but is more complex.
+    如果您关心的仅仅是 [version 字段](../../config/metadata.md#version)，Hatchling 提供了如 [`regex` 版本来源](../../plugins/version-source/regex.md) 这类内置方案，也支持 [第三方插件](../../plugins/version-source/reference.md)。当然，使用本文介绍的方法也可以实现，但相对更复杂。
 
-## Update project metadata
+## 更新项目元数据
 
-Change the `[project]` section of `pyproject.toml`:
+修改 `pyproject.toml` 中的 `[project]` 段：
 
-1. Define the [dynamic field](../../config/metadata.md#dynamic) as an array of all the fields you will set dynamically e.g. `dynamic = ["version", "license", "authors", "maintainers"]`
-2. If any of those fields have static definitions in `pyproject.toml`, delete those definitions. It is verboten to define a field statically and dynamically.
+1. 定义 [dynamic 字段](../../config/metadata.md#dynamic)，该字段应是您希望动态设置的所有字段组成的数组，例如：
 
-Add a section to trigger loading of dynamic metadata plugins: `[tool.hatch.metadata.hooks.custom]`. Use exactly that name, regardless of the name of the class you will use or its `PLUGIN_NAME`. There doesn't need to be anything in the section.
+   ```toml
+   dynamic = ["version", "license", "authors", "maintainers"]
+   ```
 
-If your plugin requires additional third-party packages to do its work, add them to the `requires` array in the `[build-system]` section of `pyproject.toml`.
+2. 如果上述字段中有任何在 `pyproject.toml` 中已有静态定义，需删除这些静态定义。**不允许同时对字段进行静态和动态定义**。
 
-## Implement hook
+添加用于加载动态元数据插件的触发段：
 
-The dynamic lookup must happen in a custom plugin that you write. The [default expectation](../../plugins/metadata-hook/custom.md#options) is that it is in a `hatch_build.py` file at the root of the project. Subclass `MetadataHookInterface` and implement `update()`; for example, here's plugin that reads metadata from a JSON file:
+```toml
+[tool.hatch.metadata.hooks.custom]
+```
+
+请使用此名称 **`custom`**，无论您所使用的类名或其 `PLUGIN_NAME` 是什么。该段可以为空。
+
+如果您的插件在执行时需要第三方依赖，请在 `pyproject.toml` 的 `[build-system]` 段的 `requires` 数组中添加这些依赖。
+
+## 实现钩子
+
+动态查找逻辑应通过您自己编写的自定义插件实现。默认期望该插件位于项目根目录下的 `hatch_build.py` 文件中。您需要继承 `MetadataHookInterface` 并实现其 `update()` 方法。例如，以下是一个从 JSON 文件读取元数据的插件：
 
 ```python tab="hatch_build.py"
 import json
@@ -43,13 +54,15 @@ class JSONMetaDataHook(MetadataHookInterface):
             ]
 ```
 
-1. You must import the [MetadataHookInterface](../../plugins/metadata-hook/reference.md#hatchling.metadata.plugin.interface.MetadataHookInterface) to subclass it.
-2. Do your operations inside the [`update`](../../plugins/metadata-hook/reference.md#hatchling.metadata.plugin.interface.MetadataHookInterface.update) method.
-3. `metadata` refers to [project metadata](../../config/metadata.md).
-4. When writing to metadata, use `list` for TOML arrays. Note that if a list is expected, it is required even if there is a single element.
-5. Use `dict` for TOML tables e.g. `authors`.
+说明：
 
-If you want to store the hook in a different location, set the [`path` option](../../plugins/metadata-hook/custom.md#options):
+1. 必须从 [MetadataHookInterface](../../plugins/metadata-hook/reference.md#hatchling.metadata.plugin.interface.MetadataHookInterface) 导入并继承接口。
+2. 所有操作需在 [`update`](../../plugins/metadata-hook/reference.md#hatchling.metadata.plugin.interface.MetadataHookInterface.update) 方法中完成。
+3. `metadata` 参数代表 [项目元数据](../../config/metadata.md)。
+4. 写入 `metadata` 时，TOML 数组必须使用 Python 的 `list`，即使只有一个元素也必须使用数组格式。
+5. TOML 表格字段（如 `authors`）应使用 `dict`。
+
+如果您希望将钩子存储在其他位置，请通过 `path` 选项显式指定其路径：
 
 ```toml config-example
 [tool.hatch.metadata.hooks.custom]

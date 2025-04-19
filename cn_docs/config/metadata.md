@@ -1,25 +1,24 @@
-# Configuring project metadata
+# 配置项目元数据
 
 -----
 
-Project metadata is stored in a `pyproject.toml` file located at the root of a project's tree
-and is based entirely on [the standard][project metadata standard].
+项目元数据存储在位于项目树根部的 `pyproject.toml` 文件中，完全基于[标准][project metadata standard]。
 
-## Name (*required*) ## {: #name }
+## 名称 (*required*) ## {: #name }
 
-The name of the project.
+项目的名称。
 
 ```toml tab="pyproject.toml"
 [project]
 name = "your-app"
 ```
 
-## Version (*required*) ## {: #version }
+## 版本号 (*required*) ## {: #version }
 
 === ":octicons-file-code-16: pyproject.toml"
 
     === "Dynamic"
-        See the dedicated [versioning](../version.md) section.
+        请参阅专门的 [版本管理](../version.md) 部分。
 
         ```toml
         [project]
@@ -37,9 +36,9 @@ name = "your-app"
         version = "0.0.1"
         ```
 
-## Description
+## 描述
 
-A brief summary of the project.
+该项目的简要概述。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -49,12 +48,12 @@ description = '...'
 
 ## Readme
 
-The full description of the project.
+项目的完整描述。
 
 === ":octicons-file-code-16: pyproject.toml"
 
     === "Simple"
-        The file extension must be `.md`, `.rst`, or `.txt`.
+        文件扩展名必须是“.md”、“.rst”或“.txt”。
 
         ```toml
         [project]
@@ -63,11 +62,10 @@ The full description of the project.
         ```
 
     === "Complex"
-        The `content-type` field must be set to `text/markdown`, `text/x-rst`, or `text/plain`.
+        `content-type` 字段必须设置为 `text/markdown`、`text/x-rst` 或 `text/plain`。
 
         === "File"
-            A `charset` field may also be set to instruct which encoding to
-            use for reading the file, defaulting to `utf-8`.
+            还可以设置“charset”字段来指示使用哪种编码来读取文件，默认为“utf-8”。
 
             ```toml
             [project]
@@ -76,7 +74,7 @@ The full description of the project.
             ```
 
         === "Text"
-            The `content-type` field must be set to `text/markdown` or `text/x-rst`.
+            `content-type` 字段必须设置为 `text/markdown` 或 `text/x-rst`。
 
             ```toml
             [project]
@@ -85,11 +83,11 @@ The full description of the project.
             ```
 
 !!! note
-    If this is defined as a file, then it will always be included in [source distributions](../plugins/builder/sdist.md) for consistent builds.
+    如果将其定义为文件，则它将始终包含在[源分发](../plugins/builder/sdist.md)中以实现一致的构建。
 
-## Python support
+## Python 支持
 
-The Python version requirements of the project.
+项目的Python版本要求。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -97,9 +95,9 @@ The Python version requirements of the project.
 requires-python = ">=3.8"
 ```
 
-## License
+## 许可
 
-For more information, see [PEP 639][].
+更多信息请参阅[PEP 639][]。
 
 === ":octicons-file-code-16: pyproject.toml"
 
@@ -119,12 +117,9 @@ For more information, see [PEP 639][].
         license-files = ["LICENSES/*"]
         ```
 
-## Ownership
+## 所有权
 
-The people or organizations considered to be the `authors` or `maintainers` of the project.
-The exact meaning is open to interpretation; it may list the original or primary authors,
-current maintainers, or owners of the package. If the values are the same, prefer only the
-use of the `authors` field.
+被视为项目“作者”或“维护者”的个人或组织。其确切含义尚有待进一步解释；它可能列出软件包的原始或主要作者、当前维护者或所有者。如果值相同，则仅使用“authors”字段。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -137,9 +132,9 @@ maintainers = [
 ]
 ```
 
-## Keywords
+## 关键字
 
-The keywords used to assist in the discovery of the project.
+用于协助发现项目的关键词。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -149,9 +144,9 @@ keywords = [
 ]
 ```
 
-## Classifiers
+## 分类
 
-The [trove classifiers](https://pypi.org/classifiers/) that apply to the project.
+适用于项目的 [trove 分类器](https://pypi.org/classifiers/)。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -163,7 +158,7 @@ classifiers = [
 
 ## URLs
 
-A table of URLs where the key is the URL label and the value is the URL itself.
+URL 表，其中键是 URL 标签，值是 URL 本身。
 
 ```toml tab="pyproject.toml"
 [project.urls]
@@ -171,13 +166,13 @@ Documentation = "..."
 "Source code" = "..."
 ```
 
-## Dependencies
+## 依赖项
 
-See the [dependency specification](dependency.md) page for more information.
+如需了解更多信息，请参阅[依赖项规范](dependency.md)页面。
 
-Entries support [context formatting](context.md) and [disallow direct references](#allowing-direct-references) by default.
+条目默认支持[上下文格式](context.md)和[禁止直接引用](#allowing-direct-references)。
 
-### Required
+### 必须的
 
 ```toml tab="pyproject.toml"
 [project]
@@ -187,7 +182,7 @@ dependencies = [
 ]
 ```
 
-### Optional
+### 可选的
 
 ```toml tab="pyproject.toml"
 [project.optional-dependencies]
@@ -199,21 +194,20 @@ option2 = [
 ]
 ```
 
-## Entry points
+## 入口点
 
-[Entry points](https://packaging.python.org/specifications/entry-points/) are a mechanism for
-the project to advertise components it provides to be discovered and used by other code.
+[入口点](https://packaging.python.org/specifications/entry-points/) 是项目用来宣传其提供的组件以供其他代码发现和使用的一种机制。
 
 ### CLI
 
-After installing projects that define CLI scripts, each key will be available along your `PATH` as a command that will call its associated object.
+安装定义 CLI 脚本的项目后，每个键都将沿着“PATH”作为调用其关联对象的命令提供。
 
 ```toml tab="pyproject.toml"
 [project.scripts]
 cli-name = "pkg.subpkg:func"
 ```
 
-Using the above example, running `cli-name` would essentially execute the following Python script:
+使用上面的例子，运行 `cli-name` 基本上会执行以下 Python 脚本：
 
 ```python
 import sys
@@ -225,14 +219,14 @@ sys.exit(func())
 
 ### GUI
 
-GUI scripts are exactly the same as CLI scripts except on Windows, where they are handled specially so that they can be started without a console.
+GUI 脚本与 CLI 脚本完全相同，但 Windows 除外，在 Windows 上它们经过特殊处理，因此无需控制台即可启动。
 
 ```toml tab="pyproject.toml"
 [project.gui-scripts]
 gui-name = "pkg.subpkg:func"
 ```
 
-### Plugins
+### 插件
 
 ```toml tab="pyproject.toml"
 [project.entry-points.plugin-namespace]
@@ -240,9 +234,9 @@ plugin-name1 = "pkg.subpkg1"
 plugin-name2 = "pkg.subpkg2:func"
 ```
 
-## Dynamic
+## 动态的
 
-If any metadata fields are set dynamically, like the [`version`](#version) may be, then they must be listed here.
+如果任何元数据字段是动态设置的，例如 [`version`](#version)，那么它们必须在此处列出。
 
 ```toml tab="pyproject.toml"
 [project]
@@ -252,25 +246,25 @@ dynamic = [
 ]
 ```
 
-## Metadata options
+## 元数据选项
 
-### Allowing direct references
+### 允许直接引用
 
-By default, [dependencies](#dependencies) are not allowed to define [direct references](https://peps.python.org/pep-0440/#direct-references). To disable this check, set `allow-direct-references` to `true`:
+默认情况下，[依赖项](#dependencies) 不允许定义 [直接引用](https://peps.python.org/pep-0440/#direct-references)。要禁用此检查，请将 `allow-direct-references` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.metadata]
 allow-direct-references = true
 ```
 
-### Allowing ambiguous features
+### 允许模棱两可的特征
 
-By default, names of [optional dependencies](#optional) are normalized to prevent ambiguity. To disable this normalization, set `allow-ambiguous-features` to `true`:
+默认情况下，[可选依赖项](#optional) 的名称会被规范化以避免出现歧义。要禁用此规范化，请将 `allow-ambiguous-features` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.metadata]
 allow-ambiguous-features = true
 ```
 
-!!! danger "Deprecated"
-    This option temporarily exists to provide better interoperability with tools that do not yet support [PEP 685](https://peps.python.org/pep-0685/) and will be removed in the first minor release after Jan 1, 2024.
+!!! danger "已弃用"
+    此选项暂时存在，以便与尚不支持 [PEP 685](https://peps.python.org/pep-0685/) 的工具提供更好的互操作性，并将在 2024 年 1 月 1 日之后的第一个次要版本中被删除。

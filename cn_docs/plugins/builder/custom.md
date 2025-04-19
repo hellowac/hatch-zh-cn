@@ -1,24 +1,24 @@
-# Custom builder
+# 自定义构建器（Custom builder）
 
 -----
 
-This is a custom class in a given Python file that inherits from the [BuilderInterface](reference.md#hatchling.builders.plugin.interface.BuilderInterface).
+这是一个自定义类，位于给定的 Python 文件中，继承自 [BuilderInterface](reference.md#hatchling.builders.plugin.interface.BuilderInterface)。
 
-## Configuration
+## 配置
 
-The builder plugin name is `custom`.
+该构建器插件的名称为 `custom`。
 
 ```toml config-example
 [tool.hatch.build.targets.custom]
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Default | Description |
+| 选项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `path` | `hatch_build.py` | The path of the Python file |
+| `path` | `hatch_build.py` | Python 文件的路径 |
 
-## Example
+## 示例（Example）
 
 ```python tab="hatch_build.py"
 from hatchling.builders.plugin.interface import BuilderInterface
@@ -28,7 +28,7 @@ class CustomBuilder(BuilderInterface):
     ...
 ```
 
-If multiple subclasses are found, you must define a function named `get_builder` that returns the desired builder.
+如果发现多个子类，必须定义一个名为 `get_builder` 的函数，返回所需的构建器。
 
 !!! note
-    Any defined [PLUGIN_NAME](reference.md#hatchling.builders.plugin.interface.BuilderInterface.PLUGIN_NAME) is ignored and will always be `custom`.
+    任何已定义的 [PLUGIN_NAME](reference.md#hatchling.builders.plugin.interface.BuilderInterface.PLUGIN_NAME) 都会被忽略，且始终为 `custom`。

@@ -1,25 +1,25 @@
-# Environment configuration
+### 环境配置
 
 -----
 
-All environments are defined as sections within the `tool.hatch.envs` table.
+所有环境都在 `tool.hatch.envs` 表中定义为不同的部分。
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
 ```
 
-The [storage location](../hatch.md#environments) for environments is completely configurable.
+环境的[存储位置](../hatch.md#environments)是完全可配置的。
 
-Unless an environment is explicitly selected on the command line, the `default` environment will be used. The [type](#type) of this environment defaults to `virtual`.
+除非在命令行中显式选择了一个环境，否则将使用 `default` 环境。此环境的[类型](#type)默认是 `virtual`。
 
 !!! info
-    Environments prefixed by `hatch-` are used for special purposes e.g. [testing](../internal/testing.md).
+    以 `hatch-` 为前缀的环境用于特殊目的，例如[测试](../internal/testing.md)。
 
-## Inheritance
+## 继承
 
-All environments inherit from the environment defined by its `template` option, which defaults to `default`.
+所有环境都继承自其 `template` 选项定义的环境，默认值为 `default`。
 
-So for the following configuration:
+例如，以下配置：
 
 ```toml config-example
 [tool.hatch.envs.foo]
@@ -31,32 +31,32 @@ template = "foo"
 skip-install = false
 ```
 
-the environment `bar` will be of type `baz` with `skip-install` set to `false`.
+`bar` 环境将是 `baz` 类型，并且 `skip-install` 设置为 `false`。
 
 !!! note
-    Environments do not inherit [matrices](advanced.md#matrix).
+    环境不继承[矩阵](advanced.md#matrix)。
 
-### Self-referential environments
+### 自引用环境
 
-You can disable inheritance by setting `template` to the environment's own name:
+您可以通过将 `template` 设置为环境自身的名称来禁用继承：
 
 ```toml config-example
 [tool.hatch.envs.foo]
 template = "foo"
 ```
 
-### Detached environments
+### 独立环境
 
-A common use case is standalone environments that do not require inheritance nor the installation of the project, such as for linting or sometimes building documentation. Enabling the `detached` option will make the environment [self-referential](#self-referential-environments) and will [skip project installation](#skip-install):
+一个常见的用例是独立环境，它们不需要继承或安装项目，例如用于代码检查或有时用于构建文档。启用 `detached` 选项将使环境[自引用](#self-referential-environments)，并将[跳过项目安装](#skip-install)：
 
 ```toml config-example
 [tool.hatch.envs.lint]
 detached = true
 ```
 
-## Dependencies
+## 依赖项
 
-You can install [dependencies](../dependency.md) in addition to the ones defined by your [project's metadata](../metadata.md#dependencies). Entries support [context formatting](advanced.md#context-formatting).
+除了项目元数据中定义的依赖项外，您还可以安装[其他依赖项](../dependency.md)。条目支持[上下文格式化](advanced.md#context-formatting)。
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -68,7 +68,7 @@ dependencies = [
 ]
 ```
 
-If you define environments with dependencies that only slightly differ from their [inherited environments](#inheritance), you can use the `extra-dependencies` option to avoid redeclaring the `dependencies` option:
+如果您定义的环境与它们的[继承环境](#inheritance)的依赖项仅有少许不同，您可以使用 `extra-dependencies` 选项来避免重新声明 `dependencies` 选项：
 
 ```toml config-example
 [tool.hatch.envs.default]
@@ -84,13 +84,13 @@ extra-dependencies = [
 ```
 
 !!! tip
-    Hatch uses [pip](https://github.com/pypa/pip) to install dependencies so any [configuration](https://pip.pypa.io/en/stable/topics/configuration/) it supports Hatch does as well. For example, if you wanted to only use a private repository you could set the `PIP_INDEX_URL` [environment variable](#environment-variables).
+    Hatch 使用[pip](https://github.com/pypa/pip)来安装依赖项，因此它也支持任何[pip 配置](https://pip.pypa.io/en/stable/topics/configuration/)。例如，如果您只想使用私人仓库，可以设置 `PIP_INDEX_URL` [环境变量](#environment-variables)。
 
-## Installation
+## 安装
 
-### Features (extras) ### {: #features }
+### 特性（可选依赖） ### {: #features }
 
-If your project defines [optional dependencies](../metadata.md#optional), you can select which groups to install using the `features` option:
+如果您的项目定义了[可选依赖](../metadata.md#optional)，可以使用 `features` 选项选择要安装的组：
 
 ```toml config-example
 [tool.hatch.envs.nightly]
@@ -101,31 +101,31 @@ features = [
 ```
 
 !!! note
-    Features/optional dependencies are also known as `extras` in other tools.
+    特性/可选依赖在其他工具中也称为 `extras`。
 
-### Dev mode
+### 开发模式
 
-By default, environments will always reflect the current state of your project on disk, for example, by installing it in editable mode in a Python environment. Set `dev-mode` to `false` to disable this behavior and have your project installed only upon creation of a new environment. From then on, you need to manage your project installation manually.
+默认情况下，环境总是反映您项目在磁盘上的当前状态，例如，通过在 Python 环境中以可编辑模式安装它。设置 `dev-mode` 为 `false` 可以禁用此行为，只有在创建新环境时才会安装您的项目。此后，您需要手动管理项目安装。
 
 ```toml config-example
 [tool.hatch.envs.static]
 dev-mode = false
 ```
 
-### Skip install
+### 跳过安装
 
-By default, environments will install your project during creation. To ignore this step, set `skip-install` to `true`:
+默认情况下，环境会在创建时安装您的项目。要忽略此步骤，可以将 `skip-install` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.envs.lint]
 skip-install = true
 ```
 
-## Environment variables
+## 环境变量
 
-### Defined
+### 定义的环境变量
 
-You can define environment variables with the `env-vars` option:
+您可以通过 `env-vars` 选项定义环境变量：
 
 ```toml config-example
 [tool.hatch.envs.docs]
@@ -136,11 +136,11 @@ dependencies = [
 SOURCE_DATE_EPOCH = "1580601600"
 ```
 
-Values support [context formatting](advanced.md#context-formatting).
+值支持[上下文格式化](advanced.md#context-formatting)。
 
-### Filters
+### 过滤器
 
-By default, environments will have access to all environment variables. You can filter with wildcard patterns using the `env-include`/`env-exclude` options:
+默认情况下，环境将访问所有环境变量。您可以使用 `env-include`/`env-exclude` 选项通过通配符模式进行过滤：
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
@@ -152,13 +152,13 @@ env-exclude = [
 ]
 ```
 
-Exclusion patterns take precedence but will never affect [defined](#defined) environment variables.
+排除模式具有优先级，但永远不会影响[定义的](#defined)环境变量。
 
-## Scripts
+## 脚本
 
-You can define named scripts that may be [executed](../../environment.md#command-execution) or referenced at the beginning of other scripts. [Context formatting](advanced.md#context-formatting) is supported.
+您可以定义命名脚本，这些脚本可以在[执行](../../environment.md#command-execution)时调用，或者在其他脚本的开头引用。[上下文格式化](advanced.md#context-formatting)也得到了支持。
 
-For example, in the following configuration:
+例如，在以下配置中：
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -173,13 +173,13 @@ run-coverage = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests"
 run = "run-coverage --no-cov"
 ```
 
-the `run` script would be expanded to:
+`run` 脚本将展开为：
 
 ```
 pytest --cov-config=pyproject.toml --cov=pkg --cov=tests --no-cov
 ```
 
-Scripts can also be defined as an array of strings.
+脚本也可以定义为字符串数组。
 
 ```toml config-example
 [tool.hatch.envs.style]
@@ -202,7 +202,7 @@ fmt = [
 ]
 ```
 
-Similar to [make](https://www.gnu.org/software/make/manual/html_node/Errors.html), you can ignore the exit code of commands that start with `-` (a hyphen). For example, the script `error` defined by the following configuration would halt after the second command with `3` as the exit code:
+与[make](https://www.gnu.org/software/make/manual/html_node/Errors.html)类似，您可以忽略以 `-`（连字符）开头的命令的退出代码。例如，以下配置中定义的脚本 `error` 在第二个命令之后会停止，退出代码为 `3`：
 
 ```toml config-example
 [tool.hatch.envs.test.scripts]
@@ -213,17 +213,17 @@ error = [
 ]
 ```
 
-### Extra scripts
+### 额外脚本
 
-Individual scripts [inherit](#inheritance) from parent environments just like options. To guarantee that individual scripts do not override those defined by parent environments, you can use the `extra-scripts` option instead which is only capable of adding scripts that have not been defined.
+单个脚本也会[继承](#inheritance)父环境的脚本。为确保单个脚本不会覆盖父环境中定义的脚本，您可以使用 `extra-scripts` 选项，它只能添加尚未定义的脚本。
 
-## Commands
+## 命令
 
-All commands are able to use any defined [scripts](#scripts). Also like scripts, [context formatting](advanced.md#context-formatting) is supported and the exit code of commands that start with a hyphen will be ignored.
+所有命令都可以使用任何定义的[脚本](#scripts)。与脚本类似，[上下文格式化](advanced.md#context-formatting)也得到了支持，且以连字符开头的命令的退出代码会被忽略。
 
-### Pre-install
+### 安装前
 
-You can run commands immediately before environments [install](#skip-install) your project.
+您可以在环境[安装](#skip-install)项目之前立即运行命令。
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
@@ -232,9 +232,9 @@ pre-install-commands = [
 ]
 ```
 
-### Post-install
+### 安装后
 
-You can run commands immediately after environments [install](#skip-install) your project.
+您可以在环境[安装](#skip-install)项目之后立即运行命令。
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
@@ -243,37 +243,37 @@ post-install-commands = [
 ]
 ```
 
-## Python version
+## Python 版本
 
-The `python` option specifies which version of Python to use, or an absolute path to a Python interpreter:
+`python` 选项指定要使用的 Python 版本，或 Python 解释器的绝对路径：
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
 python = "3.10"
 ```
 
-All [environment types](#type) should respect this option.
+所有[环境类型](#type)应遵循此选项。
 
-## Supported platforms
+## 支持的平台
 
-The `platforms` option indicates the operating systems with which the environment is compatible:
+`platforms` 选项表示该环境兼容的操作系统：
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
 platforms = ["linux", "windows", "macos"]
 ```
 
-The following platforms are supported:
+支持的平台如下：
 
 - `linux`
 - `windows`
 - `macos`
 
-If unspecified, the environment is assumed to be compatible with all platforms.
+如果未指定，则假定环境与所有平台兼容。
 
-## Description
+## 描述
 
-The `description` option is purely informational and is displayed in the output of the [`env show`](../../cli/reference.md#hatch-env-show) command:
+`description` 选项纯粹是信息性的，它将在 [`env show`](../../cli/reference.md#hatch-env-show) 命令的输出中显示：
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
@@ -282,6 +282,6 @@ Lorem ipsum ...
 """
 ```
 
-## Type
+## 类型
 
-An environment's `type` determines which [environment plugin](../../plugins/environment/reference.md) will be used for management. The only built-in environment type is [`virtual`](../../plugins/environment/virtual.md), which uses virtual Python environments.
+环境的 `type` 决定了使用哪个[环境插件](../../plugins/environment/reference.md)来管理。唯一的内置环境类型是 [`virtual`](../../plugins/environment/virtual.md)，它使用虚拟 Python 环境。

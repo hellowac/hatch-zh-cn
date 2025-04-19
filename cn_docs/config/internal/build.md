@@ -1,14 +1,14 @@
-#  Build environment configuration
+# 构建环境配置（Build environment configuration）
 
 -----
 
-You can fully alter the behavior of the environment used by the [`build`](../../cli/reference.md#hatch-build) command.
+你可以完全修改 [`build`](../../cli/reference.md#hatch-build) 命令所使用环境的行为。
 
-## Dependencies
+## 依赖项（Dependencies）
 
-Build environments will always have what is required by the [build system](../build.md#build-system), [targets](../build.md#target-dependencies), and [hooks](../build.md#hook-dependencies).
+构建环境始终包含 [构建系统](../build.md#build-system)、[构建目标](../build.md#target-dependencies) 和 [钩子](../build.md#hook-dependencies) 所需的依赖项。
 
-You can define [dependencies](../environment/overview.md#dependencies) that your builds may require in the environment as well:
+你也可以为构建过程添加其他可能需要的[依赖项](../environment/overview.md#dependencies)：
 
 ```toml config-example
 [tool.hatch.envs.hatch-build]
@@ -17,21 +17,21 @@ dependencies = [
 ]
 ```
 
-!!! warning "caution"
-    It's recommended to only use the standard mechanisms to define build dependencies for better compatibility with other tools.
+!!! warning "注意"
+    建议仅使用标准机制来定义构建依赖，以便更好地兼容其他工具。
 
-## Environment variables
+## 环境变量（Environment variables）
 
-You can define [environment variables](../environment/overview.md#environment-variables) that will be set during builds:
+你可以定义在构建期间设置的[环境变量](../environment/overview.md#environment-variables)：
 
 ```toml config-example
 [tool.hatch.envs.hatch-build.env-vars]
 SOURCE_DATE_EPOCH = "1580601600"
 ```
 
-## Installer
+## 安装器（Installer）
 
-By default, [UV is enabled](../../how-to/environment/select-installer.md). You may disable that behavior as follows:
+默认情况下，[UV 是启用的](../../how-to/environment/select-installer.md)。你可以通过如下方式禁用该行为：
 
 ```toml config-example
 [tool.hatch.envs.hatch-build]

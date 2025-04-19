@@ -1,15 +1,15 @@
-# How to select the installer
+# 如何选择安装器（installer）
 
 -----
 
-## Enabling UV
+## 启用 UV
 
-The [virtual](../../plugins/environment/virtual.md) environment type by default uses [virtualenv](https://github.com/pypa/virtualenv) for virtual environment creation and [pip](https://github.com/pypa/pip) to install dependencies. You can speed up environment creation and dependency resolution by using [UV](https://github.com/astral-sh/uv) instead of both of those tools.
+默认情况下，[virtual](../../plugins/environment/virtual.md) 环境类型使用 [virtualenv](https://github.com/pypa/virtualenv) 创建虚拟环境，并使用 [pip](https://github.com/pypa/pip) 安装依赖项。您可以通过使用 [UV](https://github.com/astral-sh/uv) 替代这两个工具来加速环境创建与依赖解析过程。
 
-!!! warning "caveat"
-    UV is under active development and may not work for all dependencies.
+!!! warning "注意"
+    UV 仍在积极开发中，可能无法处理所有依赖项。
 
-To do so, set the `installer` [option](../../plugins/environment/virtual.md#options) to `uv`. For example, if you wanted to enable this functionality for the [default](../../config/environment/overview.md#inheritance) environment, you could set the following:
+若要启用 UV，可将 `installer` [选项](../../plugins/environment/virtual.md#options) 设置为 `uv`。例如，若希望在 [默认环境](../../config/environment/overview.md#inheritance) 中启用此功能，可设置如下：
 
 ```toml config-example
 [tool.hatch.envs.default]
@@ -17,11 +17,11 @@ installer = "uv"
 ```
 
 !!! tip
-    All environments that enable UV will have the path to UV available as the `HATCH_UV` environment variable.
+    所有启用 UV 的环境都会通过 `HATCH_UV` 环境变量暴露 UV 的路径。
 
-## Configuring the version
+## 配置 UV 版本
 
-The UV that is shared by all environments uses a specific version range that is known to work with Hatch. If you want to use a different version, you can override the [dependencies](../../config/environment/overview.md#dependencies) for the internal `hatch-uv` environment:
+共享的 UV 实例使用的是与 Hatch 兼容的指定版本范围。如果您希望使用不同版本，可覆盖内部 `hatch-uv` 环境的 [dependencies](../../config/environment/overview.md#dependencies) 配置：
 
 ```toml config-example
 [tool.hatch.envs.hatch-uv]
@@ -30,13 +30,13 @@ dependencies = [
 ]
 ```
 
-## Externally managed
+## 外部管理
 
-If you want to manage UV yourself, you can expose it to Hatch by setting the `HATCH_ENV_TYPE_VIRTUAL_UV_PATH` environment variable which should be the absolute path to a UV binary for Hatch to use instead. This implicitly [enables UV](#enabling-uv).
+如果您希望手动管理 UV，可通过设置 `HATCH_ENV_TYPE_VIRTUAL_UV_PATH` 环境变量向 Hatch 指定 UV 的路径（应为绝对路径）。这样将 **隐式启用 UV**（等效于上文中 `installer = "uv"` 的设置）。
 
-## Installer script alias
+## 安装器脚本别名（alias）
 
-If you have [scripts](../../config/environment/overview.md#scripts) or [commands](../../config/environment/overview.md#commands) that call `pip`, it may be useful to alias the `uv pip` command to `pip` so that you can use the same commands for both methods of configuration and retain your muscle memory. The following is an example of a matrix that [conditionally](../../config/environment/advanced.md#option-overrides) enables UV and sets the alias:
+如果您在 [scripts](../../config/environment/overview.md#scripts) 或 [commands](../../config/environment/overview.md#commands) 中调用了 `pip` 命令，那么可以将 `uv pip` 命令别名为 `pip`，从而在切换工具时无需更改命令习惯。以下示例展示如何构建一个基于 matrix 的环境，能够 [有条件地](../../config/environment/advanced.md#option-overrides) 启用 UV 并设置别名：
 
 ```toml config-example
 [[tool.hatch.envs.example.matrix]]
@@ -49,7 +49,7 @@ matrix.tool.scripts = [
 ]
 ```
 
-Another common use case is to expose UV to all [test environments](../../config/internal/testing.md). In this case, you often wouldn't want to modify the `scripts` mapping directly but rather add an [extra script](../../config/environment/overview.md#extra-scripts):
+另一个常见用例是将 UV 暴露给所有 [测试环境](../../config/internal/testing.md)。此时，通常不直接修改 `scripts` 映射，而是添加一个 [extra script](../../config/environment/overview.md#extra-scripts)：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test.extra-scripts]

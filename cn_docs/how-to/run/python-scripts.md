@@ -1,17 +1,17 @@
-# How to run Python scripts
+# 如何运行 Python 脚本
 
 -----
 
-The [`run`](../../cli/reference.md#hatch-run) command supports executing Python scripts with [inline metadata](https://packaging.python.org/en/latest/specifications/inline-script-metadata/), such that a dedicated [environment](../../config/environment/overview.md) is automatically created with the required dependencies and with the correct version of Python.
+[`run`](../../cli/reference.md#hatch-run) 命令支持运行带有 [内联元数据](https://packaging.python.org/en/latest/specifications/inline-script-metadata/) 的 Python 脚本，此类脚本会自动创建一个专用的 [环境](../../config/environment/overview.md)，并安装所需依赖项，同时使用合适的 Python 版本。
 
-A script metadata block is a comment block that starts with `# /// script` and ends with `# ///`. Every line between those two lines must be a comment line that starts with `#` and contains a [TOML](https://github.com/toml-lang/toml) document when the comment characters are removed.
+脚本元数据块是以 `# /// script` 开始、以 `# ///` 结束的注释块。两者之间的每一行都必须是以 `#` 开头的注释，并且在去除注释字符后，必须是一个合法的 [TOML](https://github.com/toml-lang/toml) 文档。
 
-The top-level fields are:
+支持的顶层字段包括：
 
-- `dependencies`: A list of strings that specifies the runtime dependencies of the script. Each entry must be a valid [dependency specifier](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#dependency-specifiers).
-- `requires-python`: A string that specifies the Python version(s) with which the script is compatible. The value of this field must be a valid [version specifier](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-specifiers).
+- `dependencies`：字符串列表，指定该脚本的运行时依赖。每项必须是合法的 [依赖规范](https://packaging.python.org/en/latest/specifications/dependency-specifiers/#dependency-specifiers)。
+- `requires-python`：字符串，指定该脚本兼容的 Python 版本，值必须是合法的 [版本规范](https://packaging.python.org/en/latest/specifications/version-specifiers/#version-specifiers)。
 
-The following is an example of Python script with a valid metadata block:
+以下是一个带有合法元数据块的 Python 脚本示例：
 
 ```python tab="script.py"
 # /// script
@@ -30,7 +30,7 @@ data = resp.json()
 pprint([(k, v["title"]) for k, v in data.items()][:10])
 ```
 
-Run it directly:
+直接运行它：
 
 ```
 $ hatch run /path/to/script.py
@@ -51,13 +51,13 @@ Syncing dependencies
 ]
 ```
 
-!!! note "notes"
-    - The informational text in this example is only temporarily shown in your terminal on the first run.
-    - Although the environment name is based on the script's absolute path, the command line argument does not have to be.
+!!! note "说明"
+    - 示例中显示的提示信息仅会在首次运行时临时出现在终端中。
+    - 尽管环境名称基于脚本的绝对路径生成，但命令行参数不要求使用绝对路径。
 
-## Environment configuration
+## 环境配置
 
-You may use the `[tool.hatch]` table directly to control the script's [environment](../../config/environment/overview.md). For example, if you wanted to disable UV (which is [enabled](../environment/select-installer.md#enabling-uv) by default for scripts), you could add the following:
+您也可以通过 `[tool.hatch]` 表来直接控制脚本的 [环境](../../config/environment/overview.md)。例如，如果希望禁用默认启用的 UV 安装器（见 [启用 UV](../environment/select-installer.md#enabling-uv)），可添加如下配置：
 
 ```python tab="script.py"
 # /// script

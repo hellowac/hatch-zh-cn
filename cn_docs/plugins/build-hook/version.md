@@ -1,22 +1,22 @@
-# Version build hook
+# 版本构建钩子（Version build hook）
 
 -----
 
-This writes the project's version to a file.
+此构建钩子将项目的版本写入一个文件。
 
-## Configuration
+## 配置（Configuration）
 
-The build hook plugin name is `version`.
+构建钩子插件名称为 `version`。
 
 ```toml config-example
 [tool.hatch.build.hooks.version]
 [tool.hatch.build.targets.<TARGET_NAME>.hooks.version]
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Description |
+| 选项 | 描述 |
 | --- | --- |
-| `path` (required) | A relative path to the desired file |
-| `template` | A string representing the entire contents of `path` that will be formatted with a `version` variable |
-| `pattern` | Rather than updating the entire file, a regular expression may be used that has a named group called `version` that represents the version. If set to `true`, a pattern will be used that looks for a variable named `__version__` or `VERSION` that is set to a string containing the version, optionally prefixed with the lowercase letter `v`. |
+| `path`（必选） | 目标文件的相对路径 |
+| `template` | 一个字符串，表示 `path` 文件的完整内容，该内容将使用 `version` 变量进行格式化 |
+| `pattern` | 不更新整个文件时，可以使用正则表达式，该正则表达式应包含一个名为 `version` 的命名组，表示版本。如果设置为 `true`，则会使用一个模式，查找名为 `__version__` 或 `VERSION` 的变量，该变量设置为包含版本的字符串，版本前可以选择加上小写字母 `v`。 |

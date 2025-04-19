@@ -1,51 +1,51 @@
-# CLI usage
+# 命令行使用（CLI usage）
 
 -----
 
-## Verbosity
+## 冗余等级（Verbosity）
 
-The amount of displayed output is controlled solely by the `-v`/`--verbose` (environment variable `HATCH_VERBOSE`) and  `-q`/`--quiet` (environment variable `HATCH_QUIET`) [root options](reference.md#hatch).
+输出的详细程度完全由 `-v` / `--verbose`（环境变量 `HATCH_VERBOSE`）与 `-q` / `--quiet`（环境变量 `HATCH_QUIET`）这两个 [根选项](reference.md#hatch) 控制。
 
-The levels are documented [here](../config/hatch.md#terminal).
+各级别的具体定义详见：[终端输出配置](../config/hatch.md#terminal)。
 
-## Project awareness
+## 项目识别（Project awareness）
 
-No matter the [mode](../config/hatch.md#mode), Hatch will always change to the project's root directory for [entering](../environment.md#entering-environments) or [running commands](../environment.md#command-execution) in environments.
+无论当前所处的 [模式](../config/hatch.md#mode) 如何，Hatch 在 [进入环境](../environment.md#entering-environments) 或 [执行命令](../environment.md#command-execution) 时，始终会切换到项目的根目录。
 
-## Tab completion
+## Tab 补全（Tab completion）
 
-Completion is achieved by saving a script and then executing it as a part of your shell's startup sequence.
+补全功能通过生成一个脚本并将其加入到 shell 的启动流程中实现。
 
-Afterward, you'll need to start a new shell in order for the changes to take effect.
+完成配置后，需重新启动一个 shell 实例以使变更生效。
 
 === "Bash"
-    Save the script somewhere:
+    将脚本保存到任意位置：
 
     ```console
     _HATCH_COMPLETE=bash_source hatch > ~/.hatch-complete.bash
     ```
 
-    Source the file in `~/.bashrc` (or `~/.bash_profile` if on macOS):
+    然后在 `~/.bashrc`（macOS 上为 `~/.bash_profile`）中引入该脚本：
 
     ```bash
     . ~/.hatch-complete.bash
     ```
 
 === "Z shell"
-    Save the script somewhere:
+    将脚本保存到任意位置：
 
     ```console
     _HATCH_COMPLETE=zsh_source hatch > ~/.hatch-complete.zsh
     ```
 
-    Source the file in `~/.zshrc`:
+    然后在 `~/.zshrc` 文件中引入该脚本：
 
     ```zsh
     . ~/.hatch-complete.zsh
     ```
 
 === "fish"
-    Save the script in `~/.config/fish/completions`:
+    将脚本直接保存至 `~/.config/fish/completions` 目录下：
 
     ```console
     _HATCH_COMPLETE=fish_source hatch > ~/.config/fish/completions/hatch.fish

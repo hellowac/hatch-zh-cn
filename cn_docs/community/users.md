@@ -1,10 +1,10 @@
-# Users
+# 用户
 
 -----
 
-The following is not intended to be a complete enumeration. Be sure to view the [development version](/dev/community/users/) of this page for an up-to-date listing.
+以下内容并非完整列举。请务必查看此页面的[开发版本](/dev/community/users/)以获取最新列表。
 
-## Projects
+## 项目
 
 [aiogram](https://github.com/aiogram/aiogram/blob/a2e5f9a8b8c994ad65bce05cde9c744760f47c4c/pyproject.toml#L1-L3)
 | [Apache Airflow](https://github.com/apache/airflow/blob/ba2ba7f49395b528ea67611c423ddd71b64b8ede/pyproject.toml#L18-L39)
@@ -59,7 +59,7 @@ The following is not intended to be a complete enumeration. Be sure to view the 
 | [Ypy](https://github.com/y-crdt/ypy/tree/b9241a9e7ca248b6c44b62707d719b1ef20eef74#using-hatch)
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp/blob/111b61ddef305584d45a48e7b7c73ffcedf062a2/pyproject.toml#L1-L3)
 
-## Industry
+## 行业
 
 - [Anaconda](https://www.anaconda.com) <sup>\[[1](https://github.com/ContinuumIO/dask-awkward/blob/105275b1937cce9a80a352af0b200d4e264f27f7/pyproject.toml#L1-L3)|[2](https://github.com/conda-incubator/ensureconda/blob/b20dbcf7166009ff4e9270f35ed75da7afc3db60/pyproject.toml#L1-L3)|[3](https://github.com/conda-incubator/conda-lock/blob/9187487698f9afbb08e131cd585a17bba82ce9f2/pyproject.toml#L1-L3)|[4](https://github.com/conda-incubator/conda-auth/blob/437ca609ea8bf4b8bd91d32dd427abe8294f6a3b/pyproject.toml#L1-L3)|[5](https://github.com/conda/conda-content-trust/blob/f72a50b04126177f37b965c25d02564223b7acf8/pyproject.toml#L1-L6)|[6](https://github.com/conda/conda-build/blob/37ab8d3de084d32b907b726ba2ad4570e91d326b/pyproject.toml#L1-L6)|[7](https://github.com/conda/conda/blob/0c38f5660f7eca66434827af910beddf9f7e462d/pyproject.toml#L1-L6)\]</sup>
 - [Airbnb](https://www.airbnb.com) <sup>\[[1](https://github.com/airbnb/omniduct/blob/98c66e10b493c83d42f69bc6b97fab7a8c91eab1/pyproject.toml#L1-L3)\]</sup>
@@ -93,7 +93,7 @@ The following is not intended to be a complete enumeration. Be sure to view the 
 - [VMware](https://www.vmware.com) <sup>\[[1](https://github.com/vmware/versatile-data-kit/blob/f77faec3e9ccd840b6dc6fdc95af8a434e822e71/projects/vdk-plugins/vdk-jupyter/vdk-jupyterlab-extension/pyproject.toml#L1-L3)|[2](https://github.com/vmware/repository-service-tuf-cli/blob/374f1ac0c2a4ada6d7a7c26fba55e811f2998be8/pyproject.toml#L1-L4)|[3](https://github.com/vmware/vhpc-toolkit/blob/b8429bc4753caa302a4fc8bb160cca89e84cfd45/pyproject.toml#L20-L22)\]</sup>
 - [Volvo Group](https://www.volvogroup.com) <sup>\[[1](https://github.com/VolvoGroup/dymoval/blob/75261b85635dce594719b01c5fc33ad951ce55b0/pyproject.toml#L1-L3)\]</sup>
 
-## Organizations
+## 组织
 
 - [Free Ebook Foundation](https://ebookfoundation.org) <sup>\[[1](https://github.com/EbookFoundation/alt-text/blob/00433b1a971309a441ef4822322cc6ea6347d9b2/pyproject.toml#L1-L3)\]</sup>
 - [Greater Paris University Hospitals (AP-HP)](https://www.aphp.fr) <sup>\[[1](https://github.com/aphp/edspdf/blob/ec083ed7fedddbdbb398c6feee530e05273f7dbb/pyproject.toml#L195-L197)\]</sup>
@@ -104,7 +104,7 @@ The following is not intended to be a complete enumeration. Be sure to view the 
 - [Smithsonian Institution](https://www.si.edu) <sup>\[[1](https://github.com/Smithsonian/ngehtutil/blob/02921f3a2ce11eb3f1555a0b9d3b177592d2be37/pyproject.toml#L1-L3)\]</sup>
 - [The New York Public Library](https://www.nypl.org) <sup>\[[1](https://github.com/NYPL/python-utils/blob/79b6d1b98d35b318af23c2af2f4f25e2c8162b15/pyproject.toml#L1-L3)\]</sup>
 
-## Government
+## 政府
 
 - [European Molecular Biology Laboratory](https://www.embl.org)
     - [European Bioinformatics Institute](https://www.ebi.ac.uk) <sup>\[[1](https://github.com/MarioniLab/oor_benchmark/blob/9117c354bb780b3cb5a73a30e68aa26fc68efdb5/pyproject.toml#L1-L3)\]</sup>
@@ -123,7 +123,7 @@ The following is not intended to be a complete enumeration. Be sure to view the 
     - [National Security Agency](https://www.nsa.gov) <sup>\[[1](https://github.com/NationalSecurityAgency/ghidra/blob/6242fda158fed6c7dbbd6928a4a74371a212c373/Ghidra/Debug/Debugger-agent-lldb/src/main/py/pyproject.toml#L1-L3)|[2](https://github.com/NationalSecurityAgency/ghidra/blob/6242fda158fed6c7dbbd6928a4a74371a212c373/Ghidra/Debug/Debugger-agent-gdb/src/main/py/pyproject.toml#L1-L3)\]</sup>
     - [National Telecommunications and Information Administration](https://www.ntia.gov) <sup>\[[1](https://github.com/NTIA/scos-tekrsa/blob/73090a737fdc0bd3a6c7c08deb170e00018d9ceb/pyproject.toml#L1-L3)|[2](https://github.com/NTIA/scos-actions/blob/a388aa46d414c7b5e67f76f8982bff2f534014f7/pyproject.toml#L1-L3)|[3](https://github.com/NTIA/tekrsa-api-wrap/blob/edce621075f053809c1640c6197c46bbc6456a10/pyproject.toml#L1-L3)|[4](https://github.com/NTIA/Preselector/pull/10)\]</sup>
 
-## Academia
+## 学术界
 
 - [Brown University](https://www.brown.edu)
     - [Carney Institute for Brain Science](https://www.brown.edu/carney/) <sup>\[[1](https://github.com/AutoResearch/sourpea/blob/f3007a58d3e5a647ccfb37fee24e44468d5ec707/pyproject.toml#L1-L3)\]</sup>
@@ -187,7 +187,7 @@ The following is not intended to be a complete enumeration. Be sure to view the 
     - [Tackeuchi Laboratory](https://www.f.waseda.jp/atacke/) <sup>\[[1](https://github.com/wasedatakeuchilab/python-project-template-hatch/blob/58949ab351d81b67f14aa45abf7c70b87394e2dc/pyproject.toml#L1-L3)|[2](https://github.com/wasedatakeuchilab/webapp-photo-luminescence/blob/864d1019650a2b057f761aa91ed9a6cbe6c1b455/pyproject.toml#L1-L3)|[3](https://github.com/wasedatakeuchilab/tlab-analysis/blob/72f0a710e35613e8996f473a80e5cb6c3f8c523e/pyproject.toml#L1-L3)|[4](https://github.com/wasedatakeuchilab/tlab-pptx/blob/ef331176906447dbbcf33e46f060b60ac3c007c5/pyproject.toml#L1-L3)|[5](https://github.com/wasedatakeuchilab/tlab-google/blob/53ae597611a146c90116b3b9277430832e1d04c9/pyproject.toml#L1-L3)\]</sup>
 - [Wellcome Sanger Institute](https://www.sanger.ac.uk) <sup>\[[1](https://github.com/sanger/lab-share-lib/blob/b3290b1922aabc29ac256dc034b8cfcc7b30f143/pyproject.toml#L25-L27)\]</sup>
 
-## Research
+## 研究所
 
 - [Clariah](https://www.clariah.nl) <sup>\[[1](https://github.com/CLARIAH/pure3d/blob/3f93d62cb1f5223836c9ebf4c058e6f491de71b9/pyproject.toml#L1-L3)\]</sup>
 - [CloudDrift](https://cloud-drift.github.io/clouddrift/) <sup>\[[1](https://github.com/Cloud-Drift/clouddrift/blob/5e654569c869a027fe0a486f06917b358837d41e/pyproject.toml#L1-L3)\]</sup>
@@ -205,12 +205,12 @@ The following is not intended to be a complete enumeration. Be sure to view the 
 - [scverse](https://scverse.org) <sup>\[[1](https://github.com/scverse/spatialdata-io/blob/15c395de859d6d06e5032016c9406acae5cac454/pyproject.toml#L1-L3)|[2](https://github.com/scverse/spatialdata-notebooks/blob/2b539a1d23b06b509a46a6bf3cb6594f1952f830/pyproject.toml#L1-L3)|[3](https://github.com/scverse/cookiecutter-scverse/blob/2892e1ddf0dd558cb9b547b47a7c2d0a156c9ef1/%7B%7Bcookiecutter.project_name%7D%7D/pyproject.toml#L1-L3)\]</sup>
 - [Spyder](https://www.spyder-ide.org) <sup>\[[1](https://github.com/spyder-ide/envs-manager/blob/9c487532cbb4804c94d7cf23dcec9404b2a1c7ec/pyproject.toml#L1-L3)\]</sup>
 
-## Security
+## 安全
 
 - [Armory](https://github.com/twosixlabs/armory/blob/330caa23d54ce82886606810f103ce1a0eec98ce/pyproject.toml#L129-L134)
 - [in-toto](https://github.com/in-toto/in-toto/blob/2768904b8a3892529aba8f8a605461fd178d9a58/pyproject.toml#L1-L3)
 - [The Update Framework](https://github.com/theupdateframework/python-tuf/blob/72424a958b60817155fcacfed1216163790b26f7/pyproject.toml#L2-L4)
 
-## Crypto
+## 加密
 
 - [Ocean Protocol](https://oceanprotocol.com) <sup>\[[1](https://github.com/oceanprotocol/pybundlr/blob/484c755d96be2da35cda83f01861745867cdb2d4/pyproject.toml#L1-L6)\]</sup>

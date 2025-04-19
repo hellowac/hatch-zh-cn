@@ -1,19 +1,19 @@
-# Build configuration
+# 构建配置
 
 -----
 
-[Build targets](#build-targets) are defined as sections within `tool.hatch.build.targets`:
+[构建目标](#build-targets) 在 `tool.hatch.build.targets` 中定义为各个部分：
 
 ```toml config-example
 [tool.hatch.build.targets.<TARGET_NAME>]
 ```
 
 !!! tip
-    Although not recommended, you may define global configuration in the `tool.hatch.build` table. Keys may then be overridden by target config.
+    尽管不推荐，您可以在 `tool.hatch.build` 表中定义全局配置。然后可以通过目标配置覆盖这些键。
 
-## Build system
+## 构建系统
 
-To be compatible with the broader [Python packaging ecosystem](../build.md#packaging-ecosystem), you must define the [build system](https://peps.python.org/pep-0517/#source-trees) as follows:
+为了与更广泛的 [Python 打包生态系统](../build.md#packaging-ecosystem) 兼容，您必须按如下方式定义 [构建系统](https://peps.python.org/pep-0517/#source-trees)：
 
 ```toml tab="pyproject.toml"
 [build-system]
@@ -21,15 +21,15 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 ```
 
-The version of `hatchling` defined here will be used to build all targets.
+此处定义的 `hatchling` 版本将用于构建所有目标。
 
-Hatchling is a standards-compliant[^1] build backend and is a dependency of Hatch itself.
+Hatchling 是符合标准的[^1] 构建后端，并且是 Hatch 本身的依赖项。
 
-## File selection
+## 文件选择
 
 ### VCS
 
-By default, Hatch will respect the first `.gitignore` or `.hgignore` file found in your project's root directory or parent directories. Set `ignore-vcs` to `true` to disable this behavior:
+默认情况下，Hatch 会尊重项目根目录或父目录中找到的第一个 `.gitignore` 或 `.hgignore` 文件。如果要禁用此行为，请将 `ignore-vcs` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.build.targets.sdist]
@@ -37,13 +37,13 @@ ignore-vcs = true
 ```
 
 !!! note
-    For `.hgignore` files only glob syntax is supported.
+    对于 `.hgignore` 文件，仅支持 glob 语法。
 
-### Patterns
+### 模式
 
-You can set the `include` and `exclude` options to select exactly which files will be shipped in each build, with `exclude` taking precedence. Every entry represents a [Git-style glob pattern](https://git-scm.com/docs/gitignore#_pattern_format).
+您可以设置 `include` 和 `exclude` 选项，以精确选择每次构建中将包含的文件，其中 `exclude` 优先于 `include`。每个条目代表一个 [Git 样式的 glob 模式](https://git-scm.com/docs/gitignore#_pattern_format)。
 
-For example, the following configuration:
+例如，以下配置：
 
 ```toml config-example
 [tool.hatch.build.targets.sdist]
@@ -57,16 +57,13 @@ exclude = [
 ]
 ```
 
-will exclude every file with a `.json` extension, and will include everything under a `tests` directory located at the root and every file with a `.py` extension that is directly under a `pkg` directory located at the root except for `_compat.py`.
+将排除所有 `.json` 扩展名的文件，并将根目录下的 `tests` 目录中的所有文件以及根目录下 `pkg` 目录下的所有 `.py` 文件（除 `_compat.py` 外）包括在内。
 
-### Artifacts
+### 工件
 
-If you want to include files that are [ignored by your VCS](#vcs), such as those that might be created by [build hooks](#build-hooks), you can use the `artifacts` option. This option is semantically equivalent to `include`.
+如果您想包括那些被 [VCS 忽略](#vcs) 的文件，如可能由 [构建钩子](#build-hooks) 创建的文件，可以使用 `artifacts` 选项。此选项与 `include` 等效。
 
-Note that artifacts are not affected by the `exclude` option. Artifacts can
-be excluded by using more explicit paths or by using the `!` negation operator.
-When using the `!` operator, the negated pattern(s) must come after the more
-generic ones.
+请注意，工件不受 `exclude` 选项的影响。工件可以通过使用更明确的路径或使用 `!` 否定操作符来排除。使用 `!` 操作符时，否定模式必须放在更通用的模式之后。
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
@@ -77,33 +74,33 @@ artifacts = [
 ]
 ```
 
-### Explicit selection
+### 显式选择
 
-#### Generic
+#### 通用
 
-You can use the `only-include` option to prevent directory traversal starting at the project root and only select specific relative paths to directories or files. Using this option ignores any defined [`include` patterns](#patterns).
+您可以使用 `only-include` 选项来防止从项目根目录开始进行目录遍历，仅选择特定的相对路径到目录或文件。使用此选项时，将忽略任何定义的 [`include` 模式](#patterns)。
 
 ```toml config-example
 [tool.hatch.build.targets.sdist]
 only-include = ["pkg", "tests/unit"]
 ```
 
-#### Packages
+#### 包
 
-The `packages` option is semantically equivalent to `only-include` (which takes precedence) except that the shipped path will be collapsed to only include the final component.
+`packages` 选项在语义上与 `only-include` 等效（后者优先），不同之处在于，已打包的路径将被压缩为仅包含最终组件。
 
-So for example, if you want to ship a package `foo` that is stored in a directory `src` you would do:
+例如，如果您想要打包存储在 `src` 目录中的 `foo` 包，可以这样做：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
 packages = ["src/foo"]
 ```
 
-### Forced inclusion
+### 强制包含
 
-The `force-include` option allows you to select specific files or directories from anywhere on the file system that should be included and map them to the desired relative distribution path.
+`force-include` 选项允许您从文件系统中的任何位置选择特定的文件或目录，并将它们映射到所需的相对分发路径。
 
-For example, if there was a directory alongside the project root named `artifacts` containing a file named `lib.so` and a file named `lib.h` in your home directory, you could ship both files in a `pkg` directory with the following configuration:
+例如，如果在项目根目录旁有一个名为 `artifacts` 的目录，其中包含名为 `lib.so` 的文件，并且在您的主目录中有一个名为 `lib.h` 的文件，您可以通过以下配置将这两个文件都打包到 `pkg` 目录中：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel.force-include]
@@ -112,55 +109,55 @@ For example, if there was a directory alongside the project root named `artifact
 ```
 
 !!! note
-    - Files must be mapped exactly to their desired paths, not to directories.
-    - The contents of directory sources are recursively included.
-    - To map directory contents directly to the root use `/` (a forward slash).
-    - Sources that do not exist will raise an error.
+    - 文件必须精确映射到所需路径，而不是目录。
+    - 目录源的内容将递归包含。
+    - 若要直接将目录内容映射到根目录，请使用 `/`（正斜杠）。
+    - 不存在的源将导致错误。
 
 !!! warning
-    Files included using this option will overwrite any file path that was already included by other file selection options.
+    使用此选项包含的文件将覆盖通过其他文件选择选项已经包含的任何文件路径。
 
-### Default file selection
+### 默认文件选择
 
-If no file selection options are provided, then what gets included is determined by each [build target](#build-targets).
+如果未提供文件选择选项，则默认的包含项由每个 [构建目标](#build-targets) 决定。
 
-### Excluding files outside packages
+### 排除包外的文件
 
-If you want to exclude non-[artifact](#artifacts) files that do not reside within a Python package, set `only-packages` to `true`:
+如果您想排除那些不位于 Python 包中的非 [工件](#artifacts) 文件，请将 `only-packages` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
 only-packages = true
 ```
 
-### Rewriting paths
+### 重写路径
 
-You can rewrite relative paths to directories with the `sources` option. For example, the following configuration:
+您可以使用 `sources` 选项重写目录的相对路径。例如，以下配置：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel.sources]
 "src/foo" = "bar"
 ```
 
-would distribute the file `src/foo/file.ext` as `bar/file.ext`.
+会将文件 `src/foo/file.ext` 作为 `bar/file.ext` 进行分发。
 
-If you want to remove path prefixes entirely, rather than setting each to an empty string, you can define `sources` as an array:
+如果您希望完全去掉路径前缀，而不是将其设置为空字符串，可以将 `sources` 定义为数组：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
 sources = ["src"]
 ```
 
-If you want to add a prefix to paths, you can use an empty string. For example, the following configuration:
+如果您想为路径添加前缀，可以使用空字符串。例如，以下配置：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel.sources]
 "" = "foo"
 ```
 
-would distribute the file `bar/file.ext` as `foo/bar/file.ext`.
+将把文件 `bar/file.ext` 分发为 `foo/bar/file.ext`。
 
-The [packages](#packages) option itself relies on sources. Defining `#!toml packages = ["src/foo"]` for the `wheel` target is equivalent to the following:
+[packages](#packages) 选项本身依赖于 sources。为 `wheel` 目标定义 `#!toml packages = ["src/foo"]` 相当于以下配置：
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
@@ -168,9 +165,9 @@ only-include = ["src/foo"]
 sources = ["src"]
 ```
 
-### Performance
+### 性能
 
-All encountered directories are traversed by default. To skip non-[artifact](#artifacts) directories that are excluded, set `skip-excluded-dirs` to `true`:
+默认情况下，所有遇到的目录都会被遍历。为了跳过那些被排除的非 [工件](#artifacts) 目录，请将 `skip-excluded-dirs` 设置为 `true`：
 
 ```toml config-example
 [tool.hatch.build]
@@ -178,40 +175,40 @@ skip-excluded-dirs = true
 ```
 
 !!! warning
-    This may result in not shipping desired files. For example, if you want to include the file `a/b/c.txt` but your [VCS ignores](#vcs) `a/b`, the file `c.txt` will not be seen because its parent directory will not be entered. In such cases you can use the [`force-include`](#forced-inclusion) option.
+    这可能导致未打包预期的文件。例如，如果您希望包含文件 `a/b/c.txt`，但您的 [VCS 忽略](#vcs) 了 `a/b`，则文件 `c.txt` 将无法看到，因为它的父目录将不会被进入。在这种情况下，您可以使用 [`force-include`](#forced-inclusion) 选项。
 
-## Reproducible builds
+## 可复现构建
 
-By default, [build targets](#build-targets) will build in a reproducible manner provided that they support that behavior. To disable this, set `reproducible` to `false`:
+默认情况下，[构建目标](#build-targets) 会以可复现的方式进行构建，前提是它们支持该行为。要禁用此行为，请将 `reproducible` 设置为 `false`：
 
 ```toml config-example
 [tool.hatch.build]
 reproducible = false
 ```
 
-When enabled, the [SOURCE_DATE_EPOCH](https://reproducible-builds.org/specs/source-date-epoch/) environment variable will be used for all build timestamps. If not set, then Hatch will use an [unchanging default value](../plugins/utilities.md#hatchling.builders.utils.get_reproducible_timestamp).
+启用时，所有构建时间戳都将使用 [SOURCE_DATE_EPOCH](https://reproducible-builds.org/specs/source-date-epoch/) 环境变量。如果未设置，则 Hatch 将使用一个 [不变的默认值](../plugins/utilities.md#hatchling.builders.utils.get_reproducible_timestamp)。
 
-## Output directory
+## 输出目录
 
-When the output directory is not provided to the [`build`](../cli/reference.md#hatch-build) command, the `dist` directory will be used by default. You can change the default to a different directory using a relative or absolute path like so:
+当未向 [`build`](../cli/reference.md#hatch-build) 命令提供输出目录时，默认将使用 `dist` 目录。您可以使用相对路径或绝对路径来更改默认路径：
 
 ```toml config-example
 [tool.hatch.build]
 directory = "<PATH>"
 ```
 
-## Dev mode
+## 开发模式
 
-By default for [dev mode](environment/overview.md#dev-mode) environment installations or [editable installs](https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs), the `wheel` target will determine which directories should be added to Python's search path based on the [selected files](#file-selection).
+对于 [开发模式](environment/overview.md#dev-mode) 环境安装或 [可编辑安装](https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs)，默认情况下，`wheel` 目标将根据 [选定的文件](#file-selection) 确定哪些目录应添加到 Python 的搜索路径中。
 
-If you want to override this detection or perhaps instruct other build targets as well, you can use the `dev-mode-dirs` option:
+如果您想覆盖此检测或指示其他构建目标，也可以使用 `dev-mode-dirs` 选项：
 
 ```toml config-example
 [tool.hatch.build]
 dev-mode-dirs = ["."]
 ```
 
-If you don't want to add entire directories to Python's search path, you can enable a more targeted mechanism with the mutually exclusive `dev-mode-exact` option:
+如果您不希望将整个目录添加到 Python 的搜索路径中，可以启用更精确的机制，使用互斥的 `dev-mode-exact` 选项：
 
 ```toml config-example
 [tool.hatch.build]
@@ -219,15 +216,15 @@ dev-mode-exact = true
 ```
 
 !!! warning
-    The `dev-mode-exact` mechanism is [not supported](https://github.com/microsoft/pylance-release/issues/2114) by static analysis tools & IDEs, therefore functionality such as autocompletion is unlikely to work.
+    `dev-mode-exact` 机制 [不被支持](https://github.com/microsoft/pylance-release/issues/2114) 由静态分析工具和 IDE，因此诸如自动补全之类的功能可能无法正常工作。
 
-## Build targets
+## 构建目标
 
-A build target can be provided by any [builder plugin](../plugins/builder/reference.md). There are three built-in build targets: [wheel](../plugins/builder/wheel.md), [sdist](../plugins/builder/sdist.md), and [custom](../plugins/builder/custom.md).
+构建目标可以由任何 [构建插件](../plugins/builder/reference.md) 提供。共有三种内置构建目标：[wheel](../plugins/builder/wheel.md)、[sdist](../plugins/builder/sdist.md) 和 [custom](../plugins/builder/custom.md)。
 
-### Dependencies ### {: #target-dependencies }
+### 依赖项 ### {: #target-dependencies }
 
-You can specify additional dependencies that will be installed in each build environment, such as for third party builders:
+您可以指定在每个构建环境中要安装的额外依赖项，例如用于第三方构建器插件：
 
 ```toml config-example
 [tool.hatch.build.targets.your-target-name]
@@ -236,14 +233,14 @@ dependencies = [
 ]
 ```
 
-You can also declare dependence on the project's [runtime dependencies](metadata.md#required) with the `require-runtime-dependencies` option:
+您还可以通过 `require-runtime-dependencies` 选项声明对项目的 [运行时依赖项](metadata.md#required) 的依赖：
 
 ```toml config-example
 [tool.hatch.build.targets.your-target-name]
 require-runtime-dependencies = true
 ```
 
-Additionally, you may declare dependence on specific [runtime features](metadata.md#optional) of the project with the `require-runtime-features` option:
+此外，您可以通过 `require-runtime-features` 选项声明对项目特定 [运行时功能](metadata.md#optional) 的依赖：
 
 ```toml config-example
 [tool.hatch.build.targets.your-target-name]
@@ -253,9 +250,9 @@ require-runtime-features = [
 ]
 ```
 
-### Versions
+### 版本
 
-If a build target supports multiple build strategies or if there are major changes over time, you can specify exactly which versions you want to build using the `versions` option:
+如果构建目标支持多种构建策略，或者随着时间的推移发生了重大变化，您可以通过 `versions` 选项指定要构建的确切版本：
 
 ```toml config-example
 [tool.hatch.build.targets.<TARGET_NAME>]
@@ -265,27 +262,27 @@ versions = [
 ]
 ```
 
-See the [wheel](../plugins/builder/wheel.md#versions) target for a real world example.
+请参阅 [wheel](../plugins/builder/wheel.md#versions) 目标的实际示例。
 
-## Build hooks
+## 构建钩子
 
-A build hook defines code that will be executed at various stages of the build process and can be provided by any [build hook plugin](../plugins/build-hook/reference.md). There is one built-in build hook: [custom](../plugins/build-hook/custom.md).
+构建钩子定义了将在构建过程的各个阶段执行的代码，并且可以由任何 [构建钩子插件](../plugins/build-hook/reference.md) 提供。内置的构建钩子有一个：[custom](../plugins/build-hook/custom.md)。
 
-Build hooks can be applied either globally:
+构建钩子可以全局应用：
 
 ```toml config-example
 [tool.hatch.build.hooks.<HOOK_NAME>]
 ```
 
-or to specific build targets:
+也可以应用于特定的构建目标：
 
 ```toml config-example
 [tool.hatch.build.targets.<TARGET_NAME>.hooks.<HOOK_NAME>]
 ```
 
-### Dependencies ### {: #hook-dependencies }
+### 依赖项 ### {: #hook-dependencies }
 
-You can specify additional dependencies that will be installed in each build environment, such as for third party build hooks:
+您可以指定在每个构建环境中要安装的额外依赖项，例如用于第三方构建钩子插件：
 
 ```toml config-example
 [tool.hatch.build.hooks.your-hook-name]
@@ -294,14 +291,14 @@ dependencies = [
 ]
 ```
 
-You can also declare dependence on the project's [runtime dependencies](metadata.md#required) with the `require-runtime-dependencies` option:
+您还可以通过 `require-runtime-dependencies` 选项声明对项目的 [运行时依赖项](metadata.md#required) 的依赖：
 
 ```toml config-example
 [tool.hatch.build.hooks.your-hook-name]
 require-runtime-dependencies = true
 ```
 
-Additionally, you may declare dependence on specific [runtime features](metadata.md#optional) of the project with the `require-runtime-features` option:
+此外，您可以通过 `require-runtime-features` 选项声明对项目特定 [运行时功能](metadata.md#optional) 的依赖：
 
 ```toml config-example
 [tool.hatch.build.hooks.your-hook-name]
@@ -311,11 +308,11 @@ require-runtime-features = [
 ]
 ```
 
-### Order of execution
+### 执行顺序
 
-For each build target, build hooks execute in the order in which they are defined, starting with global hooks.
+对于每个构建目标，构建钩子的执行顺序是按定义顺序执行的，从全局钩子开始。
 
-As an example, for the following configuration:
+例如，对于以下配置：
 
 ```toml config-example
 [tool.hatch.build.targets.foo.hooks.hook2]
@@ -324,27 +321,27 @@ As an example, for the following configuration:
 [tool.hatch.build.hooks.hook1]
 ```
 
-When target `foo` is built, build hook `hook3` will be executed first, followed by `hook1`, and then finally `hook2`.
+当构建目标 `foo` 时，构建钩子 `hook3` 将首先执行，然后是 `hook1`，最后是 `hook2`。
 
-### Conditional execution
+### 条件执行
 
-If you want to disable a build hook by default and control its use by [environment variables](#environment-variables), you can do so by setting the `enable-by-default` option to `false`:
+如果您希望默认禁用构建钩子并通过 [环境变量](#environment-variables) 控制其使用，可以将 `enable-by-default` 设置为 `false`：
 
 ```toml config-example
 [tool.hatch.build.hooks.<HOOK_NAME>]
 enable-by-default = false
 ```
 
-## Environment variables
+## 环境变量
 
-| Variable | Default | Description |
+| 变量 | 默认值 | 描述 |
 | --- | --- | --- |
-| `HATCH_BUILD_CLEAN` | `false` | Whether or not existing artifacts should first be removed |
-| `HATCH_BUILD_CLEAN_HOOKS_AFTER` | `false` | Whether or not build hook artifacts should be removed after each build |
-| `HATCH_BUILD_HOOKS_ONLY` | `false` | Whether or not to only execute build hooks |
-| `HATCH_BUILD_NO_HOOKS` | `false` | Whether or not to disable all build hooks; this takes precedence over other options |
-| `HATCH_BUILD_HOOKS_ENABLE` | `false` | Whether or not to enable all build hooks |
-| `HATCH_BUILD_HOOK_ENABLE_<HOOK_NAME>` | `false` | Whether or not to enable the build hook named `<HOOK_NAME>` |
-| `HATCH_BUILD_LOCATION` | `dist` | The location with which to build the targets; only used by the [`build`](../cli/reference.md#hatch-build) command |
+| `HATCH_BUILD_CLEAN` | `false` | 是否在构建之前先删除现有的工件 |
+| `HATCH_BUILD_CLEAN_HOOKS_AFTER` | `false` | 是否在每次构建后删除构建钩子的工件 |
+| `HATCH_BUILD_HOOKS_ONLY` | `false` | 是否仅执行构建钩子 |
+| `HATCH_BUILD_NO_HOOKS` | `false` | 是否禁用所有构建钩子；此选项优先于其他选项 |
+| `HATCH_BUILD_HOOKS_ENABLE` | `false` | 是否启用所有构建钩子 |
+| `HATCH_BUILD_HOOK_ENABLE_<HOOK_NAME>` | `false` | 是否启用名为 `<HOOK_NAME>` 的构建钩子 |
+| `HATCH_BUILD_LOCATION` | `dist` | 用于构建目标的位置；仅在 [`build`](../cli/reference.md#hatch-build) 命令中使用 |
 
-[^1]: Support for [PEP 517][] and [PEP 660][] guarantees interoperability with other build tools.
+[^1]: 支持 [PEP 517][] 和 [PEP 660][] 保证与其他构建工具的互操作性。

@@ -1,53 +1,53 @@
-# Source distribution builder
+# 源码分发构建器（Source distribution builder）
 
 -----
 
-A source distribution, or `sdist`, is an archive of Python "source code". Although largely unspecified, by convention it should include everything that is required to build a [wheel](wheel.md) without making network requests.
+源码分发包（source distribution，简称 `sdist`）是一个包含 Python “源代码” 的归档文件。尽管其结构并无严格规范，但按照惯例，它应包含构建 [wheel](wheel.md) 所需的全部内容，且无需发起网络请求。
 
-## Configuration
+## 配置
 
-The builder plugin name is `sdist`.
+该构建器插件的名称为 `sdist`。
 
 ```toml config-example
 [tool.hatch.build.targets.sdist]
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Default | Description |
+| 选项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `core-metadata-version` | `"2.4"` | The version of [core metadata](https://packaging.python.org/specifications/core-metadata/) to use |
-| `strict-naming` | `true` | Whether or not file names should contain the normalized version of the project name |
-| `support-legacy` | `false` | Whether or not to include a `setup.py` file to support legacy installation mechanisms |
+| `core-metadata-version` | `"2.4"` | 所使用的 [核心元数据](https://packaging.python.org/specifications/core-metadata/) 版本 |
+| `strict-naming` | `true` | 文件名是否应包含规范化后的项目名称 |
+| `support-legacy` | `false` | 是否包含一个 `setup.py` 文件以支持旧式安装机制 |
 
-## Versions
+## 版本类型（Versions）
 
-| Version | Description |
+| 版本 | 描述 |
 | --- | --- |
-| `standard` (default) | The latest conventional format |
+| `standard`（默认） | 最新的常规格式 |
 
-## Default file selection
+## 默认文件选择
 
-When the user has not set any [file selection](../../config/build.md#file-selection) options, all files that are not [ignored by your VCS](../../config/build.md#vcs) will be included.
+当用户未设置任何 [文件选择](../../config/build.md#file-selection) 选项时，所有未被 [版本控制系统忽略](../../config/build.md#vcs) 的文件将会被包含。
 
 !!! note
-    The following files are always included and cannot be excluded:
+    以下文件总是会被包含，且无法排除：
 
     - `/pyproject.toml`
     - `/hatch.toml`
     - `/hatch_build.py`
-    - `/.gitignore` or `/.hgignore`
-    - Any defined [`readme`](../../config/metadata.md#readme) file
-    - All defined [`license-files`](../../config/metadata.md#license)
+    - `/.gitignore` 或 `/.hgignore`
+    - 任何已定义的 [`readme`](../../config/metadata.md#readme) 文件
+    - 所有已定义的 [`license-files`](../../config/metadata.md#license)
 
-## Reproducibility
+## 可重现性（Reproducibility）
 
-[Reproducible builds](../../config/build.md#reproducible-builds) are supported.
+支持 [可重现构建](../../config/build.md#reproducible-builds)。
 
-## Build data
+## 构建数据（Build data）
 
-This is data that can be modified by [build hooks](../build-hook/reference.md).
+以下数据可由 [构建钩子](../build-hook/reference.md) 动态修改：
 
-| Data | Default | Description |
+| 数据项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `dependencies` | | Extra [project dependencies](../../config/metadata.md#required) |
+| `dependencies` | | 附加的 [项目依赖](../../config/metadata.md#required) |

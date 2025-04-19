@@ -1,80 +1,80 @@
-# Managing Python distributions
+# 管理 Python 发行版
 
 -----
 
-The [`python`](../../cli/reference.md#hatch-python) command group provides a set of commands to manage Python distributions that may be used by other tools.
+[`python`](../../cli/reference.md#hatch-python) 命令组提供了一系列用于管理 Python 发行版的命令，这些发行版可以供其他工具使用。
 
 !!! note
-    When using environments, manual management is not necessary since by default Hatch will [automatically](../../plugins/environment/virtual.md#python-resolution) download and manage Python distributions internally when a requested version cannot be found.
+    在使用环境的情况下，通常无需手动管理发行版，因为 Hatch 会在找不到所需版本时[自动](../../plugins/environment/virtual.md#python-resolution)下载并内部管理 Python 发行版。
 
-## Location
+## 安装位置
 
-There are two ways to control where Python distributions are installed. Both methods make it so that each installed distribution is placed in a subdirectory of the configured location named after the distribution.
+有两种方式可以控制 Python 发行版的安装位置。无论哪种方式，都会将每个安装的发行版置于配置位置的一个以发行版命名的子目录中：
 
-1. The globally configured [default directory](../../config/hatch.md#python-installations) for Python installations.
-2. The `-d`/`--dir` option of every [`python`](../../cli/reference.md#hatch-python) subcommand, which takes precedence over the default directory.
+1. 全局配置的 [默认安装目录](../../config/hatch.md#python-installations)；
+2. 所有 [`python`](../../cli/reference.md#hatch-python) 子命令的 `-d`/`--dir` 选项，它优先于默认目录。
 
-## Installation
+## 安装
 
-To install a Python distribution, use the [`python install`](../../cli/reference.md#hatch-python-install) command. For example:
+要安装一个 Python 发行版，请使用 [`python install`](../../cli/reference.md#hatch-python-install) 命令。例如：
 
 ```
 hatch python install 3.12
 ```
 
-This will:
+此命令将执行以下操作：
 
-1. Download the `3.12` Python distribution
-2. Unpack it into a directory named `3.12` within the configured [default directory](../../config/hatch.md#python-installations) for Python installations
-3. Add the installation to the user PATH
+1. 下载 `3.12` 版本的 Python；
+2. 将其解压到配置的 [默认安装目录](../../config/hatch.md#python-installations) 下名为 `3.12` 的子目录中；
+3. 将该安装路径添加到用户的 PATH 环境变量中。
 
-Now its `python` executable can be used by you or other tools.
+现在你可以直接或通过其他工具使用该版本的 `python` 可执行文件。
 
 !!! note
-    For PATH changes to take effect in the current shell, you will need to restart it.
+    要让 PATH 的变更在当前 shell 中生效，需要重启 shell。
 
-### Multiple
+### 安装多个版本
 
-You can install multiple Python distributions at once by providing multiple distribution names. For example:
+你可以一次性安装多个 Python 发行版，只需提供多个版本名称。例如：
 
 ```
 hatch python install 3.12 3.11 pypy3.10
 ```
 
-If you would like to install all available Python distributions that are compatible with your system, use `all` as the distribution name:
+若希望安装所有与你的系统兼容的可用 Python 发行版，可以将发行版名称设置为 `all`：
 
 ```
 hatch python install all
 ```
 
 !!! tip
-    The commands for [updating](#updates) and [removing](#removal) also support this functionality.
+    [更新](#updates) 和 [移除](#removal) 命令也支持该用法。
 
-### Private
+### 私有安装
 
-By default, installing Python distributions will add them to the user PATH. To disable this behavior, use the `--private` flag like so:
+默认情况下，安装的 Python 发行版会添加至用户 PATH 中。若要禁用此行为，可使用 `--private` 标志：
 
 ```
 hatch python install 3.12 --private
 ```
 
-This when combined with the [directory option](#location) can be used to create private, isolated installations.
+该方式配合 [目录选项](#location) 可用于创建私有的、隔离的安装环境。
 
-## Listing distributions
+## 查看已安装发行版
 
-You can see all of the available and installed Python distributions by using the [`python show`](../../cli/reference.md#hatch-python-show) command. For example, if you already installed the `3.12` distribution you may see something like this:
+使用 [`python show`](../../cli/reference.md#hatch-python-show) 命令可以查看所有可用和已安装的 Python 发行版。例如，若你已安装 `3.12`，可能会看到如下输出：
 
 ```
 $ hatch python show
-    Installed
+    已安装
 ┏━━━━━━┳━━━━━━━━━┓
-┃ Name ┃ Version ┃
+┃ 名称 ┃ 版本    ┃
 ┡━━━━━━╇━━━━━━━━━┩
 │ 3.12 │ 3.12.7  │
 └──────┴─────────┘
-      Available
+    可用版本
 ┏━━━━━━━━━━┳━━━━━━━━━┓
-┃ Name     ┃ Version ┃
+┃ 名称     ┃ 版本    ┃
 ┡━━━━━━━━━━╇━━━━━━━━━┩
 │ 3.7      │ 3.7.9   │
 ├──────────┼─────────┤
@@ -96,42 +96,42 @@ $ hatch python show
 └──────────┴─────────┘
 ```
 
-## Finding installations
+## 查找发行版路径
 
-The Python executable of an installed distribution can be found by using the [`python find`](../../cli/reference.md#hatch-python-find) command. For example:
+要查找已安装发行版的 Python 可执行文件路径，请使用 [`python find`](../../cli/reference.md#hatch-python-find) 命令。例如：
 
 ```
 $ hatch python find 3.12
 /home/.local/share/hatch/pythons/3.12/python/bin/python3
 ```
 
-You can instead output its parent directory by using the `-p`/`--parent` flag:
+若希望输出其父目录路径，可使用 `-p`/`--parent` 选项：
 
 ```
 $ hatch python find 3.12 --parent
 /home/.local/share/hatch/pythons/3.12/python/bin
 ```
 
-This is useful when other tools do not need to use the executable directly but require knowing the directory containing it.
+这对于某些不需要直接使用可执行文件、只需其所在目录的工具来说非常实用。
 
-## Updates
+## 更新发行版
 
-To update installed Python distributions, use the [`python update`](../../cli/reference.md#hatch-python-update) command. For example:
+要更新已安装的 Python 发行版，请使用 [`python update`](../../cli/reference.md#hatch-python-update) 命令。例如：
 
 ```
 hatch python update 3.12 3.11 pypy3.10
 ```
 
-When there are no updates available for a distribution, a warning will be displayed:
+若指定发行版已是最新版本，会显示警告信息：
 
 ```
 $ hatch python update 3.12
 The latest version is already installed: 3.12.7
 ```
 
-## Removal
+## 移除发行版
 
-To remove installed Python distributions, use the [`python remove`](../../cli/reference.md#hatch-python-remove) command. For example:
+要移除已安装的 Python 发行版，请使用 [`python remove`](../../cli/reference.md#hatch-python-remove) 命令。例如：
 
 ```
 hatch python remove 3.12 3.11 pypy3.10

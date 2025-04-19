@@ -1,10 +1,10 @@
-# How to configure repositories for index publishing
+# 如何配置索引发布的仓库
 
 ----
 
-You can select the repository with which to upload using the `-r`/`--repo` option or by setting the `HATCH_INDEX_REPO` environment variable.
+您可以通过 `-r`/`--repo` 选项或设置 `HATCH_INDEX_REPO` 环境变量来选择上传目标仓库。
 
-Rather than specifying the full URL of a repository, you can use a named repository from a `publish.index.repos` table defined in Hatch's [config file](../../config/hatch.md):
+无需直接指定完整 URL，而可以在 Hatch 的 [配置文件](../../config/hatch.md) 中通过 `publish.index.repos` 表定义命名仓库。例如：
 
 ```toml tab="config.toml"
 [publish.index.repos.private]
@@ -12,11 +12,11 @@ url = "..."
 ...
 ```
 
-The following repository names are reserved by Hatch and cannot be overridden:
+以下仓库名称由 Hatch 保留，不能被自定义覆盖：
 
-| Name | Repository |
+| 名称 | 仓库地址 |
 | --- | --- |
 | `main` | https://upload.pypi.org/legacy/ |
 | `test` | https://test.pypi.org/legacy/ |
 
-The `main` repository is used by default.
+默认使用 `main` 仓库。

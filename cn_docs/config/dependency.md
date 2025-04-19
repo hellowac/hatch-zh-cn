@@ -1,12 +1,12 @@
-# Dependency configuration
+# 依赖配置
 
 -----
 
-[Project dependencies](metadata.md#dependencies) are defined with [PEP 508][] strings using optional [PEP 440 version specifiers][].
+[项目依赖](metadata.md#dependencies)使用 [PEP 508][] 字符串来定义，并可使用可选的 [PEP 440 版本说明符][]。
 
-## Version specifiers
+## 版本说明符
 
-A version specifier consists of a series of version clauses, separated by commas. For example:
+版本说明符由一系列版本子句组成，这些子句之间用逗号分隔。例如：
 
 ```toml tab="pyproject.toml"
 [project]
@@ -19,90 +19,90 @@ dependencies = [
 ]
 ```
 
-The comma is equivalent to a logical `AND` operator: a candidate version must match all given version clauses in order to match the specifier as a whole.
+逗号相当于逻辑 `AND` 运算符：候选版本必须满足所有给定的版本子句，才能整体符合说明符。
 
-### Operators
+### 操作符
 
-| Operators | Function |
+| 操作符 | 功能 |
 | :---: | --- |
-| `~=` | [Compatible release](#compatible-release) |
-| `==` | [Version matching](#version-matching) |
-| `!=` | [Version exclusion](#version-exclusion) |
-| `<=`, `>=` | [Inclusive ordered comparison](#ordered-comparison) |
-| `<`, `>` | [Exclusive ordered comparison](#ordered-comparison) |
-| `===` | [Arbitrary equality](#arbitrary-equality) |
+| `~=` | [兼容发布](#兼容发布) |
+| `==` | [版本匹配](#版本匹配) |
+| `!=` | [版本排除](#版本排除) |
+| `<=`, `>=` | [包含的有序比较](#有序比较) |
+| `<`, `>` | [排除的有序比较](#有序比较) |
+| `===` | [任意相等](#任意相等) |
 
-### Version matching
+### 版本匹配
 
-A version matching clause includes the version matching operator `==` and a version identifier.
+版本匹配子句包括版本匹配操作符 `==` 和版本标识符。
 
-By default, the version matching operator is based on a strict equality comparison: the specified version must be exactly the same as the requested version.
+默认情况下，版本匹配操作符基于严格的相等比较：指定的版本必须与请求的版本完全相同。
 
-| Clause | Allowed versions |
+| 子句 | 允许的版本 |
 | --- | --- |
 | `==1` | `1.0.0` |
 | `==1.2` | `1.2.0` |
 
-Prefix matching may be requested instead of strict comparison, by appending a trailing `.*` to the version identifier in the version matching clause. This means that additional trailing segments will be ignored when determining whether or not a version identifier matches the clause.
+可以通过在版本标识符后附加 `.*` 来请求前缀匹配，这意味着在确定版本是否匹配时，额外的尾部部分将被忽略。
 
-| Clause | Allowed versions |
+| 子句 | 允许的版本 |
 | --- | --- |
 | `==1.*` | `>=1.0.0, <2.0.0` |
 | `==1.2.*` | `>=1.2.0, <1.3.0` |
 
-### Compatible release
+### 兼容发布
 
-A compatible release clause consists of the compatible release operator `~=` and a version identifier. It matches any candidate version that is expected to be compatible with the specified version.
+兼容发布子句由兼容发布操作符 `~=` 和版本标识符组成。它匹配任何预期与指定版本兼容的候选版本。
 
-For a given release identifier `V.N`, the compatible release clause is approximately equivalent to the following pair of comparison clauses:
+对于给定的版本标识符 `V.N`，兼容发布子句大致相当于以下一对比较子句：
 
 ```
 >= V.N, == V.*
 ```
 
-This operator cannot be used with a single segment version number such as `~=1`.
+此操作符不能与单段版本号（如 `~=1`）一起使用。
 
-| Clause | Allowed versions |
+| 子句 | 允许的版本 |
 | --- | --- |
 | `~=1.2` | `>=1.2.0, <2.0.0` |
 | `~=1.2.3` | `>=1.2.3, <1.3.0` |
 
-### Version exclusion
+### 版本排除
 
-A version exclusion clause includes the version exclusion operator `!=` and a version identifier.
+版本排除子句包括版本排除操作符 `!=` 和版本标识符。
 
-The allowed version identifiers and comparison semantics are the same as those of the [Version matching](#version-matching) operator, except that the sense of any match is inverted.
+允许的版本标识符和比较语义与 [版本匹配](#版本匹配) 操作符相同，不同之处在于任何匹配的意义是相反的。
 
-### Ordered comparison
+### 有序比较
 
-Inclusive comparisons allow for the version identifier part of clauses whereas exclusive comparisons do not. For example, `>=1.2` allows for version `1.2.0` while `>1.2` does not.
+包含比较允许版本标识符部分，而排除比较则不允许。例如，`>=1.2` 允许版本 `1.2.0`，而 `>1.2` 则不允许。
 
-Unlike the inclusive ordered comparisons `<=` and `>=`, the exclusive ordered comparisons `<` and `>` specifically exclude pre-releases, post-releases, and local versions of the specified version.
+与包含有序比较 `<=` 和 `>=` 不同，排除的有序比较 `<` 和 `>` 特别排除预发布、后发布和本地版本。
 
-### Arbitrary equality
+### 任意相等
 
-Though heavily discouraged, arbitrary equality comparisons allow for simple string matching without any version semantics, for example `===foobar`.
+尽管强烈不推荐，任意相等比较允许简单的字符串匹配，而不考虑任何版本语义，例如 `===foobar`。
 
-## Environment markers
+## 环境标记
 
-[Environment markers](https://peps.python.org/pep-0508/#environment-markers) allow for dependencies to only be installed when certain conditions are met.
+[环境标记](https://peps.python.org/pep-0508/#environment-markers)允许仅在满足某些条件时安装依赖项。
 
-For example, if you need to install the latest version of `cryptography` that is available for a given Python major version you could define the following:
+例如，如果您需要在给定 Python 主版本下安装最新版本的 `cryptography`，可以定义如下：
 
 ```
 cryptography==3.3.2; python_version < "3"
 cryptography>=35.0; python_version > "3"
 ```
 
-Alternatively, if you only need it on Python 3 when running on Windows you could do:
+或者，如果您只在 Python 3 上并且运行在 Windows 上时需要它，您可以这样做：
 
 ```
 cryptography; python_version ~= "3.0" and platform_system == "Windows"
 ```
 
-The available environment markers are as follows.
+可用的环境标记如下：
 
-| Marker | Python equivalent | Examples |
+| 标记 | Python 等效 | 示例 |
 | --- | --- | --- |
 | `os_name` | `#!python import os`<br>`os.name` | <ul><li>posix</li><li>java</li></ul> |
 | `sys_platform` | `#!python import sys`<br>`sys.platform` | <ul><li>linux</li><li>win32</li><li>darwin</li></ul> |
@@ -114,11 +114,11 @@ The available environment markers are as follows.
 | `python_version` | `#!python import platform`<br>`'.'.join(platform.python_version_tuple()[:2])` | <ul><li>2.7</li><li>3.10</li></ul> |
 | `python_full_version` | `#!python import platform`<br>`platform.python_version()` | <ul><li>2.7.18</li><li>3.11.0b1</li></ul> |
 | `implementation_name` | `#!python import sys`<br>`sys.implementation.name` | <ul><li>cpython</li></ul> |
-| `implementation_version` | See [here](https://peps.python.org/pep-0508/#environment-markers) | <ul><li>2.7.18</li><li>3.11.0b1</li></ul> |
+| `implementation_version` | 见 [这里](https://peps.python.org/pep-0508/#environment-markers) | <ul><li>2.7.18</li><li>3.11.0b1</li></ul> |
 
-## Features
+## 特性
 
-You can select groups of [optional dependencies](metadata.md#optional) to install using the [extras](https://peps.python.org/pep-0508/#extras) syntax. For example, if a dependency named `foo` defined the following:
+您可以使用 [extras](https://peps.python.org/pep-0508/#extras) 语法选择安装一组 [可选依赖](metadata.md#optional) 依赖项。例如，如果一个名为 `foo` 的依赖定义了以下内容：
 
 ```toml tab="pyproject.toml"
 [project.optional-dependencies]
@@ -135,17 +135,17 @@ cli = [
 ]
 ```
 
-You can select the `cli` and `crypto` features like so:
+您可以通过如下方式选择 `cli` 和 `crypto` 特性：
 
 ```
 foo[cli,crypto]==1.*
 ```
 
-Note that the features come immediately after the package name, before any [version specifiers](#version-specifiers).
+注意，特性应紧跟在包名之后，位于任何 [版本说明符](#版本说明符) 之前。
 
-### Self-referential
+### 自我引用
 
-Feature groups can self-referentially extend others. For example, for a project called `awesome-project`, the `dev` feature group in the following `pyproject.toml` file would select everything in the `crypto` feature group, plus `black`:
+特性组可以自我引用地扩展其他组。例如，对于一个名为 `awesome-project` 的项目，下面 `pyproject.toml` 文件中的 `dev` 特性组将选择 `crypto` 特性组中的所有内容，以及 `black`：
 
 ```toml tab="pyproject.toml"
 [project]
@@ -162,115 +162,96 @@ dev = [
 ]
 ```
 
-## Direct references
+## 直接引用
 
-Instead of using normal [version specifiers](#version-specifiers) and fetching packages from an index like PyPI, you can define exact sources using [direct references](https://peps.python.org/pep-0440/#direct-references) with an explicit [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax).
+除了使用正常的 [版本说明符](#版本说明符) 并从类似 PyPI 的索引获取包外，您还可以通过显式的 [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax) 定义确切的源，使用 [直接引用](https://peps.python.org/pep-0440/#direct-references)。
 
-Direct references are usually not meant to be used for dependencies of a published project but rather are used for defining [dependencies for an environment](environment/overview.md#dependencies).
+直接引用通常不用于已发布项目的依赖项，而是用于定义 [环境的依赖项](environment/overview.md#dependencies)。
 
-All direct reference types are prefixed by the package name like:
+所有直接引用类型都以包名为前缀，如下所示：
 
 ```
 <NAME> @ <REFERENCE>
 ```
 
-### Version control systems
+### 版本控制系统
 
-Various version control systems (VCS) are [supported](#supported-vcs) as long as the associated executable is available along your `PATH`.
+只要相关的可执行文件可用并且在您的 `PATH` 中，就支持多种版本控制系统（VCS）。
 
-VCS direct references are defined using one of the following formats:
+VCS 直接引用使用以下格式之一：
 
 ```
 <NAME> @ <SCHEME>://<PATH>
 <NAME> @ <SCHEME>://<PATH>@<REVISION>
 ```
 
-You may also append a `#subdirectory=<PATH>` component for specifying the relative path to the Python package when it is not located at the root e.g. `#subdirectory=lib/foo`.
+您还可以附加 `#subdirectory=<PATH>` 部分，以指定当 Python 包不在根目录时相对路径，例如 `#subdirectory=lib/foo`。
 
-For more information, refer to [this](https://pip.pypa.io/en/stable/topics/vcs-support/).
+有关更多信息，请参考 [此处](https://pip.pypa.io/en/stable/topics/vcs-support/)。
 
-#### Supported VCS
+#### 支持的 VCS
 
 === "Git"
-    | Executable | Schemes | Revisions | Example |
+    | 可执行文件 | 协议 | 修订 | 示例 |
     | --- | --- | --- | --- |
-    | `git` | <ul><li><code>git+file</code></li><li><code>git+https</code></li><li><code>git+ssh</code></li><li><code>git+http</code> :warning:</li><li><code>git+git</code> :warning:</li><li><code>git</code> :warning:</li></ul> | <ul><li>Commit hash</li><li>Tag name</li><li>Branch name</li></ul> | `proj @ git+https://github.com/org/proj.git@v1` |
+    | `git` | <ul><li><code>git+file</code></li><li><code>git+https</code></li><li><code>git+ssh</code></li><li><code>git+http</code> :warning:</li><li><code>git+git</code> :warning:</li><li><code>git</code> :warning:</li></ul> | <ul><li>提交哈希</li><li>标签名称</li><li>分支名称</li></ul> | `proj @ git+https://github.com/org/proj.git@v1` |
 
 === "Mercurial"
-    | Executable | Schemes | Revisions | Example |
+    | 可执行文件 | 协议 | 修订 | 示例 |
     | --- | --- | --- | --- |
-    | `hg` | <ul><li><code>hg+file</code></li><li><code>hg+https</code></li><li><code>hg+ssh</code></li><li><code>hg+http</code> :warning:</li><li><code>hg+static-http</code> :warning:</li></ul> | <ul><li>Revision hash</li><li>Revision number</li><li>Tag name</li><li>Branch name</li></ul> | `proj @ hg+file:///path/to/proj@v1` |
+    | `hg` | <ul><li><code>hg+file</code></li><li><code>hg+https</code></li><li><code>hg+ssh</code></li><li><code>hg+http</code> :warning:</li><li><code>hg+static-http</code> :warning:</li></ul> | <ul><li>修订哈希</li><li>修订编号</li><li>标签名称</li><li>分支名称</li></ul> | `proj @ hg+file:///path/to/proj@v1` |
 
 === "Subversion"
-    | Executable | Schemes | Revisions | Example |
+    | 可执行文件 | 协议 | 修订 | 示例 |
     | --- | --- | --- | --- |
-    | `svn` | <ul><li><code>svn+https</code></li><li><code>svn+ssh</code></li><li><code>svn+http</code> :warning:</li><li><code>svn+svn</code> :warning:</li><li><code>svn</code> :warning:</li></ul> | <ul><li>Revision number</li></ul> | `proj @ svn+file:///path/to/proj` |
+    | `svn` | <ul><li><code>svn+https</code></li><li><code>svn+ssh</code></li><li><code>svn+http</code> :warning:</li><li><code>svn+svn</code> :warning:</li><li><code>svn</code> :warning:</li></ul> | <ul><li>修订编号</li></ul> | `proj @ svn+file:///path/to/proj` |
 
 === "Bazaar"
-    | Executable | Schemes | Revisions | Example |
+    | 可执行文件 | 协议 | 修订 | 示例 |
     | --- | --- | --- | --- |
-    | `bzr` | <ul><li><code>bzr+https</code></li><li><code>bzr+ssh</code></li><li><code>bzr+sftp</code></li><li><code>bzr+lp</code></li><li><code>bzr+http</code> :warning:</li><li><code>bzr+ftp</code> :warning:</li></ul> | <ul><li>Revision number</li><li>Tag name</li></ul> | `proj @ bzr+lp:proj@v1` |
+    | `bzr` | <ul><li><code>bzr+https</code></li><li><code>bzr+ssh</code></li><li><code>bzr+sftp</code></li><li><code>bzr+lp</code></li><li><code>bzr+http</code> :warning:</li><li><code>bzr+ftp</code> :warning:</li></ul> | <ul><li>修订编号</li><li>标签名称</li></ul> | `proj @ bzr+lp:proj@v1` |
 
-### Local
+### 本地
 
-You can install local packages with the `file` scheme in the following format:
+您可以使用 `file` 协议安装本地包，格式如下：
 
 ```
 <NAME> @ file://<HOST>/<PATH>
 ```
 
-The `<HOST>` is only used on Windows systems, where it can refer to a network share. If omitted it is assumed to be `localhost` and the third slash must still be present.
+在 Windows 系统中，`<HOST>` 仅用于网络共享。如果省略，则假定为 `localhost`，且第三个斜杠仍然存在。
 
-The `<PATH>` can refer to a source archive, a wheel, or a directory containing a Python package.
+`<PATH>` 可以指向源归档、轮子文件或包含 Python 包的目录。
 
-| Type | Unix | Windows |
+| 类型 | Unix | Windows |
 | --- | --- | --- |
-| Source archive | `proj @ file:///path/to/pkg.tar.gz` | `proj @ file:///c:/path/to/pkg.tar.gz` |
-| Wheel | `proj @ file:///path/to/pkg.whl` | `proj @ file:///c:/path/to/pkg.whl` |
-| Directory | `proj @ file:///path/to/pkg` | `proj @ file:///c:/path/to/pkg` |
+| 源归档 | `proj @ file:///path/to/pkg.tar.gz` | `proj @ file:///c:/path/to/pkg.tar.gz` |
+| 轮子文件 | `proj @ file:///path/to/pkg.whl` | `proj @ file:///c:/path/to/pkg.whl` |
+| 目录 | `proj @ file:///path/to/pkg` | `proj @ file:///c:/path/to/pkg` |
 
-!!! tip
-    You may also specify paths relative to your project's root directory on all platforms by using [context formatting](context.md#paths):
+!!! 提示
+    您还可以通过使用 [上下文格式化](context.md#paths) 指定相对于项目根目录的路径：
 
     ```
     <NAME> @ {root:uri}/pkg_inside_project
     <NAME> @ {root:parent:uri}/pkg_alongside_project
     ```
 
-### Remote
+### 远程
 
-You can install source archives and wheels by simply referring to a URL:
+您可以通过简单地引用 URL 来安装源归档和轮子文件：
 
 ```
 black @ https://github.com/psf/black/archive/refs/tags/21.10b0.zip
 pytorch @ https://download.pytorch.org/whl/cu102/torch-1.10.0%2Bcu102-cp39-cp39-linux_x86_64.whl
 ```
 
-An expected hash value may be specified by appending a `#<HASH_ALGORITHM>=<EXPECTED_HASH>` component:
+可以通过附加 `#<HASH_ALGORITHM>=<EXPECTED_HASH>` 组件来指定期望的哈希值：
 
 ```
 requests @ https://github.com/psf/requests/archive/refs/tags/v2.26.0.zip#sha256=eb729a757f01c10546ebd179ae2aec852dd0d7f8ada2328ccf4558909d859985
 ```
 
-If the hash differs from the expected hash, the installation will fail.
+如果哈希与期望的哈希不同，安装将失败。
 
-It is recommended that only hashes which are unconditionally provided by the latest version of the standard library's [hashlib module](https://docs.python.org/dev/library/hashlib.html) be used for hashes. As of Python 3.10, that list consists of:
-
-- `md5`
-- `sha1`
-- `sha224`
-- `sha256`
-- `sha384`
-- `sha512`
-- `blake2b`
-- `blake2s`
-
-### Complex syntax
-
-The following is an example that uses [features](#features) and [environment markers](#environment-markers):
-
-```
-pkg[feature1,feature2] @ <REFERENCE> ; python_version < "3.7"
-```
-
-Note that the space before the semicolon is required.
+建议使用 [PEP 503](https://peps.python.org/pep-0503/) 兼容的索引，或通过 HTTPS 访问 URL 以确保传输安全。

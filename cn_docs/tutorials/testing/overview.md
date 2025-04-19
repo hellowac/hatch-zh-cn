@@ -1,61 +1,61 @@
-# Testing projects
+# 测试项目
 
 -----
 
-The [`test`](../../cli/reference.md#hatch-test) command ([by default](../../config/internal/testing.md#customize-environment)) uses [pytest](https://github.com/pytest-dev/pytest) with select plugins and [coverage.py](https://github.com/nedbat/coveragepy). View the [testing configuration](../../config/internal/testing.md) for more information.
+[`test`](../../cli/reference.md#hatch-test) 命令（[默认情况下](../../config/internal/testing.md#customize-environment)）使用 [pytest](https://github.com/pytest-dev/pytest)，结合特定插件和 [coverage.py](https://github.com/nedbat/coveragepy)。更多信息请参见 [测试配置](../../config/internal/testing.md)。
 
-The majority of projects can be fully tested this way without the need for custom [environments](../../config/environment/overview.md).
+大多数项目都可以通过这种方式完成全部测试，无需自定义 [环境](../../config/environment/overview.md)。
 
-## Passing arguments
+## 传递参数
 
-When you run the `test` command without any arguments, `tests` is passed as the [default argument](../../config/internal/testing.md#default-arguments) to `pytest` (this assumes that you have a `tests` directory). For example, the following command invocation:
+当你不带参数运行 `test` 命令时，`tests` 会作为 [默认参数](../../config/internal/testing.md#default-arguments) 传递给 `pytest`（假设你有一个 `tests` 目录）。例如，以下命令：
 
 ```
 hatch test
 ```
 
-would be translated roughly to:
+大致等同于：
 
 ```
 pytest tests
 ```
 
-You can pass arguments to `pytest` by appending them to the `test` command. For example, the following command invocation:
+你可以通过在 `test` 命令后追加参数来传递给 `pytest`。例如，以下命令：
 
 ```
 hatch test -vv tests/test_foo.py::test_bar
 ```
 
-would be translated roughly to:
+大致等同于：
 
 ```
 pytest -vv tests/test_foo.py::test_bar
 ```
 
-You can force the treatment of arguments as positional by using the `--` separator, especially useful when built-in flags of the `test` command conflict with those of `pytest`, such as the `--help` flag. For example, the following command invocation:
+当 `test` 命令的内建选项与 `pytest` 的选项发生冲突（如 `--help`）时，可以使用 `--` 分隔符强制将参数视为位置参数。例如：
 
 ```
 hatch test -r -- -r fE -- tests
 ```
 
-would be translated roughly to:
+大致等同于：
 
 ```
 pytest -r fE -- tests
 ```
 
 !!! note
-    It's important to ensure that `pytest` receives an argument instructing what to run/where to locate tests. It's default behavior is `.` meaning that it will exhaustively search for tests in the current directory. This can not just be slow but also lead to unexpected behavior.
+    要确保 `pytest` 能够收到指示要运行哪些测试或从哪里查找测试的参数。其默认行为是 `.`，意味着它会从当前目录递归查找测试文件。这不仅可能很慢，还可能导致意外行为。
 
-## Environment selection
+## 环境选择
 
-### Single environment
+### 单一环境
 
-If no environment options are selected, the `test` command will only run tests in the first defined environment that either already exists or is compatible. Additionally, the checking order will prioritize environments that define a [version of Python](../../config/environment/overview.md#python-version) that matches the interpreter that Hatch is running on.
+如果未指定任何环境选项，`test` 命令只会在第一个已定义且兼容的环境中运行测试。查找顺序会优先选择定义了与 Hatch 运行的解释器版本一致的 [Python 版本](../../config/environment/overview.md#python-version) 的环境。
 
-For example, if you overrode the [default matrix](../../config/internal/testing.md#matrix) as follows:
+例如，若你覆盖了 [默认 matrix](../../config/internal/testing.md#matrix) 如下：
 
-```toml config-example
+```toml
 [[tool.hatch.envs.hatch-test.matrix]]
 python = ["3.12", "3.11"]
 
@@ -64,7 +64,7 @@ python = ["3.11"]
 feature = ["foo", "bar"]
 ```
 
-the expanded environments would normally be:
+则扩展后的环境为：
 
 ```
 hatch-test.py3.12
@@ -73,7 +73,7 @@ hatch-test.py3.11-foo
 hatch-test.py3.11-bar
 ```
 
-If you install Hatch on Python 3.11, the checking order would be:
+如果你是在 Python 3.11 上安装的 Hatch，则查找顺序为：
 
 ```
 hatch-test.py3.11
@@ -83,13 +83,13 @@ hatch-test.py3.12
 ```
 
 !!! note
-    If you installed Hatch with an official [installer](../../install.md#installers) or are using one of the [standalone binaries](../../install.md#standalone-binaries), the version of Python that Hatch runs on is out of your control. If you are relying on the single environment resolution behavior, consider [explicitly selecting environments](#specific-environments) based on the Python version instead.
+    如果你使用官方 [安装器](../../install.md#installers) 安装 Hatch，或使用了某个 [独立二进制文件](../../install.md#standalone-binaries)，那么 Hatch 运行的 Python 版本是不可控的。如果你依赖此单一环境解析行为，建议根据 Python 版本 [显式选择环境](#specific-environments)。
 
-### All environments
+### 所有环境
 
-You can run tests in all compatible environments by using the `--all` flag. For example, say you defined the matrix and [overrides](../../config/environment/advanced.md#option-overrides) as follows:
+你可以使用 `--all` 标志在所有兼容的环境中运行测试。例如，若你定义了如下 matrix 和 [overrides](../../config/environment/advanced.md#option-overrides)：
 
-```toml config-example
+```toml
 [[tool.hatch.envs.hatch-test.matrix]]
 python = ["3.12", "3.11"]
 feature = ["foo", "bar"]
@@ -102,103 +102,103 @@ matrix.feature.platforms = [
 ]
 ```
 
-The following table shows the environments in which tests would be run:
+则以下表格表示在哪些环境下将运行测试：
 
-| Environment | Linux | Windows | macOS |
+| 环境 | Linux | Windows | macOS |
 | --- | --- | --- | --- |
-| `hatch-test.py3.12-foo` | :white_check_mark: | :white_check_mark: | :x: |
-| `hatch-test.py3.12-bar` | :white_check_mark: | :x: | :white_check_mark: |
-| `hatch-test.py3.11-foo` | :white_check_mark: | :white_check_mark: | :x: |
-| `hatch-test.py3.11-bar` | :white_check_mark: | :x: | :white_check_mark: |
+| `hatch-test.py3.12-foo` | ✅ | ✅ | ❌ |
+| `hatch-test.py3.12-bar` | ✅ | ❌ | ✅ |
+| `hatch-test.py3.11-foo` | ✅ | ✅ | ❌ |
+| `hatch-test.py3.11-bar` | ✅ | ❌ | ✅ |
 
-### Specific environments
+### 指定环境
 
-You can select subsets of environments by using the `--include`/`-i` and `--exclude`/`-x` options. These options may be used to include or exclude certain matrix variables, optionally followed by specific comma-separated values, and may be selected multiple times.
+你可以使用 `--include`/`-i` 和 `--exclude`/`-x` 选项选择环境的子集。这些选项可用于包含或排除某些 matrix 变量，支持指定逗号分隔的值，且可以重复使用。
 
-For example, say you defined the matrix as follows:
+例如，定义如下 matrix：
 
-```toml config-example
+```toml
 [[tool.hatch.envs.hatch-test.matrix]]
 python = ["3.12", "3.11"]
 feature = ["foo", "bar", "baz"]
 ```
 
-If you wanted to run tests in all environments that have Python 3.12 and either the `foo` or `bar` feature, you could use the following command invocation:
+若你想在 Python 3.12 且具有 `foo` 或 `bar` 特性的环境中运行测试，可以使用：
 
 ```
 hatch test -i python=3.12 -i feature=foo,bar
 ```
 
-Alternatively, we could exclude the `baz` feature to achieve the same result:
+或者，也可以通过排除 `baz` 特性达到相同目的：
 
 ```
 hatch test -i python=3.12 -x feature=baz
 ```
 
 !!! tip
-    Since selecting the version of Python is a common use case, you can use the `--python`/`-py` option as a shorthand. For example, the previous commands could have been written as:
+    由于选择 Python 版本是常见需求，可使用 `--python`/`-py` 作为简写。例如，上述命令可写为：
 
     ```
     hatch test -py 3.12 -i feature=foo,bar
     hatch test -py 3.12 -x feature=baz
     ```
 
-## Measuring code coverage
+## 测量代码覆盖率
 
-You can enable [code coverage](https://github.com/nedbat/coveragepy) by using the `--cover` flag. For example, the following command invocation:
+你可以使用 `--cover` 标志启用 [代码覆盖率](https://github.com/nedbat/coveragepy)。例如，以下命令：
 
 ```
 hatch test --cover
 ```
 
-would be translated roughly to:
+大致等同于：
 
 ```
 coverage run -m pytest tests
 ```
 
-After tests run in all of the [selected environments](#environment-selection), the coverage data is combined and a report is shown. The `--cover-quiet` flag can be used to suppress the report and implicitly enables the `--cover` flag:
+在所有 [选定环境](#environment-selection) 运行测试后，覆盖率数据将被合并，并显示报告。`--cover-quiet` 标志可用于隐藏报告，同时隐式启用 `--cover` 标志：
 
 ```
 hatch test --cover-quiet
 ```
 
 !!! note
-    Coverage data files are generated at the root of the project. Be sure to exclude them from version control with the following glob-style pattern:
+    覆盖率数据文件会生成在项目根目录。请确保使用如下通配符模式将其从版本控制中排除：
 
     ```
     .coverage*
     ```
 
-## Retry failed tests
+## 重试失败测试
 
-You can [retry](https://github.com/pytest-dev/pytest-rerunfailures) failed tests with the `--retries` option:
+你可以使用 `--retries` 选项来 [重试](https://github.com/pytest-dev/pytest-rerunfailures) 失败的测试：
 
 ```
 hatch test --retries 2
 ```
 
-If a test fails every time and the number of retries is set to `2`, the test will be run a total of three times.
+如果某个测试每次都失败，且重试次数为 `2`，则该测试总共会运行三次。
 
-You can also set the number of seconds to wait between retries with the `--retry-delay` option:
+你还可以使用 `--retry-delay` 设置每次重试之间的等待秒数：
 
 ```
 hatch test --retries 2 --retry-delay 1
 ```
 
-## Parallelize test execution
+## 并行化测试执行
 
-You can [parallelize](https://github.com/pytest-dev/pytest-xdist) test execution with the `--parallel`/`-p` flag:
+你可以使用 `--parallel`/`-p` 标志 [并行化](https://github.com/pytest-dev/pytest-xdist) 测试执行：
 
 ```
 hatch test --parallel
 ```
 
-This distributes tests within an environment across multiple workers. The number of workers corresponds to the number of logical rather than physical CPUs that are available.
+这会将单个环境内的测试任务分发给多个工作进程。工作进程的数量取决于系统的逻辑 CPU 数量（而非物理核心数）。
 
-## Randomize test order
+## 随机化测试顺序
 
-You can [randomize](https://github.com/pytest-dev/pytest-randomly) the order of tests with the `--randomize`/`-r` flag:
+你可以使用 `--randomize`/`-r` 标志 [随机化](https://github.com/pytest-dev/pytest-randomly) 测试顺序：
 
 ```
 hatch test --randomize

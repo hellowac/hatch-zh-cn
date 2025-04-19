@@ -1,19 +1,19 @@
-# Environment plugins
+# 环境插件（Environment plugins）
 
 -----
 
-See the documentation for [environment configuration](../../config/environment/overview.md).
+请参阅 [环境配置文档](../../config/environment/overview.md)。
 
-## Known third-party
+## 知名第三方插件（Known third-party）
 
-- [hatch-conda](https://github.com/OldGrumpyViking/hatch-conda) - environments backed by Conda/Mamba
-- [hatch-containers](https://github.com/ofek/hatch-containers) - environments run inside containers
-- [hatch-pip-compile](https://github.com/juftin/hatch-pip-compile) - use [pip-compile](https://github.com/jazzband/pip-tools) to manage project dependencies and lockfiles
-- [hatch-pip-deepfreeze](https://github.com/sbidoul/hatch-pip-deepfreeze) - [virtual](virtual.md) environments with dependency locking by [pip-deepfreeze](https://github.com/sbidoul/pip-deepfreeze)
+- [hatch-conda](https://github.com/OldGrumpyViking/hatch-conda) - 基于 Conda/Mamba 的环境
+- [hatch-containers](https://github.com/ofek/hatch-containers) - 在容器中运行的环境
+- [hatch-pip-compile](https://github.com/juftin/hatch-pip-compile) - 使用 [pip-compile](https://github.com/jazzband/pip-tools) 管理项目依赖和锁文件
+- [hatch-pip-deepfreeze](https://github.com/sbidoul/hatch-pip-deepfreeze) - 使用 [pip-deepfreeze](https://github.com/sbidoul/pip-deepfreeze) 进行依赖锁定的 [虚拟环境](virtual.md)
 
-## Installation
+## 安装（Installation）
 
-Any required environment types that are not built-in must be manually installed alongside Hatch or listed in the `tool.hatch.env.requires` array for automatic management:
+任何非内置的环境类型必须手动安装，并与 Hatch 一起使用，或者在 `tool.hatch.env.requires` 数组中列出，以便进行自动管理：
 
 ```toml config-example
 [tool.hatch.env]
@@ -22,7 +22,21 @@ requires = [
 ]
 ```
 
-## Life cycle
+## 生命周期（Life cycle）
+
+每当使用环境时，将执行以下逻辑：
+
+::: hatch.project.core.Project.prepare_environment
+    options:
+      show_root_heading: false
+      show_root_toc_entry: false
+
+## 构建环境（Build environments）
+
+所有环境类型都应 [提供支持](#hatch.env.plugin.interface.EnvironmentInterface.fs_context)，以便在本地文件系统和环境之间进行同步存储。该功能在以下场景中使用：
+
+- [`build`](../../cli/reference.md#hatch-build) 命令
+- 读取依赖项的命令，如 [`dep hash`](../../cli/reference.md#hatch-dep-hash)，如果存在任何 [项目依赖](../../config/metadata.md#dependencies) 是 [动态设置的](../../config/metadata.md#dynamic)
 
 Whenever an environment is used, the following logic is performed:
 

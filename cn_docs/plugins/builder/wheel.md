@@ -1,62 +1,62 @@
-# Wheel builder
+# Wheel 构建器
 
 -----
 
-A [wheel](https://packaging.python.org/specifications/binary-distribution-format/) is a binary distribution of a Python package that can be installed directly into an environment.
+[Wheel](https://packaging.python.org/specifications/binary-distribution-format/) 是 Python 包的一种二进制分发格式，可以直接安装到环境中。
 
-## Configuration
+## 配置
 
-The builder plugin name is `wheel`.
+该构建器插件的名称为 `wheel`。
 
 ```toml config-example
 [tool.hatch.build.targets.wheel]
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Default | Description |
+| 选项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `core-metadata-version` | `"2.4"` | The version of [core metadata](https://packaging.python.org/specifications/core-metadata/) to use |
-| `shared-data` | | A mapping similar to the [forced inclusion](../../config/build.md#forced-inclusion) option corresponding to the `data` subdirectory within the standard [data directory](https://packaging.python.org/en/latest/specifications/binary-distribution-format/#the-data-directory) that will be installed globally in a given Python environment, usually under `#!python sys.prefix` |
-| `shared-scripts` | | A mapping similar to the [forced inclusion](../../config/build.md#forced-inclusion) option corresponding to the `scripts` subdirectory within the standard [data directory](https://packaging.python.org/en/latest/specifications/binary-distribution-format/#the-data-directory) that will be installed in a given Python environment, usually under `Scripts` on Windows or `bin` otherwise, and would normally be available on PATH |
-| `extra-metadata` | | A mapping similar to the [forced inclusion](../../config/build.md#forced-inclusion) option corresponding to extra [metadata](https://peps.python.org/pep-0427/#the-dist-info-directory) that will be shipped in a directory named `extra_metadata` |
-| `strict-naming` | `true` | Whether or not file names should contain the normalized version of the project name |
-| `macos-max-compat` | `false` | Whether or not on macOS, when build hooks have set the `infer_tag` [build data](#build-data), the wheel name should signal broad support rather than specific versions for newer SDK versions.<br><br>Note: This option will eventually be removed. |
-| `bypass-selection` | `false` | Whether or not to suppress the error when one has not defined any file selection options and all heuristics have failed to determine what to ship |
+| `core-metadata-version` | `"2.4"` | 所使用的 [核心元数据](https://packaging.python.org/specifications/core-metadata/) 版本 |
+| `shared-data` | | 一个映射，类似于 [强制包含](../../config/build.md#forced-inclusion) 选项，指定标准 [数据目录](https://packaging.python.org/en/latest/specifications/binary-distribution-format/#the-data-directory) 中 `data` 子目录的内容，将在给定的 Python 环境中全局安装，通常位于 `#!python sys.prefix` 路径下 |
+| `shared-scripts` | | 一个映射，类似于 [强制包含](../../config/build.md#forced-inclusion) 选项，指定标准数据目录中 `scripts` 子目录的内容，将在给定的 Python 环境中安装，通常在 Windows 下位于 `Scripts`，其他平台为 `bin`，且通常会位于 PATH 中 |
+| `extra-metadata` | | 一个映射，类似于 [强制包含](../../config/build.md#forced-inclusion) 选项，指定将以 `extra_metadata` 目录形式附带的额外 [元数据](https://peps.python.org/pep-0427/#the-dist-info-directory) |
+| `strict-naming` | `true` | 文件名是否应包含规范化后的项目名称 |
+| `macos-max-compat` | `false` | 在 macOS 上，当构建钩子设置了 `infer_tag` [构建数据](#build-data) 时，wheel 名称是否应指示对新 SDK 版本的广泛支持，而非特定版本。<br><br>注意：该选项未来将被移除。 |
+| `bypass-selection` | `false` | 当用户未定义任何文件选择选项，且所有启发式方法均失败时，是否抑制抛出的错误 |
 
-## Versions
+## 版本类型（Versions）
 
-| Version | Description |
+| 版本 | 描述 |
 | --- | --- |
-| `standard` (default) | The latest standardized format |
-| `editable` | A wheel that only ships `.pth` files or import hooks for real-time development |
+| `standard`（默认） | 最新的标准格式 |
+| `editable` | 仅打包 `.pth` 文件或导入钩子的 wheel，支持实时开发 |
 
-## Default file selection
+## 默认文件选择
 
-When the user has not set any [file selection](../../config/build.md#file-selection) options, the [project name](../../config/metadata.md#name) will be used to determine the package to ship in the following heuristic order:
+当用户未设置任何 [文件选择](../../config/build.md#file-selection) 选项时，将根据 [项目名称](../../config/metadata.md#name) 按以下启发顺序确定要打包的模块：
 
 1. `<NAME>/__init__.py`
 2. `src/<NAME>/__init__.py`
 3. `<NAME>.py`
 4. `<NAMESPACE>/<NAME>/__init__.py`
 
-If none of these heuristics are satisfied, an error will be raised.
+若以上条件均不满足，则会抛出错误。
 
-## Reproducibility
+## 可重现性（Reproducibility）
 
-[Reproducible builds](../../config/build.md#reproducible-builds) are supported.
+支持 [可重现构建](../../config/build.md#reproducible-builds)。
 
-## Build data
+## 构建数据（Build data）
 
-This is data that can be modified by [build hooks](../build-hook/reference.md).
+以下数据可由 [构建钩子](../build-hook/reference.md) 动态修改：
 
-| Data | Default | Description |
+| 数据项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `tag` | | The full [tag](https://peps.python.org/pep-0425/) part of the filename (e.g. `py3-none-any`), defaulting to a cross-platform wheel with the supported major versions of Python based on [project metadata](../../config/metadata.md#python-support) |
-| `infer_tag` | `#!python False` | When `tag` is not set, this may be enabled to use the one most specific to the platform, Python interpreter, and ABI |
-| `pure_python` | `#!python True` | Whether or not to write metadata indicating that the package does not contain any platform-specific files |
-| `dependencies` | | Extra [project dependencies](../../config/metadata.md#required) |
-| `shared_data` | | Additional [`shared-data`](#options) entries, which take precedence in case of conflicts |
-| `shared_scripts` | | Additional [`shared-scripts`](#options) entries, which take precedence in case of conflicts |
-| `extra_metadata` | | Additional [`extra-metadata`](#options) entries, which take precedence in case of conflicts |
-| `force_include_editable` | | Similar to the [`force_include` option](../build-hook/reference.md#build-data) but specifically for the `editable` [version](#versions) and takes precedence |
+| `tag` | | 文件名中的完整 [tag](https://peps.python.org/pep-0425/)（例如 `py3-none-any`），默认为跨平台 wheel，基于 [项目元数据](../../config/metadata.md#python-support) 中支持的 Python 主版本生成 |
+| `infer_tag` | `#!python False` | 当未设置 `tag` 时，可启用该项以根据平台、解释器和 ABI 选择最具体的 tag |
+| `pure_python` | `#!python True` | 是否写入标识纯 Python 包的元数据（即无平台特定文件） |
+| `dependencies` | | 附加的 [项目依赖](../../config/metadata.md#required) |
+| `shared_data` | | 附加的 [`shared-data`](#options) 项，若有冲突将优先生效 |
+| `shared_scripts` | | 附加的 [`shared-scripts`](#options) 项，若有冲突将优先生效 |
+| `extra_metadata` | | 附加的 [`extra-metadata`](#options) 项，若有冲突将优先生效 |
+| `force_include_editable` | | 类似于 [`force_include` 选项](../build-hook/reference.md#build-data)，但专用于 `editable` [版本](#versions)，且具有更高优先级 |

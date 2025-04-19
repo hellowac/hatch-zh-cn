@@ -1,17 +1,19 @@
-# Default environment collector
+
+
+# 默认环境收集器
 
 -----
 
-This adds the `default` environment with [type](../../config/environment/overview.md#type) set to [virtual](../environment/virtual.md) and will always be applied.
+这将添加一个 `default` 环境，类型设为 [virtual](../environment/virtual.md)，并始终应用。
 
-## Configuration
+## 配置
 
-The environment collector plugin name is `default`.
+环境收集器插件的名称是 `default`。
 
 ```toml config-example
 [tool.hatch.env.collectors.default]
 ```
 
-## Options
+## 选项
 
-There are no options available currently.
+目前没有可用的选项。

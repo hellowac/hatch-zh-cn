@@ -1,24 +1,24 @@
-# Environment version source
+# 环境版本源
 
 -----
 
-Retrieves the version from an environment variable. This can be useful in build pipelines where the version is set by an external trigger.
+从环境变量中获取版本。这在构建管道中非常有用，其中版本由外部触发器设置。
 
-## Updates
+## 更新
 
-Setting the version is not supported.
+不支持设置版本。
 
-## Configuration
+## 配置
 
-The version source plugin name is `env`.
+版本源插件的名称是 `env`。
 
 ```toml config-example
 [tool.hatch.version]
 source = "env"
 ```
 
-## Options
+## 选项
 
-| Option | Description |
-| --- | --- |
-| `variable` (required) | The name of the environment variable |
+| 选项 | 描述 |
+| ---- | ---- |
+| `variable`（必填） | 环境变量的名称 |

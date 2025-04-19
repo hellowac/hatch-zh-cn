@@ -1,111 +1,109 @@
-# Hatch history
+# Hatch 历史记录
 
 -----
 
-All notable changes to Hatch will be documented in this file.
+本文档记录了 Hatch 项目的所有重要变更。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 未发布（Unreleased）
 
-## Unreleased
+***变更：***
 
-***Changed:***
+- 环境类型插件不再需要支持伪构建环境（pseudo-build environment），因为现在任意环境都可以用于构建。以下方法已被移除：`build_environment`、`build_environment_exists`、`run_builder`、`construct_build_command`
 
-- Environment type plugins are now no longer expected to support a pseudo-build environment as any environment now may be used for building. The following methods have been removed: `build_environment`, `build_environment_exists`, `run_builder`, `construct_build_command`
+***新增：***
 
-***Added:***
-
-- The `version` and `project metadata` commands now support projects that do not use Hatchling as the build backend
-- The `version` command accepts a `--force` option, allowing for downgrades when an explicit version number is given.
-- Build environments can now be configured, the default build environment is `hatch-build`
-- The environment interface now has the following methods and properties in order to better support builds on remote machines: `project_root`, `sep`, `pathsep`, `fs_context`
-- Bump the minimum supported version of `packaging` to 24.2
+- `version` 和 `project metadata` 命令现在支持未使用 Hatchling 作为构建后端的项目
+- `version` 命令新增 `--force` 选项，允许在明确指定版本号时执行降级操作
+- 构建环境现在可配置，默认构建环境为 `hatch-build`
+- 环境接口新增以下方法和属性，以更好支持远程构建场景：`project_root`、`sep`、`pathsep`、`fs_context`
+- 将 `packaging` 的最低支持版本提升至 24.2
 
 ## [1.13.0](https://github.com/pypa/hatch/releases/tag/hatch-v1.13.0) - 2024-10-13 ## {: #hatch-v1.13.0 }
 
-***Added:***
+***新增：***
 
-- Support managing Python 3.13 distributions
+- 支持管理 Python 3.13 发行版
 
 ## [1.12.0](https://github.com/pypa/hatch/releases/tag/hatch-v1.12.0) - 2024-05-28 ## {: #hatch-v1.12.0 }
 
-***Changed:***
+***变更：***
 
-- The `run`/`env run` and `test` commands now treat inclusion variable options as an intersection rather than a union to allow for specific targeting of environments
+- `run` / `env run` 与 `test` 命令现在将包含变量选项视为交集（intersection）而非并集（union），从而更精准地定位目标环境
 
-***Added:***
+***新增：***
 
-- Add ability to control the source of Python distributions
-- Upgrade Ruff to 0.4.5
-- Upgrade PyApp to 0.22.0 for binary builds
+- 新增控制 Python 发行版来源的能力
+- 将 Ruff 升级至 0.4.5
+- 将 PyApp 升级至 0.22.0，用于构建二进制包
 
-***Fixed:***
+***修复：***
 
-- The `fmt` command no longer hides the commands that are being executed
-- Add default timeout for network requests, useful when installing Python distributions
-- Fix syntax highlighting contrast for the `config show` command
+- `fmt` 命令不再隐藏其执行的命令内容
+- 为网络请求添加默认超时设置，有助于安装 Python 发行版时提高稳定性
+- 修复 `config show` 命令的语法高亮对比度问题
 
 ## [1.11.1](https://github.com/pypa/hatch/releases/tag/hatch-v1.11.1) - 2024-05-23 ## {: #hatch-v1.11.1 }
 
-***Added:***
+***新增：***
 
-- Add official GitHub Action for installing Hatch
+- 发布官方 GitHub Action 用于安装 Hatch
 
-***Fixed:***
+***修复：***
 
-- Fix `terminal.styles.spinner` configuration
-- Fix entry points in the pre-built distributions that binaries use
+- 修复 `terminal.styles.spinner` 配置项的问题
+- 修复用于二进制分发的预构建包中的入口点配置
 
 ## [1.11.0](https://github.com/pypa/hatch/releases/tag/hatch-v1.11.0) - 2024-05-14 ## {: #hatch-v1.11.0 }
 
-***Added:***
+***新增：***
 
-- Upgrade PyApp to 0.21.1 for binary builds
+- 将 PyApp 升级至 0.21.1，用于构建二进制包
 
-***Fixed:***
+***修复：***
 
-- On Linux, install the highest compatible Python distribution variant based on CPU architecture rather than assuming recent hardware
+- 在 Linux 上，安装 Python 发行版时将根据 CPU 架构选择最高兼容版本，而非假设使用较新硬件
 
 ## [1.10.0](https://github.com/pypa/hatch/releases/tag/hatch-v1.10.0) - 2024-05-02 ## {: #hatch-v1.10.0 }
 
-***Changed:***
+***变更：***
 
-- The `run`/`env run`, `fmt` and `shell` commands now only change the current working directory to the project root if not already inside the project
-- The `shell` command now accepts a single argument to specify the environment to enter which overrides the standard choice mechanisms. The arguments determining shell options have been converted to flags.
+- `run` / `env run`、`fmt` 与 `shell` 命令现在仅在当前目录不在项目中时才切换到项目根目录
+- `shell` 命令现在接受一个参数用于指定要进入的环境，该参数会覆盖标准的选择机制；用于控制 shell 行为的参数已转换为标志（flags）
 
-***Added:***
+***新增：***
 
-- Add `test` command
-- The `run` command can now execute scripts that define inline metadata for dependencies and Python version constraints
-- The `virtual` environment type now supports the ability to use UV in place of pip & virtualenv
-- Add `self report` command for submitting pre-populated bug reports to GitHub
-- The reserved environment used for static analysis is now completely configurable
-- Add the following methods to the `environment` interface for complete control over output during life cycle management: `app_status_creation`, `app_status_pre_installation`, `app_status_post_installation`, `app_status_project_installation`, `app_status_dependency_state_check`, `app_status_dependency_installation_check`, `app_status_dependency_synchronization`
-- Add binaries for 32-bit versions of Windows
-- Read configuration from any `~/.pypirc` file for the `index` publisher
-- Use the Git user as the default username for new project URL metadata
-- Add `HATCH_DEBUG` environment variable that when enabled will show local variables in the case of unhandled tracebacks
-- The `env show` command now outputs data about all internal environments when using the `--json` flag
-- Upgrade default CPython distributions to 20240415
-- Upgrade default PyPy distributions to 7.3.15
-- Upgrade Ruff to 0.4.2
-- Upgrade PyApp to 0.19.0 for binary builds
-- Bump the minimum supported version of Hatchling to 1.24.2
-- Bump the minimum supported version of virtualenv to 20.26.1
+- 新增 `test` 命令
+- `run` 命令现在可执行内联定义依赖与 Python 版本约束的脚本
+- `virtual` 环境类型现在支持使用 UV 替代 pip 和 virtualenv
+- 新增 `self report` 命令，用于向 GitHub 提交预填充的错误报告
+- 静态分析使用的保留环境现在完全可配置
+- 环境接口新增以下方法，以完全控制生命周期管理过程中的输出信息：`app_status_creation`、`app_status_pre_installation`、`app_status_post_installation`、`app_status_project_installation`、`app_status_dependency_state_check`、`app_status_dependency_installation_check`、`app_status_dependency_synchronization`
+- 增加对 Windows 32 位版本的二进制支持
+- `index` 发布器现在会读取任何 `~/.pypirc` 文件中的配置
+- 新项目的 URL 元数据中默认使用 Git 用户名作为用户名
+- 新增 `HATCH_DEBUG` 环境变量，启用后在未处理异常时显示本地变量
+- `env show` 命令在使用 `--json` 标志时，现在也会输出所有内部环境的信息
+- 默认 CPython 发行版升级至 20240415
+- 默认 PyPy 发行版升级至 7.3.15
+- 将 Ruff 升级至 0.4.2
+- 将 PyApp 升级至 0.19.0，用于构建二进制包
+- 将 Hatchling 的最低支持版本提升至 1.24.2
+- 将 virtualenv 的最低支持版本提升至 20.26.1
 
-***Fixed:***
+***修复：***
 
-- Maintain consistent data paths for case insensitive file systems
-- When projects derive dependencies from metadata hooks, there is now by default a status indicator for when the hooks are executed for better responsiveness
-- Properly support projects with a `pyproject.toml` file but no `project` table e.g. applications
-- Fix the `fmt` command when automatically installing plugin dependencies
-- Fix dependency inheritance for the template of the `types` environment for new projects
-- Fix warnings related to tar file extraction on Python 3.12+ when unpacking Python distributions for installation
-- De-select Ruff rule `E501` for the `fmt` command by default since it conflicts with the formatter
-- Fix colored output from build targets on the first run (build environment creation status indicator issue)
-- Set the `packaging` dependency version as `>=23.2` to avoid its URL validation which can conflict with context formatting
-- Fix the exit code when there happens to be an unhandled exception
-- No longer capture both stdout and stderr streams when parsing metadata payloads from build environments
-- Fix the `README.md` file template for new projects to avoid Markdown linting issues
+- 保持大小写不敏感文件系统上的数据路径一致性
+- 当项目通过元数据钩子派生依赖时，默认会显示钩子执行状态以提升响应性
+- 正确支持仅包含 `pyproject.toml` 文件但无 `[project]` 表的项目，例如应用程序
+- 修复 `fmt` 命令在自动安装插件依赖时的问题
+- 修复新项目中 `types` 环境模板的依赖继承逻辑
+- 修复 Python 3.12+ 中解包 Python 发行版时可能出现的 tar 文件警告
+- 默认禁用 `fmt` 命令中的 Ruff 规则 `E501`，因其与格式化器存在冲突
+- 修复首次构建时，目标构建环境的创建状态指示符未显示彩色输出的问题
+- 设置 `packaging` 依赖版本为 `>=23.2`，以避免其 URL 验证逻辑与上下文格式冲突
+- 修复出现未处理异常时返回的退出码
+- 在解析构建环境中的元数据载荷时不再同时捕获 stdout 和 stderr 流
+- 修复新项目生成的 `README.md` 模板中可能导致 Markdown lint 工具报错的问题
 
 ## [1.9.7](https://github.com/pypa/hatch/releases/tag/hatch-v1.9.7) - 2024-04-24 ## {: #hatch-v1.9.7 }
 

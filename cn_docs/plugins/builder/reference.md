@@ -1,13 +1,13 @@
-# Builder plugins
+# 构建器插件
 
 -----
 
-See the documentation for [build configuration](../../config/build.md).
+请参阅[构建配置](../../config/build.md)的文档。
 
 ## Known third-party
 
-- [hatch-aws](https://github.com/aka-raccoon/hatch-aws) - used for building AWS Lambda functions with SAM
-- [hatch-zipped-directory](https://github.com/dairiki/hatch-zipped-directory) - used for building ZIP archives for installation into various foreign package installation systems
+- [hatch-aws](https://github.com/aka-raccoon/hatch-aws) - 用于使用 SAM 构建 AWS Lambda 函数
+- [hatch-zipped-directory](https://github.com/dairiki/hatch-zipped-directory) - 用于构建 ZIP 档案，以便安装到各种外部软件包安装系统中
 
 ::: hatchling.builders.plugin.interface.BuilderInterface
     options:

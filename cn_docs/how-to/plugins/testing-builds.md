@@ -1,8 +1,8 @@
-# Testing build plugins
+# 测试构建插件
 
 -----
 
-For testing [Hatchling plugins](../../plugins/about.md#hatchling), you'll usually want to generate a project to execute builds as a real user would. For example, as a minimal [pytest](https://github.com/pytest-dev/pytest) fixture:
+在测试 [Hatchling 插件](../../plugins/about.md#hatchling) 时，通常需要生成一个项目，以模拟真实用户的构建行为。以下是一个最简的 [pytest](https://github.com/pytest-dev/pytest) fixture 示例：
 
 ```python
 from pathlib import Path
@@ -31,9 +31,9 @@ version = "0.1.0"
     ...
 ```
 
-The issue with this is that after the first test session, the project will be forever cached by pip based on the file path. Therefore, subsequent tests runs will never use updated code.
+上述方式的问题在于：第一次测试会使 `pip` 根据文件路径缓存该项目，此后即使代码更新，测试也不会重新使用新代码。
 
-To invalidate the cache, copy your code to a new path for every test session:
+为了解决缓存问题，应在每次测试会话中将插件代码复制到一个新路径：
 
 ```python
 import shutil
@@ -76,4 +76,5 @@ version = "0.1.0"
 ```
 
 !!! note
-    This example chooses to ignore copying `.git` for performance reasons. You may want to ignore more patterns, or copy only specific paths like [this plugin](https://github.com/hynek/hatch-fancy-pypi-readme/blob/main/tests/conftest.py) does.
+    本示例出于性能考虑选择忽略 `.git` 文件夹。您可能还需忽略更多文件，或像 [此插件](https://github.com/hynek/hatch-fancy-pypi-readme/blob/main/tests/conftest.py) 一样，仅复制特定路径。
+

@@ -1,16 +1,16 @@
-# How to report issues
+# 如何报告问题
 
 -----
 
-All reports regarding unexpected behavior should be generated with the [`self report`](../../cli/reference.md#hatch-self-report) command:
+所有关于异常行为的报告都应通过 [`self report`](../../cli/reference.md#hatch-self-report) 命令生成：
 
 ```
 $ hatch self report
 ```
 
-By default, this will open a new tab in your default browser with pre-populated information about your environment.
+默认情况下，此命令会在默认浏览器中打开一个新标签页，预填充关于您环境的信息。
 
-If Hatch is not installed alongside a web browser, you may also pass the `--no-open`/`-n` command which will output the URL with correct parameters for copying elsewhere:
+如果 Hatch 未与图形浏览器一起安装，您也可以传入 `--no-open`/`-n` 参数，以输出带有正确参数的 URL，便于复制到其他地方：
 
 ```
 $ hatch self report -n

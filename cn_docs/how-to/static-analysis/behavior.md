@@ -1,8 +1,8 @@
-# Customize static analysis behavior
+# 自定义静态分析行为
 
 -----
 
-You can [fully alter](../../config/internal/static-analysis.md#customize-behavior) the static analysis performed by the [`fmt`](../../cli/reference.md#hatch-fmt) command by modifying the reserved [environment](../../config/environment/overview.md) named `hatch-static-analysis`. For example, you could define the following if you wanted to replace the default behavior with a mix of [Black](https://github.com/psf/black), [isort](https://github.com/PyCQA/isort) and basic [flake8](https://github.com/PyCQA/flake8):
+可以通过修改保留的 [环境配置](../../config/internal/static-analysis.md#customize-behavior) `hatch-static-analysis`，完全控制 [`fmt`](../../cli/reference.md#hatch-fmt) 命令执行的静态分析行为。例如，以下配置将默认行为替换为结合使用 [Black](https://github.com/psf/black)、[isort](https://github.com/PyCQA/isort) 和基础的 [flake8](https://github.com/PyCQA/flake8)：
 
 ```toml config-example
 [tool.hatch.envs.hatch-static-analysis]
@@ -21,9 +21,14 @@ lint-check = "flake8 {args:.}"
 lint-fix = "lint-check"
 ```
 
-The `format-*` scripts correspond to the `--formatter`/`-f` flag while the `lint-*` scripts correspond to the `--linter`/`-l` flag. The `*-fix` scripts run by default while the `*-check` scripts correspond to the `--check` flag. Based on this example, the following shows how the various scripts influence behavior:
+- `format-*` 脚本对应 `--formatter` / `-f` 选项。
+- `lint-*` 脚本对应 `--linter` / `-l` 选项。
+- 默认运行的是 `*-fix` 脚本。
+- `--check` 标志对应 `*-check` 脚本。
 
-| Command | Expanded scripts |
+基于上述配置，以下命令行为及其展开脚本如下：
+
+| 命令 | 展开脚本 |
 | --- | --- |
 | `hatch fmt` | <ul><li><code>flake8 .</code></li><li><code>isort .</code></li><li><code>black .</code></li></ul> |
 | `hatch fmt src tests` | <ul><li><code>flake8 src tests</code></li><li><code>isort src tests</code></li><li><code>black src tests</code></li></ul> |

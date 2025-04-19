@@ -1,20 +1,20 @@
-# Standard version scheme
+# 标准版本方案
 
 -----
 
-See the documentation for [versioning](../../version.md#updating).
+请参阅 [版本管理](../../version.md#updating) 文档。
 
-## Configuration
+## 配置
 
-The version scheme plugin name is `standard`.
+版本方案插件的名称是 `standard`。
 
 ```toml config-example
 [tool.hatch.version]
 scheme = "standard"
 ```
 
-## Options
+## 选项
 
-| Option | Description |
-| --- | --- |
-| `validate-bump` | When setting a specific version, this determines whether to check that the new version is higher than the original. The default is `true`. |
+| 选项 | 描述 |
+| ---- | ---- |
+| `validate-bump` | 设置特定版本时，确定是否检查新版本是否高于原始版本。默认值为 `true`。 |

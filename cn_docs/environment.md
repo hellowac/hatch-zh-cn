@@ -1,17 +1,17 @@
-# Environments
+# 环境
 
 -----
 
-[Environments](config/environment/overview.md) are designed to allow for isolated workspaces for testing, building documentation, or anything else projects need.
+[环境](config/environment/overview.md) 的设计目的是为了为测试、构建文档或项目所需的其他操作提供隔离的工作空间。
 
-Unless an environment is [chosen explicitly](#selection), Hatch will use the `default` environment.
+除非你 [显式指定](#选择环境) 环境，否则 Hatch 将使用 `default`（默认）环境。
 
 !!! tip
-    For a more comprehensive walk-through, see the [Basic usage](tutorials/environment/basic-usage.md) tutorial.
+    若想了解更完整的流程，请参阅 [基础用法](tutorials/environment/basic-usage.md) 教程。
 
-## Creation
+## 创建环境
 
-You can create environments by using the [`env create`](cli/reference.md#hatch-env-create) command. Let's enter the directory of the project we created in the [setup phase](intro.md#new-project):
+可以使用 [`env create`](cli/reference.md#hatch-env-create) 命令创建环境。假设你已经进入了我们在 [项目设置](intro.md#new-project) 阶段创建的项目目录：
 
 ```console
 $ hatch env create
@@ -21,18 +21,18 @@ Syncing dependencies
 ```
 
 !!! tip
-    You never need to manually create environments as [spawning a shell](#entering-environments) or [running commands](#command-execution) within one will automatically trigger creation.
+    通常不需要手动创建环境，[进入 shell](#进入环境) 或 [运行命令](#执行命令) 时会自动创建。
 
-## Entering environments
+## 进入环境
 
-You can spawn a [shell](config/hatch.md#shell) within an environment by using the [`shell`](cli/reference.md#hatch-shell) command.
+可以使用 [`shell`](cli/reference.md#hatch-shell) 命令在某个环境中启动一个 [shell](config/hatch.md#shell)：
 
 ```console
 $ hatch shell
 (hatch-demo) $
 ```
 
-Now confirm the project has been installed:
+此时你可以确认项目已经被安装：
 
 ```console
 (hatch-demo) $ pip show hatch-demo
@@ -41,31 +41,31 @@ Version: 0.0.1
 ...
 ```
 
-Finally, see where your environment's Python is [located](config/hatch.md#environments):
+最后，可以查看该环境所使用的 Python 可执行文件位置（参见 [配置文档](config/hatch.md#environments)）：
 
 ```console
 (hatch-demo) $ python -c "import sys;print(sys.executable)"
 ...
 ```
 
-You can type `exit` to leave the environment.
+输入 `exit` 即可离开环境。
 
-## Command execution
+## 执行命令
 
-The [`run`](cli/reference.md#hatch-run) command allows you to execute commands in an environment as if you had already entered it. For example, running the following command will output the same path as before:
+[`run`](cli/reference.md#hatch-run) 命令允许你在某个环境中直接执行命令，就好像你已经进入了该环境。例如，以下命令的输出路径应与前面相同：
 
 ```
 hatch run python -c "import sys;print(sys.executable)"
 ```
 
 !!! tip
-    Be sure to check out how to define [scripts](config/environment/overview.md#scripts) for your project.
+    请务必了解如何为项目定义 [脚本](config/environment/overview.md#scripts)。
 
-## Dependencies
+## 依赖项
 
-Hatch ensures that environments are always compatible with the currently defined [project dependencies](config/metadata.md#dependencies) (if [installed](config/environment/overview.md#skip-install) and in [dev mode](config/environment/overview.md#dev-mode)) and [environment dependencies](config/environment/overview.md#dependencies).
+Hatch 会确保环境始终与你所定义的 [项目依赖项](config/metadata.md#dependencies)（如果 [已安装](config/environment/overview.md#skip-install)，并启用了 [开发模式](config/environment/overview.md#dev-mode)）以及 [环境依赖项](config/environment/overview.md#dependencies) 保持兼容。
 
-To add `cowsay` as a dependency, open `pyproject.toml` and add it to the [`dependencies`](config/metadata.md#dependencies) array:
+若要添加 `cowsay` 作为依赖项，请打开 `pyproject.toml`，将其添加到 [`dependencies`](config/metadata.md#dependencies) 数组中：
 
 ```toml tab="pyproject.toml"
 [project]
@@ -75,7 +75,7 @@ dependencies = [
 ]
 ```
 
-This dependency will be installed the next time you [spawn a shell](#entering-environments) or [run a command](#command-execution). For example:
+下次你 [进入 shell](#进入环境) 或 [运行命令](#执行命令) 时，该依赖项将被自动安装。例如：
 
 ```console
 $ hatch run cowsay -t "Hello, world!"
@@ -93,13 +93,13 @@ Syncing dependencies
 ```
 
 !!! note
-    The `Syncing dependencies` status will display temporarily when Hatch updates environments in response to any dependency changes that you make.
+    每当你更改依赖项，Hatch 会更新环境，届时会短暂显示 `Syncing dependencies` 状态信息。
 
-## Selection
+## 选择环境
 
-You can select which environment to enter or run commands in by using the `-e`/`--env` [root option](cli/reference.md#hatch) or by setting the `HATCH_ENV` environment variable.
+你可以使用 `-e`/`--env` [根选项](cli/reference.md#hatch) 或设置 `HATCH_ENV` 环境变量来选择要进入或运行命令的环境。
 
-The [`run`](cli/reference.md#hatch-run) command allows for more explicit selection by prepending `<ENV_NAME>:` to commands. For example, if you had the following configuration:
+[`run`](cli/reference.md#hatch-run) 命令也支持更显式的方式，通过在命令前加上 `<环境名>:`。例如，若你的配置如下：
 
 ```toml config-example
 [tool.hatch.envs.docs]
@@ -111,18 +111,18 @@ build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"
 ```
 
-you could then serve your documentation by running:
+你可以通过以下命令启动文档服务：
 
 ```
 hatch run docs:serve
 ```
 
 !!! tip
-    If you've already [entered](#entering-environments) an environment, commands will target it by default.
+    若你已经 [进入了某个环境](#进入环境)，则默认目标环境为当前所处的环境。
 
-## Matrix
+## 矩阵
 
-Every environment can define its own set of [matrices](config/environment/advanced.md#matrix):
+每个环境都可以定义自己的 [矩阵](config/environment/advanced.md#matrix)：
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -140,7 +140,7 @@ version = ["9000"]
 feature = ["foo", "bar"]
 ```
 
-Using the [`env show`](cli/reference.md#hatch-env-show) command would then display:
+使用 [`env show`](cli/reference.md#hatch-env-show) 命令即可查看：
 
 ```console
 $ hatch env show --ascii
@@ -165,6 +165,6 @@ $ hatch env show --ascii
 +------+---------+----------------------+--------------+
 ```
 
-## Removal
+## 删除环境
 
-You can remove a single environment or environment matrix by using the [`env remove`](cli/reference.md#hatch-env-remove) command or all of a project's environments by using the [`env prune`](cli/reference.md#hatch-env-prune) command.
+你可以使用 [`env remove`](cli/reference.md#hatch-env-remove) 命令删除单个环境或某个矩阵下的环境，也可以使用 [`env prune`](cli/reference.md#hatch-env-prune) 命令删除项目下的所有环境。

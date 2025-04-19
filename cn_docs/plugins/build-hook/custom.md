@@ -1,25 +1,25 @@
-# Custom build hook
+# 自定义构建钩子（Custom build hook）
 
 -----
 
-This is a custom class in a given Python file that inherits from the [BuildHookInterface](reference.md#hatchling.builders.hooks.plugin.interface.BuildHookInterface).
+这是一个在指定 Python 文件中定义的自定义类，该类继承自 [BuildHookInterface](reference.md#hatchling.builders.hooks.plugin.interface.BuildHookInterface)。
 
-## Configuration
+## 配置（Configuration）
 
-The build hook plugin name is `custom`.
+构建钩子插件名称为 `custom`。
 
 ```toml config-example
 [tool.hatch.build.hooks.custom]
 [tool.hatch.build.targets.<TARGET_NAME>.hooks.custom]
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Default | Description |
+| 选项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `path` | `hatch_build.py` | The path of the Python file |
+| `path` | `hatch_build.py` | Python 文件的路径 |
 
-## Example
+## 示例（Example）
 
 ```python tab="hatch_build.py"
 from hatchling.builders.hooks.plugin.interface import BuildHookInterface
@@ -29,7 +29,7 @@ class CustomBuildHook(BuildHookInterface):
     ...
 ```
 
-If multiple subclasses are found, you must define a function named `get_build_hook` that returns the desired build hook.
+如果找到多个子类，必须定义一个名为 `get_build_hook` 的函数，该函数返回所需的构建钩子。
 
 !!! note
-    Any defined [PLUGIN_NAME](reference.md#hatchling.builders.hooks.plugin.interface.BuildHookInterface.PLUGIN_NAME) is ignored and will always be `custom`.
+    任何已定义的 [PLUGIN_NAME](reference.md#hatchling.builders.hooks.plugin.interface.BuildHookInterface.PLUGIN_NAME) 都会被忽略，并始终默认为 `custom`。

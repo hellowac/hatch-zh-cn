@@ -1,21 +1,21 @@
-# Versioning
+# 版本管理
 
 -----
 
-## Configuration
+## 配置
 
-When the version is not [statically set](config/metadata.md#version), configuration is defined in the `tool.hatch.version` table. The `source` option determines the [source](plugins/version-source/reference.md) to use for [retrieving](#display) and [updating](#updating) the version. The [regex](plugins/version-source/regex.md) source is used by default.
+当版本未被 [静态设置](config/metadata.md#version) 时，应在 `tool.hatch.version` 表中定义相关配置。`source` 选项用于指定 [版本来源](plugins/version-source/reference.md)，以便 [获取](#显示版本) 或 [更新](#更新版本) 版本信息。默认使用的来源是 [regex](plugins/version-source/regex.md)。
 
-The `regex` source requires an option `path` that represents a relative path to a file containing the project's version:
+使用 `regex` 来源时，必须指定一个 `path` 选项，表示包含项目版本信息的文件的相对路径：
 
 ```toml config-example
 [tool.hatch.version]
 path = "src/hatch_demo/__about__.py"
 ```
 
-The default pattern looks for a variable named `__version__` or `VERSION` that is set to a string containing the version, optionally prefixed with the lowercase letter `v`.
+默认的正则模式会查找名为 `__version__` 或 `VERSION` 的变量，其值为一个字符串版本号，可选地以小写字母 `v` 开头。
 
-If this doesn't reflect how you store the version, you can define a different regular expression using the `pattern` option:
+如果该模式不符合你保存版本的方式，可以使用 `pattern` 选项自定义正则表达式：
 
 ```toml config-example
 [tool.hatch.version]
@@ -23,20 +23,20 @@ path = "pkg/__init__.py"
 pattern = "BUILD = 'b(?P<version>[^']+)'"
 ```
 
-The pattern must have a named group called `version` that represents the version.
+该模式中必须包含一个名为 `version` 的命名分组，以表示版本号的位置。
 
-## Display
+## 显示版本
 
-Invoking the [`version`](cli/reference.md#hatch-version) command without any arguments will display the current version of the project:
+调用 [`version`](cli/reference.md#hatch-version) 命令且不带任何参数时，会显示当前项目版本：
 
 ```console
 $ hatch version
 0.0.1
 ```
 
-## Updating
+## 更新版本
 
-You can update the version like so:
+你可以通过以下方式更新版本：
 
 ```console
 $ hatch version "0.1.0"
@@ -44,9 +44,9 @@ Old: 0.0.1
 New: 0.1.0
 ```
 
-The `scheme` option determines the [scheme](plugins/version-scheme/reference.md) to use for parsing both the existing and new versions. The [standard](plugins/version-scheme/standard.md) scheme is used by default, which is based on [PEP 440](https://peps.python.org/pep-0440/#public-version-identifiers).
+`scheme` 选项用于决定用于解析现有版本与新版本的 [版本规则](plugins/version-scheme/reference.md)。默认使用的是 [standard](plugins/version-scheme/standard.md) 规则，该规则基于 [PEP 440](https://peps.python.org/pep-0440/#public-version-identifiers)。
 
-Rather than setting the version explicitly, you can select the name of a [segment](#supported-segments) used to increment the version:
+除了显式设置版本号外，还可以指定要递增的 [版本段名](#支持的版本段)：
 
 ```console
 $ hatch version minor
@@ -54,7 +54,7 @@ Old: 0.1.0
 New: 0.2.0
 ```
 
-You can chain multiple segment updates with a comma. For example, if you wanted to release a preview of your project's first major version, you could do:
+你也可以使用逗号连接多个段更新。例如，如果你想发布项目第一个主版本的预览版，可以运行：
 
 ```console
 $ hatch version major,rc
@@ -62,7 +62,7 @@ Old: 0.2.0
 New: 1.0.0rc0
 ```
 
-When you want to release the final version, you would do:
+当你准备好发布正式版本时，运行：
 
 ```console
 $ hatch version release
@@ -70,11 +70,11 @@ Old: 1.0.0rc0
 New: 1.0.0
 ```
 
-### Supported segments
+### 支持的版本段
 
-Here are the supported segments and how they would influence an existing version of `1.0.0`:
+以下是所有支持的段名称，以及它们对版本 `1.0.0` 的影响：
 
-| Segments | New version |
+| 段名称 | 新版本 |
 | --- | --- |
 | `release` | `1.0.0` |
 | `major` | `2.0.0` |

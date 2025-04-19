@@ -1,30 +1,30 @@
-# How to use custom Python distributions
+# 如何使用自定义 Python 发行版
 
-----
+-----
 
-The built-in [Python management](../../tutorials/python/manage.md) capabilities offer full support for using custom distributions.
+Hatch 内建的 [Python 管理功能](../../tutorials/python/manage.md) 完全支持使用自定义发行版。
 
-## Configuration
+## 配置方式
 
-Configuring custom Python distributions is done entirely through three environment variables that must all be defined, for each desired distribution. In the following sections, the placeholder `<NAME>` is the uppercased version of the distribution name with periods replaced by underscores e.g. `pypy3.10` would become `PYPY3_10`.
+配置自定义 Python 发行版完全通过三个环境变量进行，并且对于每个发行版，三个变量都必须定义。在以下各小节中，`<NAME>` 是发行版名称的全大写形式，且将其中的点（`.`）替换为下划线。例如：`pypy3.10` 应写作 `PYPY3_10`。
 
-### Source
+### 源地址（Source）
 
-The `HATCH_PYTHON_CUSTOM_SOURCE_<NAME>` variable is the URL to the distribution's archive. The value must end with the archive's real file extension, which is used to determine the extraction method.
+变量 `HATCH_PYTHON_CUSTOM_SOURCE_<NAME>` 用于指定发行版归档文件的 URL。值必须以归档文件的实际扩展名结尾，用于判定解压方法。
 
-The following extensions are supported:
+支持的扩展名如下：
 
-| Extensions | Description |
+| 扩展名 | 描述 |
 | --- | --- |
-| <ul><li><code>.tar.bz2</code></li><li><code>.bz2</code></li></ul> | A [tar file](https://en.wikipedia.org/wiki/Tar_(computing)) with [bzip2 compression](https://en.wikipedia.org/wiki/Bzip2) |
-| <ul><li><code>.tar.gz</code></li><li><code>.tgz</code></li></ul> | A [tar file](https://en.wikipedia.org/wiki/Tar_(computing)) with [gzip compression](https://en.wikipedia.org/wiki/Gzip) |
-| <ul><li><code>.tar.zst</code></li><li><code>.tar.zstd</code></li></ul> | A [tar file](https://en.wikipedia.org/wiki/Tar_(computing)) with [Zstandard compression](https://en.wikipedia.org/wiki/Zstd) |
-| <ul><li><code>.zip</code></li></ul> | A [ZIP file](https://en.wikipedia.org/wiki/ZIP_(file_format)) with [DEFLATE compression](https://en.wikipedia.org/wiki/Deflate) |
+| <ul><li><code>.tar.bz2</code></li><li><code>.bz2</code></li></ul> | 使用 [bzip2 压缩](https://en.wikipedia.org/wiki/Bzip2) 的 [tar 文件](https://en.wikipedia.org/wiki/Tar_(computing)) |
+| <ul><li><code>.tar.gz</code></li><li><code>.tgz</code></li></ul> | 使用 [gzip 压缩](https://en.wikipedia.org/wiki/Gzip) 的 [tar 文件](https://en.wikipedia.org/wiki/Tar_(computing)) |
+| <ul><li><code>.tar.zst</code></li><li><code>.tar.zstd</code></li></ul> | 使用 [Zstandard 压缩](https://en.wikipedia.org/wiki/Zstd) 的 [tar 文件](https://en.wikipedia.org/wiki/Tar_(computing)) |
+| <ul><li><code>.zip</code></li></ul> | 使用 [DEFLATE 压缩](https://en.wikipedia.org/wiki/Deflate) 的 [ZIP 文件](https://en.wikipedia.org/wiki/ZIP_(file_format)) |
 
-### Python path
+### Python 路径
 
-The `HATCH_PYTHON_CUSTOM_PATH_<NAME>` variable is the path to the Python interpreter within the archive. This path is relative to the root of the archive and must be a Unix-style path, even on Windows.
+变量 `HATCH_PYTHON_CUSTOM_PATH_<NAME>` 指定归档文件中 Python 解释器的路径。该路径相对于归档根目录，必须为 Unix 风格路径，即使在 Windows 上也是如此。
 
-### Version
+### 版本号
 
-The `HATCH_PYTHON_CUSTOM_VERSION_<NAME>` variable is the version of the distribution. This value is used to determine whether updates are required and is displayed in the output of the [`python show`](../../cli/reference.md#hatch-python-show) command.
+变量 `HATCH_PYTHON_CUSTOM_VERSION_<NAME>` 表示发行版的版本号。该值用于判断是否需要更新，并显示于 [`python show`](../../cli/reference.md#hatch-python-show) 命令的输出中。

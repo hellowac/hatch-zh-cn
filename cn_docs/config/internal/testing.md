@@ -1,72 +1,72 @@
-# Testing configuration
+# 测试配置
 
 -----
 
-Check out the [testing overview tutorial](../../tutorials/testing/overview.md) for a more comprehensive walk-through.
+请参阅[测试概览教程](../../tutorials/testing/overview.md)，获取更全面的操作指南。
 
-## Settings
+## 设置项（Settings）
 
-If an option has a corresponding [`test`](../../cli/reference.md#hatch-test) command flag, the flag will always take precedence.
+如果某个选项在 [`test`](../../cli/reference.md#hatch-test) 命令中有对应的命令行参数，则该参数始终优先生效。
 
-### Default arguments
+### 默认参数
 
-You can define default arguments for the [`test`](../../cli/reference.md#hatch-test) command by setting the `default-args` option, which must be an array of strings. The following is the default configuration:
+你可以通过设置 `default-args` 选项为字符串数组，定义 [`test`](../../cli/reference.md#hatch-test) 命令的默认参数。以下是默认配置：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 default-args = ["tests"]
 ```
 
-### Extra arguments
+### 额外参数
 
-You can define extra internal arguments for test [scripts](#scripts) by setting the `extra-args` option, which must be an array of strings. For example, if you wanted to increase the verbosity of `pytest`, you could set the following:
+你可以通过设置 `extra-args` 选项为字符串数组，为测试 [脚本](#scripts) 定义额外的内部参数。例如，如果你希望提高 `pytest` 的输出详细程度，可以如下设置：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 extra-args = ["-vv"]
 ```
 
-### Randomize test order
+### 测试顺序随机化
 
-You can [randomize](https://github.com/pytest-dev/pytest-randomly) the order of tests by enabling the `randomize` option which corresponds to the `--randomize`/`-r` flag:
+你可以启用 `randomize` 选项来[随机化](https://github.com/pytest-dev/pytest-randomly)测试顺序，对应的命令行参数为 `--randomize`/`-r`：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 randomize = true
 ```
 
-### Parallelize test execution
+### 测试并行执行
 
-You can [parallelize](https://github.com/pytest-dev/pytest-xdist) test execution by enabling the `parallel` option which corresponds to the `--parallel`/`-p` flag:
+你可以启用 `parallel` 选项来[并行化](https://github.com/pytest-dev/pytest-xdist)测试执行，对应的命令行为 `--parallel`/`-p`：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 parallel = true
 ```
 
-### Retry failed tests
+### 重试失败的测试
 
-You can [retry](https://github.com/pytest-dev/pytest-rerunfailures) failed tests by setting the `retries` option which corresponds to the `--retries` flag:
+你可以设置 `retries` 选项来[重试](https://github.com/pytest-dev/pytest-rerunfailures)失败的测试，对应命令行为 `--retries`：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 retries = 2
 ```
 
-You can also set the number of seconds to wait between retries by setting the `retry-delay` option which corresponds to the `--retry-delay` flag:
+你还可以通过设置 `retry-delay` 选项来指定重试间隔的秒数，对应命令行为 `--retry-delay`：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
 retry-delay = 1
 ```
 
-## Customize environment
+## 自定义环境
 
-You can fully alter the behavior of the environment used by the [`test`](../../cli/reference.md#hatch-test) command.
+你可以完全改变 [`test`](../../cli/reference.md#hatch-test) 命令所使用环境的行为。
 
-### Dependencies
+### 依赖项
 
-You can define [extra dependencies](../environment/overview.md#dependencies) that your tests may require:
+你可以定义测试所需的[额外依赖项](../environment/overview.md#dependencies)：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]
@@ -80,36 +80,36 @@ extra-dependencies = [
 ]
 ```
 
-The following is the default configuration:
+以下是默认配置：
 
 ```toml config-example
 <HATCH_TEST_ENV_DEPENDENCIES>
 ```
 
-### Matrix
+### 矩阵（Matrix）
 
-You can override the default series of [matrices](../environment/advanced.md#matrix):
+你可以重写默认的一组[矩阵配置](../environment/advanced.md#matrix)：
 
 ```toml config-example
 <HATCH_TEST_ENV_MATRIX>
 ```
 
-### Scripts
+### 脚本
 
-If you want to change the default commands that are executed, you can override the [scripts](../environment/overview.md#scripts). The following default scripts must be redefined:
+如果你希望修改默认执行的命令，可以重写 [scripts](../environment/overview.md#scripts)。以下默认脚本必须重新定义：
 
 ```toml config-example
 <HATCH_TEST_ENV_SCRIPTS>
 ```
 
-The `run` script is the default behavior while the `run-cov` script is used instead when measuring code coverage. The `cov-combine` script runs after all tests complete when measuring code coverage, as well as the `cov-report` script when not using the `--cover-quiet` flag.
+`run` 脚本是默认行为；当需要统计代码覆盖率时，将改用 `run-cov` 脚本。所有测试完成后会执行 `cov-combine` 脚本，如果未使用 `--cover-quiet` 参数，还会执行 `cov-report` 脚本。
 
 !!! note
-    The `HATCH_TEST_ARGS` environment variable is how the [`test`](../../cli/reference.md#hatch-test) command's flags are translated and internally populated without affecting the user's arguments. This is also the way that [extra arguments](#extra-arguments) are passed.
+    `HATCH_TEST_ARGS` 环境变量用于在不影响用户参数的情况下，将 [`test`](../../cli/reference.md#hatch-test) 命令的标志位转换为内部参数。这也是传递[额外参数](#extra-arguments)的方式。
 
-### Installer
+### 安装器（Installer）
 
-By default, [UV is enabled](../../how-to/environment/select-installer.md). You may disable that behavior as follows:
+默认情况下，[UV 是启用的](../../how-to/environment/select-installer.md)。你可以如下禁用该行为：
 
 ```toml config-example
 [tool.hatch.envs.hatch-test]

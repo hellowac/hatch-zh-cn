@@ -1,22 +1,22 @@
-# Advanced environment configuration
+## 高级环境配置
 
 -----
 
-## Context formatting
+### 上下文格式化
 
-All environments support the following extra [context formatting](../context.md) fields:
+所有环境都支持以下额外的 [上下文格式化](../context.md) 字段：
 
-| Field | Description |
-| --- | --- |
-| `env_name` | The name of the environment |
-| `env_type` | The [type](overview.md#type) of environment |
-| `matrix` | Its modifier selects the value of that matrix variable. If the environment is not part of a matrix or was not generated with the variable, you must specify a default value as an additional modifier e.g. `{matrix:version:v1.0.0}`. |
-| `verbosity` | The integer verbosity value of Hatch. A `flag` modifier is supported that will render the value as a CLI flag e.g. `-2` becomes `-qq`, `1` becomes `-v`, and `0` becomes an empty string. An additional flag integer modifier may be used to adjust the verbosity level. For example, if you wanted to make a command quiet by default, you could use `{verbosity:flag:-1}` within the command. |
-| `args` | For [executed commands](../../environment.md#command-execution) only, any extra command line arguments with an optional default modifier if none were provided |
+| 字段      | 描述                                                                 |
+|-----------|----------------------------------------------------------------------|
+| `env_name` | 环境的名称                                                            |
+| `env_type` | 环境的 [类型](overview.md#type)                                        |
+| `matrix`   | 其修饰符选择该矩阵变量的值。如果环境不是矩阵的一部分或未由该变量生成，则必须指定默认值作为附加修饰符，例如 `{matrix:version:v1.0.0}`。 |
+| `verbosity` | Hatch 的整数详细级别值。支持 `flag` 修饰符，表示 CLI 标志，例如 `-2` 转换为 `-qq`，`1` 转换为 `-v`，`0` 转换为空字符串。也支持额外的标志整数修饰符以调整详细级别。例如，若要默认将命令设为安静模式，可以在命令中使用 `{verbosity:flag:-1}`。 |
+| `args`     | 对于 [执行的命令](../../environment.md#command-execution)，任何额外的命令行参数，如果未提供则可以选择默认修饰符 |
 
-## Matrix
+### 矩阵
 
-Environments can define a series of matrices with the `matrix` option:
+环境可以使用 `matrix` 选项定义一系列矩阵：
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -34,11 +34,11 @@ version = ["9000"]
 feature = ["foo", "bar"]
 ```
 
-Doing so will result in the product of each variable combination being its own environment.
+这将生成每个变量组合的环境。
 
-### Naming
+#### 命名
 
-The name of the generated environments will be the variable values of each combination separated by hyphens, altogether prefixed by `<ENV_NAME>.`. For example, the following configuration:
+生成的环境的名称将是每个组合变量的值，以短横线分隔，整体前缀为 `<ENV_NAME>`。例如，以下配置：
 
 ```toml config-example
 [[tool.hatch.envs.test.matrix]]
@@ -46,18 +46,15 @@ version = ["42"]
 feature = ["foo", "bar"]
 ```
 
-would indicate the following unique environments:
+将会生成以下独特的环境：
 
 ```
 test.42-foo
 test.42-bar
 ```
 
-The exceptions to this format are described below.
-
-#### Python variables
-
-If the variables `py` or `python` are specified, then they will rank first in the product result and will be prefixed by `py` if the value is not. For example, the following configuration:
+**Python 变量**：
+如果指定了变量 `py` 或 `python`，它们将在生成结果中排在最前面，并且如果值不是 Python 版本，将以 `py` 为前缀。例如，以下配置：
 
 ```toml config-example
 [[tool.hatch.envs.test.matrix]]
@@ -65,19 +62,19 @@ version = ["42"]
 python = ["3.9", "pypy3"]
 ```
 
-would generate the following environments:
+将生成以下环境：
 
 ```
 test.py3.9-42
 test.pypy3-42
 ```
 
-!!! note
-    The value of this variable sets the [Python version](overview.md#python-version).
+!!! 注意
+    该变量的值设置了 [Python 版本](overview.md#python-version)。
 
-#### Name formatting
+#### 名称格式化
 
-You can set the `matrix-name-format` option to modify how each variable part is formatted which recognizes the placeholders `{variable}` and `{value}`. For example, the following configuration:
+你可以设置 `matrix-name-format` 选项来修改每个变量部分的格式，使用 `{variable}` 和 `{value}` 占位符。例如，以下配置：
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -88,22 +85,22 @@ version = ["42"]
 feature = ["foo", "bar"]
 ```
 
-would produce the following environments:
+将生成以下环境：
 
 ```
 test.version_42-feature_foo
 test.version_42-feature_bar
 ```
 
-By default this option is set to `{value}`.
+默认情况下，此选项设置为 `{value}`。
 
-#### Default environment
+#### 默认环境
 
-If the `default` environment defines matrices, then the generated names will not be prefixed by the environment name. This can be useful for projects that only need a single series of matrices without any standalone environments.
+如果 `default` 环境定义了矩阵，那么生成的名称将不再以环境名称为前缀。这对于只需要一个矩阵系列而不需要任何独立环境的项目来说非常有用。
 
-### Selection
+### 选择
 
-Rather than [selecting](../../environment.md#selection) a single generated environment, you can select the root environment to target all of them. For example, if you have the following configuration:
+你可以选择根环境来同时目标所有生成的环境。例如，如果你有以下配置：
 
 ```toml config-example
 [tool.hatch.envs.test]
@@ -121,26 +118,26 @@ python = ["3.11", "3.12"]
 version = ["42", "3.14"]
 ```
 
-you could then run your tests consecutively in all 4 environments with:
+你可以用以下命令依次在所有 4 个环境中运行测试：
 
 ```
 hatch run test:cov
 ```
 
-## Option overrides
+### 选项覆盖
 
-You can modify options based on the conditions of different sources like [matrix variables](#matrix-variable-overrides) with the `overrides` table, using [dotted key](https://toml.io/en/v1.0.0#table) syntax for each declaration:
+你可以根据不同源的条件修改选项，如 [矩阵变量](#matrix-variable-overrides)，使用 `overrides` 表格，并通过 [点语法](https://toml.io/en/v1.0.0#table)为每个声明设置。
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>.overrides]
 <SOURCE>.<CONDITION>.<OPTION> = <VALUE>
 ```
 
-The [type](#types) of the selected option determines the types of values.
+选项的 [类型](#types) 决定了值的类型。
 
-### Platform overrides
+#### 平台覆盖
 
-Options can be modified based on the current platform using the `platform` source.
+可以基于当前平台修改选项，使用 `platform` 源。
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
@@ -149,24 +146,24 @@ platform.windows.scripts = [
 ]
 ```
 
-The following platforms are supported:
+支持以下平台：
 
 - `linux`
 - `windows`
 - `macos`
 
-### Environment variable overrides
+#### 环境变量覆盖
 
-Environment variables can modify options using the `env` source.
+环境变量可以使用 `env` 源修改选项。
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
 env.GITHUB_ACTIONS.dev-mode = { value = false, if = ["true"] }
 ```
 
-### Matrix variable overrides
+#### 矩阵变量覆盖
 
-The [matrix](#matrix) variables used to generate each environment can be used to modify options within using the `matrix` source.
+使用的 [矩阵](#matrix) 变量可用于修改其中的选项，使用 `matrix` 源。
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
@@ -182,9 +179,9 @@ version = ["legacy", "latest"]
 auth = ["oauth2", "kerberos", "noauth"]
 ```
 
-### Name overrides
+#### 名称覆盖
 
-When a [matrix](#matrix) is defined, the `name` source can be used for regular expression matching on the generated name, minus the prefix for non-[default](#default-environment) environments.
+当定义了 [矩阵](#matrix) 时，`name` 源可用于对生成的名称进行正则表达式匹配，不包括非 [默认](#default-environment) 环境的前缀。
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
@@ -194,9 +191,9 @@ name."^0".env-vars = "TESTING_UNSTABLE=true"
 version = ["0.1.0", "0.2.0", "1.0.0"]
 ```
 
-### Types
+### 类型
 
-- Literal types like strings for the [Python version](overview.md#python-version) or booleans for [skipping installation](overview.md#skip-install) can be set using the value itself, an inline table, or an array. For example:
+- 文字类型，例如字符串（用于 [Python 版本](overview.md#python-version)）或布尔值（用于 [跳过安装](overview.md#skip-install)）可以使用值本身、内联表或数组来设置。例如：
 
     ```toml config-example
     [tool.hatch.envs.test.overrides]
@@ -208,9 +205,9 @@ version = ["0.1.0", "0.2.0", "1.0.0"]
     ]
     ```
 
-    For arrays, the first allowed value will be used.
+    对于数组，将使用第一个允许的值。
 
-- Array types like [dependencies](overview.md#dependencies) or [commands](overview.md#commands) can be appended to using an array of strings or inline tables. For example:
+- 数组类型，例如 [依赖项](overview.md#dependencies) 或 [命令](overview.md#commands)，可以使用字符串数组或内联表进行追加。例如：
 
     ```toml config-example
     [tool.hatch.envs.test.overrides]
@@ -220,7 +217,7 @@ version = ["0.1.0", "0.2.0", "1.0.0"]
     ]
     ```
 
-- Mapping types like [environment variables](overview.md#environment-variables) or [scripts](overview.md#scripts) can have keys set using a string, or an array of strings or inline tables. For example:
+- 映射类型，例如 [环境变量](overview.md#environment-variables) 或 [脚本](overview.md#scripts)，可以使用字符串、字符串数组或内联表设置键。例如：
 
     ```toml config-example
     [tool.hatch.envs.test.overrides]
@@ -231,31 +228,31 @@ version = ["0.1.0", "0.2.0", "1.0.0"]
     ]
     ```
 
-    If the value is missing (no `=` for strings, no `value` key for inline tables), then the value will be set to the value of the source condition.
+    如果值缺失（字符串中没有 `=`，内联表中没有 `value` 键），则该值将设置为源条件的值。
 
-### Overwriting
+### 覆盖
 
-Rather than supplementing the values within mapping types or array types, you can overwrite the option as a whole by prefixing the name with `set-`:
+你可以通过在名称前加上 `set-` 来完全覆盖映射类型或数组类型中的选项：
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
 matrix.foo.set-platforms = ["macos", "linux"]
 ```
 
-When overwriting entire options or keys within mappings, override sources are applied in the following order:
+当完全覆盖选项或映射中的键时，覆盖源的应用顺序如下：
 
-1. [platform](#platform-overrides)
-2. [environment variables](#environment-variable-overrides)
-3. [matrix variables](#matrix-variable-overrides)
-4. [names](#name-overrides)
+1. [平台](#platform-overrides)
+2. [环境变量](#environment-variable-overrides)
+3. [矩阵变量](#matrix-variable-overrides)
+4. [名称](#name-overrides)
 
-### Conditions
+### 条件
 
-You may specify certain extra keys for any inline table that will determine whether or not to apply that entry. These modifiers may be combined with others and any negative evaluation will immediately cause the entry to be skipped.
+你可以为任何内联表指定额外的键，以确定是否应用该条目。以下修饰符可以与其他修饰符组合，任何负面评估会立即导致跳过该条目。
 
-#### Allowed values
+#### 允许的值
 
-The `if` key represents the allowed values for that condition. If the value of the condition is not listed, then that entry will not be applied:
+`if` 键表示该条件的允许值。如果条件的值不在列表中，则该条目不会被应用：
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
@@ -269,9 +266,9 @@ matrix.version.env-vars = [
 version = ["42", "3.14"]
 ```
 
-#### Specific platforms
+#### 指定平台
 
-The `platform` key represents the desired platforms. If the current platform is not listed, then that entry will not be applied:
+`platform` 键代表所需的平台。如果当前平台未列出，则该条目将不适用：
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]
@@ -285,9 +282,9 @@ matrix.version.env-vars = [
 version = ["42", "3.14"]
 ```
 
-#### Required environment variables
+#### 必需的环境变量
 
-The `env` key represents the required environment variables. If any of the listed environment variables are not set or the defined value does not match, then that entry will not be applied:
+`env` 键表示所需的环境变量。如果列出的任何环境变量未设置或定义的值不匹配，则不会应用该条目：
 
 ```toml config-example
 [tool.hatch.envs.test.overrides]

@@ -1,16 +1,16 @@
-# Environment collector plugins
+# 环境收集器插件
 
 -----
 
-Environment collectors allow for dynamically modifying environments or adding environments beyond those defined in config. Users can override default values provided by each environment.
+环境收集器允许动态修改环境或添加超出配置中定义的环境。用户可以覆盖每个环境提供的默认值。
 
-## Known third-party
+## 已知的第三方
 
-- [hatch-mkdocs](https://github.com/mkdocs/hatch-mkdocs) - integrate [MkDocs](https://github.com/mkdocs/mkdocs) and infer dependencies into an env
+- [hatch-mkdocs](https://github.com/mkdocs/hatch-mkdocs) - 集成 [MkDocs](https://github.com/mkdocs/mkdocs)，并将依赖推断到环境中
 
-## Installation
+## 安装
 
-Any required environment collectors that are not built-in must be manually installed alongside Hatch or listed in the `tool.hatch.env.requires` array for automatic management:
+任何需要的环境收集器（如果不是内置的）必须与 Hatch 一起手动安装，或者列在 `tool.hatch.env.requires` 数组中，以便自动管理：
 
 ```toml config-example
 [tool.hatch.env]

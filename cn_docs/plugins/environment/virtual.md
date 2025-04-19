@@ -1,66 +1,66 @@
-# Virtual environment
+# 虚拟环境（Virtual environment）
 
 -----
 
-This uses virtual environments backed by [virtualenv](https://github.com/pypa/virtualenv) or [UV](https://github.com/astral-sh/uv).
+此插件使用由 [virtualenv](https://github.com/pypa/virtualenv) 或 [UV](https://github.com/astral-sh/uv) 支持的虚拟环境。
 
-## Configuration
+## 配置（Configuration）
 
-The environment plugin name is `virtual`.
+环境插件名称为 `virtual`。
 
 ```toml config-example
 [tool.hatch.envs.<ENV_NAME>]
 type = "virtual"
 ```
 
-## Options
+## 选项（Options）
 
-| Option | Default | Description |
+| 选项 | 默认值 | 描述 |
 | --- | --- | --- |
-| `python` | | The version of Python to find on your system and subsequently use to create the environment, defaulting to the `HATCH_PYTHON` environment variable, followed by the [normal resolution logic](#python-resolution). Setting the `HATCH_PYTHON` environment variable to `self` will force the use of the Python executable Hatch is running on. For more information, see the [documentation](https://virtualenv.pypa.io/en/latest/user_guide.html#python-discovery). |
-| `python-sources` | `['external', 'internal']` | This may be set to an array of strings that are either the literal `internal` or `external`. External considers only Python executables that are already on `PATH`. Internal considers only [internally managed Python distributions](#internal-distributions). |
-| `path` | | An explicit path to the virtual environment. The path may be absolute or relative to the project root. Any environments that [inherit](../../config/environment/overview.md#inheritance) this option will also use this path. The environment variable `HATCH_ENV_TYPE_VIRTUAL_PATH` may be used, which will take precedence. |
-| `system-packages` | `false` | Whether or not to give the virtual environment access to the system `site-packages` directory |
-| `installer` | `pip` | When set to `uv`, [UV](https://github.com/astral-sh/uv) will be used in place of virtualenv & pip for virtual environment creation and dependency management, respectively. If you intend to provide UV yourself, you may set the `HATCH_ENV_TYPE_VIRTUAL_UV_PATH` environment variable which should be the absolute path to a UV binary. This environment variable implicitly sets the `installer` option to `uv` (if unset). |
+| `python` | | 要在系统中查找的 Python 版本，并随之创建环境，默认值为 `HATCH_PYTHON` 环境变量，其次是 [常规解析逻辑](#python-resolution)。将 `HATCH_PYTHON` 环境变量设置为 `self` 将强制使用 Hatch 正在运行的 Python 可执行文件。更多信息，请参见 [文档](https://virtualenv.pypa.io/en/latest/user_guide.html#python-discovery)。 |
+| `python-sources` | `['external', 'internal']` | 可以设置为一个包含 `internal` 或 `external` 字符串的数组。External 仅考虑已在 `PATH` 上的 Python 可执行文件。Internal 仅考虑 [内部管理的 Python 发行版](#internal-distributions)。 |
+| `path` | | 虚拟环境的显式路径。路径可以是绝对路径，也可以相对于项目根目录。任何 [继承](../../config/environment/overview.md#inheritance) 此选项的环境也将使用该路径。可以使用环境变量 `HATCH_ENV_TYPE_VIRTUAL_PATH`，该变量将优先于此选项。 |
+| `system-packages` | `false` | 是否允许虚拟环境访问系统的 `site-packages` 目录 |
+| `installer` | `pip` | 当设置为 `uv` 时，虚拟环境的创建和依赖管理将使用 [UV](https://github.com/astral-sh/uv) 而非 virtualenv 和 pip。如果打算自己提供 UV，可以设置 `HATCH_ENV_TYPE_VIRTUAL_UV_PATH` 环境变量，该变量应为 UV 可执行文件的绝对路径。此环境变量会隐式将 `installer` 选项设置为 `uv`（如果未设置）。 |
 
-## Location
+## 位置（Location）
 
-The [location](../../cli/reference.md#hatch-env-find) of environments is determined in the following heuristic order:
+环境的位置根据以下启发式规则确定：
 
-1. The `path` option
-2. A directory named after the environment within the configured `virtual` [environment directory](../../config/hatch.md#environments) if the directory resides somewhere within the project root or if it is set to a `.virtualenvs` directory within the user's home directory
-3. Otherwise, environments are stored within the configured `virtual` [environment directory](../../config/hatch.md#environments) in a deeply nested structure in order to support multiple projects
+1. `path` 选项
+2. 配置的 `virtual` [环境目录](../../config/hatch.md#environments) 中的一个目录，且该目录位于项目根目录内，或者设置为用户主目录下的 `.virtualenvs` 目录
+3. 否则，环境将存储在配置的 `virtual` [环境目录](../../config/hatch.md#environments) 中的一个深度嵌套结构中，以支持多个项目
 
-Additionally, when the `path` option is not used, the name of the directory for the `default` environment will be the normalized project name to provide a more meaningful default [shell](../../cli/reference.md#hatch-shell) prompt.
+另外，当没有使用 `path` 选项时，`default` 环境的目录名将是规范化的项目名称，以提供更具意义的默认 [Shell](../../cli/reference.md#hatch-shell) 提示符。
 
-## Python resolution
+## Python 解析（Python resolution）
 
-Virtual environments necessarily require a parent installation of Python. The following rules determine how the parent is resolved.
+虚拟环境必然需要一个父级的 Python 安装。以下规则确定如何解析父级 Python。
 
-The Python choice is determined by the [`python` option](#options) followed by the `HATCH_PYTHON` environment variable. If the choice is via the environment variable, then resolution stops and that path is used unconditionally.
+Python 的选择由 [`python` 选项](#options) 和 `HATCH_PYTHON` 环境变量决定。如果选择是通过环境变量完成的，则解析停止，并且无条件使用该路径。
 
-The resolvers will be based on the [`python-sources` option](#options) and all resolved interpreters will ensure compatibility with the project's defined [Python support](../../config/metadata.md#python-support).
+解析器将基于 [`python-sources` 选项](#options)，并且所有解析出的解释器将确保与项目定义的 [Python 支持](../../config/metadata.md#python-support) 兼容。
 
-If a Python version has been chosen then each resolver will try to find an interpreter that satisfies that version.
+如果已选择 Python 版本，则每个解析器将尝试找到满足该版本的解释器。
 
-If no version has been chosen, then each resolver will try to find a version that matches the version of Python that Hatch is currently running on. If not found then each resolver will try to find the highest compatible version.
-
-!!! note
-    Some external Python paths are considered unstable and are ignored during resolution. For example, if Hatch is installed via Homebrew then `sys.executable` will be ignored because the interpreter could change or be removed at any time.
+如果未选择版本，则每个解析器将尝试找到与 Hatch 当前运行的 Python 版本匹配的版本。如果找不到，则每个解析器将尝试找到最高兼容的版本。
 
 !!! note
-    When resolution finds a match using an [internally managed distribution](#internal-distributions) and an update is available, the latest distribution will automatically be downloaded before environment creation.
+    一些外部 Python 路径被认为是不稳定的，在解析时会被忽略。例如，如果 Hatch 是通过 Homebrew 安装的，则会忽略 `sys.executable`，因为该解释器可能随时更改或被删除。
 
-## Internal distributions
+!!! note
+    当使用 [内部管理的发行版](#internal-distributions) 且可用更新时，解析器会在创建环境之前自动下载最新的发行版。
 
-The following options are recognized for internal Python resolution.
+## 内部发行版（Internal distributions）
+
+以下选项用于内部 Python 解析。
 
 !!! tip
-    You can set custom sources for distributions by setting the `HATCH_PYTHON_SOURCE_<NAME>` environment variable where `<NAME>` is the uppercased version of the distribution name with periods replaced by underscores e.g. `HATCH_PYTHON_SOURCE_PYPY3_10`.
+    您可以通过设置 `HATCH_PYTHON_SOURCE_<NAME>` 环境变量来自定义发行版的来源，其中 `<NAME>` 是发行版名称的大写形式，句点替换为下划线，例如 `HATCH_PYTHON_SOURCE_PYPY3_10`。
 
 ### CPython
 
-| NAME |
+| 名称 |
 | --- |
 | `3.7` |
 | `3.8` |
@@ -70,34 +70,34 @@ The following options are recognized for internal Python resolution.
 | `3.12` |
 | `3.13` |
 
-The source of distributions is the [python-build-standalone](https://github.com/indygreg/python-build-standalone) project.
+发行版的来源是 [python-build-standalone](https://github.com/indygreg/python-build-standalone) 项目。
 
-Some distributions have [variants](https://gregoryszorc.com/docs/python-build-standalone/main/running.html) that may be configured with environment variables. Options may be combined.
+一些发行版具有可以通过环境变量配置的 [变体](https://gregoryszorc.com/docs/python-build-standalone/main/running.html)。选项可以组合使用。
 
-| Option | Platforms | Allowed values |
+| 选项 | 平台 | 允许的值 |
 | --- | --- | --- |
-| `HATCH_PYTHON_VARIANT_CPU` | <ul><li>Linux</li></ul> | <ul><li><code>v1</code></li><li><code>v2</code></li><li><code>v3</code> (default)</li><li><code>v4</code></li></ul> |
+| `HATCH_PYTHON_VARIANT_CPU` | <ul><li>Linux</li></ul> | <ul><li><code>v1</code></li><li><code>v2</code></li><li><code>v3</code>（默认）</li><li><code>v4</code></li></ul> |
 | `HATCH_PYTHON_VARIANT_GIL` | <ul><li>Linux</li><li>Windows</li><li>macOS</li></ul> | <ul><li><code>freethreaded</code></li></ul> |
 
 ### PyPy
 
-| NAME |
+| 名称 |
 | --- |
 | `pypy2.7` |
 | `pypy3.9` |
 | `pypy3.10` |
 
-The source of distributions is the [PyPy](https://www.pypy.org) project.
+发行版的来源是 [PyPy](https://www.pypy.org) 项目。
 
-## Troubleshooting
+## 故障排除（Troubleshooting）
 
 ### macOS SIP
 
-If you need to set linker environment variables like those starting with `DYLD_` or `LD_`, any executable secured by [System Integrity Protection](https://en.wikipedia.org/wiki/System_Integrity_Protection) that is invoked when [running commands](../../environment.md#command-execution) will not see those environment variable modifications as macOS strips those.
+如果需要设置类似 `DYLD_` 或 `LD_` 的链接器环境变量，任何通过 [系统完整性保护](https://en.wikipedia.org/wiki/System_Integrity_Protection) 安全保护的可执行文件，在运行 [命令](../../environment.md#command-execution) 时将无法看到这些环境变量的修改，因为 macOS 会将其删除。
 
-Hatch interprets such commands as shell commands but deliberately ignores such paths to protected shells. This workaround suffices for the majority of use cases but there are 2 situations in which it may not:
+Hatch 会将此类命令视为 Shell 命令，并故意忽略指向受保护 Shell 的路径。这个解决方法适用于大多数用例，但有两种情况可能无法解决：
 
-1. There are no unprotected `sh`, `bash`, `zsh`, nor `fish` executables found along PATH.
-2. The desired executable is a project's [script](../../config/metadata.md#cli), and the [location](#location) of environments contains spaces or is longer than 124[^1] characters. In this case `pip` and other installers will create such an entry point with a shebang pointing to `/bin/sh` (which is protected) to avoid shebang limitations. Rather than changing the location, you could invoke the script as e.g. `python -m pytest` (if the project supports that method of invocation by shipping a `__main__.py`).
+1. 找不到未受保护的 `sh`、`bash`、`zsh` 或 `fish` 可执行文件。
+2. 目标可执行文件是项目的 [脚本](../../config/metadata.md#cli)，并且 [环境位置](#location) 包含空格或超过 124[^1] 个字符。在这种情况下，`pip` 和其他安装程序将创建指向 `/bin/sh` 的入口点（这是受保护的），以避免 shebang 限制。除非更改位置，否则可以通过例如 `python -m pytest` 来调用脚本（如果项目支持通过传递 `__main__.py` 进行调用）。
 
-[^1]: The shebang length limit is [usually](https://web.archive.org/web/20221231220856/https://www.in-ulm.de/~mascheck/various/shebang/#length) 127 but 3 characters surround the executable path: `#!<EXE_PATH>\n`
+[^1]: shebang 长度限制通常为 127，但执行路径周围有 3 个字符：`#!<EXE_PATH>\n`

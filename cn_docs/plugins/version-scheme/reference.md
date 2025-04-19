@@ -1,10 +1,10 @@
-# Version scheme plugins
+# 版本方案插件
 
 -----
 
-## Known third-party
+## 已知的第三方插件
 
-- [hatch-semver](https://github.com/Nagidal/hatch-semver) - uses [semantic versioning](https://semver.org)
+- [hatch-semver](https://github.com/Nagidal/hatch-semver) - 使用 [语义化版本控制](https://semver.org)
 
 ::: hatchling.version.scheme.plugin.interface.VersionSchemeInterface
     options:

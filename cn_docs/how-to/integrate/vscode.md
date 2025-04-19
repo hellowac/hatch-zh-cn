@@ -1,39 +1,39 @@
-# How to use Hatch environments from Visual Studio Code
+# 如何在 Visual Studio Code 中使用 Hatch 环境
 
 -----
 
-Visual Studio Code announced support for [Hatch environment discovery](https://code.visualstudio.com/updates/v1_88#_hatch-environment-discovery) in `vscode-python`'s [2024.4 release](https://github.com/microsoft/vscode-python/releases/tag/v2024.4.0).
+Visual Studio Code 在 `vscode-python` 的 [2024.4 版本](https://github.com/microsoft/vscode-python/releases/tag/v2024.4.0) 中宣布支持 [Hatch 环境发现](https://code.visualstudio.com/updates/v1_88#_hatch-environment-discovery)。
 
-For it to work, you should [install Hatch](../../install.md) globally. If you used the GUI installers on Windows or macOS, or your system package manager on e.g. Arch Linux or Fedora, this should be taken care of.
+为使该功能正常工作，您应[全局安装 Hatch](../../install.md)。如果您在 Windows 或 macOS 上使用图形安装程序，或通过例如 Arch Linux 或 Fedora 的系统软件包管理器安装，通常已经设置好了。
 
-??? note "Setting up PATH"
+??? note "设置 PATH"
 
-    If you installed Hatch with [pipx](../../install.md#pipx) rather than system-wide, you might need to add `$HOME/.local/bin` to your PATH environment variable *for your graphical session*, not just your terminal. Check like this:
+    如果您使用 [pipx](../../install.md#pipx) 安装 Hatch，而不是系统范围安装，则可能需要将 `$HOME/.local/bin` 添加到 *图形会话* 的 PATH 环境变量中，而不仅仅是终端中的 PATH。可使用如下方式检查：
 
     ```console
-    $ pgrep bin/code  # or some other graphical application
+    $ pgrep bin/code  # 或其他图形应用程序
     1234
     $ cat /proc/1234/environ | tr '\0' '\n' | grep -E '^PATH='
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     ```
 
-    If the directory is not in there, you need to add it in your session startup script, in a way that depends on your desktop environment:
+    如果路径中没有包含该目录，您需要根据所用桌面环境，在会话启动脚本中添加该路径：
 
     - [KDE Plasma](https://userbase.kde.org/Session_Environment_Variables)
     - [GNOME](https://help.ubuntu.com/community/EnvironmentVariables#Session-wide_environment_variables)
 
-## Project setup
+## 项目配置
 
-1. Make Hatch install the project and its dependencies to an environment using the [`env create`](../../cli/reference.md#hatch-env-create) command.
+1. 使用 [`env create`](../../cli/reference.md#hatch-env-create) 命令让 Hatch 安装项目及其依赖到一个环境中。
 
-2. Select an interpreter using the ++"Python: Select Interpreter"++ command:
+2. 使用 ++“Python: Select Interpreter”++ 命令选择解释器：
 
      <figure markdown>
-         ![Select interpreter](./vscode/select-interpreter.png){ loading=lazy role="img" }
+         ![选择解释器](./vscode/select-interpreter.png){ loading=lazy role="img" }
      </figure>
 
-3. You should now be able to use the environment. For example, if you have the `python.terminal.activateEnvironment` setting set to `true` and you open a new terminal, the environment should be activated. Alternatively, you could press the "play" button to run a file in the environment:
+3. 此时应该可以使用该环境。例如，如果您已将 `python.terminal.activateEnvironment` 设置为 `true`，当您打开新的终端时，环境应会自动激活。或者，您也可以点击“运行”按钮在该环境中运行文件：
 
      <figure markdown>
-         ![Run file](./vscode/run-file.png){ loading=lazy role="img" }
+         ![运行文件](./vscode/run-file.png){ loading=lazy role="img" }
      </figure>

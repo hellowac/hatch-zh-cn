@@ -1,10 +1,10 @@
-# Publisher plugins
+# 发布者插件
 
 -----
 
-## Known third-party
+## 已知的第三方插件
 
-- [hatch-aws-publisher](https://github.com/aka-raccoon/hatch-aws-publisher) - publish AWS Lambda functions with SAM
+- [hatch-aws-publisher](https://github.com/aka-raccoon/hatch-aws-publisher) - 使用 SAM 发布 AWS Lambda 函数
 
 ::: hatch.publish.plugin.interface.PublisherInterface
     options:

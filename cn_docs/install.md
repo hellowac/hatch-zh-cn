@@ -1,4 +1,4 @@
-# Installation
+# 安装
 
 -----
 
@@ -9,34 +9,34 @@
   uses: pypa/hatch@install
 ```
 
-Refer to the [official action](https://github.com/pypa/hatch/tree/install) for more information.
+更多信息请参考 [官方操作](https://github.com/pypa/hatch/tree/install)。
 
-## Installers
+## 安装程序
 
 === "macOS"
-    === "GUI installer"
-        1. In your browser, download the `.pkg` file: [hatch-universal.pkg](https://github.com/pypa/hatch/releases/latest/download/hatch-universal.pkg)
-        2. Run your downloaded file and follow the on-screen instructions.
-        3. Restart your terminal.
-        4. To verify that the shell can find and run the `hatch` command in your `PATH`, use the following command.
+    === "图形界面安装器"
+        1. 在浏览器中下载 `.pkg` 文件：[hatch-universal.pkg](https://github.com/pypa/hatch/releases/latest/download/hatch-universal.pkg)
+        2. 运行你下载的文件并按照屏幕提示操作。
+        3. 重启终端。
+        4. 使用以下命令确认 shell 能够在 `PATH` 中找到并运行 `hatch` 命令：
 
             ```
             $ hatch --version
             <HATCH_LATEST_VERSION>
             ```
-    === "Command line installer"
-        1. Download the file using the `curl` command. The `-o` option specifies the file name that the downloaded package is written to. In this example, the file is written to `hatch-universal.pkg` in the current directory.
+    === "命令行安装器"
+        1. 使用 `curl` 命令下载文件。`-o` 参数指定保存的文件名。在此示例中，文件将被保存为当前目录下的 `hatch-universal.pkg`。
 
             ```
             curl -Lo hatch-universal.pkg https://github.com/pypa/hatch/releases/latest/download/hatch-universal.pkg
             ```
-        2. Run the standard macOS [`installer`](https://ss64.com/osx/installer.html) program, specifying the downloaded `.pkg` file as the source. Use the `-pkg` parameter to specify the name of the package to install, and the `-target /` parameter for the drive in which to install the package. The files are installed to `/usr/local/hatch`, and an entry is created at `/etc/paths.d/hatch` that instructs shells to add the `/usr/local/hatch` directory to. You must include sudo on the command to grant write permissions to those folders.
+        2. 使用 macOS 的标准 [`installer`](https://ss64.com/osx/installer.html) 程序，指定下载的 `.pkg` 文件为安装源。使用 `-pkg` 参数指定包名，`-target /` 参数指定安装驱动器。文件将安装至 `/usr/local/hatch`，并在 `/etc/paths.d/hatch` 创建一项，指示 shell 添加 `/usr/local/hatch` 到 PATH。你需要在命令前加上 sudo 以获取写权限。
 
             ```
             sudo installer -pkg ./hatch-universal.pkg -target /
             ```
-        3. Restart your terminal.
-        4. To verify that the shell can find and run the `hatch` command in your `PATH`, use the following command.
+        3. 重启终端。
+        4. 使用以下命令确认 shell 能够在 `PATH` 中找到并运行 `hatch` 命令：
 
             ```
             $ hatch --version
@@ -44,19 +44,19 @@ Refer to the [official action](https://github.com/pypa/hatch/tree/install) for m
             ```
 
 === "Windows"
-    === "GUI installer"
-        1. In your browser, download one the `.msi` files:
+    === "图形界面安装器"
+        1. 在浏览器中下载其中一个 `.msi` 安装文件：
               - [hatch-x64.msi](https://github.com/pypa/hatch/releases/latest/download/hatch-x64.msi)
-        2. Run your downloaded file and follow the on-screen instructions.
-        3. Restart your terminal.
-        4. To verify that the shell can find and run the `hatch` command in your `PATH`, use the following command.
+        2. 运行你下载的文件并按照屏幕提示操作。
+        3. 重启终端。
+        4. 使用以下命令确认 shell 能够在 `PATH` 中找到并运行 `hatch` 命令：
 
             ```
             $ hatch --version
             <HATCH_LATEST_VERSION>
             ```
-    === "Command line installer"
-        1. Download and run the installer using the standard Windows [`msiexec`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/msiexec) program, specifying one of the `.msi` files as the source. Use the `/passive` and `/i` parameters to request an unattended, normal installation.
+    === "命令行安装器"
+        1. 使用标准 Windows [`msiexec`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/msiexec) 程序下载并运行安装器，指定 `.msi` 文件作为源。使用 `/passive` 和 `/i` 参数发起无人值守的普通安装。
 
             === "x64"
                 ```
@@ -66,17 +66,17 @@ Refer to the [official action](https://github.com/pypa/hatch/tree/install) for m
                 ```
                 msiexec /passive /i https://github.com/pypa/hatch/releases/latest/download/hatch-x86.msi
                 ```
-        2. Restart your terminal.
-        3. To verify that the shell can find and run the `hatch` command in your `PATH`, use the following command.
+        2. 重启终端。
+        3. 使用以下命令确认 shell 能够在 `PATH` 中找到并运行 `hatch` 命令：
 
             ```
             $ hatch --version
             <HATCH_LATEST_VERSION>
             ```
 
-## Standalone binaries
+## 独立二进制文件
 
-After downloading the archive corresponding to your platform and architecture, extract the binary to a directory that is on your PATH and rename to `hatch`.
+下载与你的平台和架构相应的归档文件后，将其中的可执行文件解压至你的 `PATH` 路径中，并重命名为 `hatch`。
 
 === "Linux"
     - [hatch-aarch64-unknown-linux-gnu.tar.gz](https://github.com/pypa/hatch/releases/latest/download/hatch-aarch64-unknown-linux-gnu.tar.gz)
@@ -94,18 +94,18 @@ After downloading the archive corresponding to your platform and architecture, e
 
 ## pip
 
-Hatch is available on PyPI and can be installed with [pip](https://github.com/pypa/pip).
+Hatch 可从 PyPI 安装，可使用 [pip](https://github.com/pypa/pip) 安装：
 
 ```
 pip install hatch
 ```
 
 !!! warning
-    This method modifies the Python environment in which you choose to install. Consider instead using [pipx](#pipx) to avoid dependency conflicts.
+    该方法会修改你所选择安装的 Python 环境。为了避免依赖冲突，建议使用 [pipx](#pipx)。
 
 ## pipx
 
-[pipx](https://github.com/pypa/pipx) allows for the global installation of Python applications in isolated environments.
+[pipx](https://github.com/pypa/pipx) 允许在隔离环境中全局安装 Python 应用：
 
 ```
 pipx install hatch
@@ -113,7 +113,7 @@ pipx install hatch
 
 ## Homebrew
 
-See the [formula](https://formulae.brew.sh/formula/hatch) for more details.
+更多信息请查看 [配方说明](https://formulae.brew.sh/formula/hatch)：
 
 ```
 brew install hatch
@@ -121,24 +121,24 @@ brew install hatch
 
 ## Conda
 
-See the [feedstock](https://github.com/conda-forge/hatch-feedstock) for more details.
+更多信息请查看 [feedstock 项目](https://github.com/conda-forge/hatch-feedstock)：
 
 ```
 conda install -c conda-forge hatch
 ```
 
-or with [mamba](https://github.com/mamba-org/mamba):
+或使用 [mamba](https://github.com/mamba-org/mamba)：
 
 ```
 mamba install hatch
 ```
 
 !!! warning
-    This method modifies the Conda environment in which you choose to install. Consider instead using [pipx](#pipx) or [condax](https://github.com/mariusvniekerk/condax) to avoid dependency conflicts.
+    该方法会修改你所选择安装的 Conda 环境。为了避免依赖冲突，建议使用 [pipx](#pipx) 或 [condax](https://github.com/mariusvniekerk/condax)。
 
 ## MacPorts
 
-See the [port](https://ports.macports.org/port/hatch/) for more details.
+更多信息请查看 [MacPorts 页面](https://ports.macports.org/port/hatch/)：
 
 ```
 sudo port install hatch
@@ -146,7 +146,7 @@ sudo port install hatch
 
 ## Fedora
 
-The minimum supported version is 37, currently in development as [Rawhide](https://docs.fedoraproject.org/en-US/releases/rawhide/).
+支持的最低版本为 37，目前处于 [Rawhide](https://docs.fedoraproject.org/en-US/releases/rawhide/) 开发中。
 
 ```
 sudo dnf install hatch
@@ -158,8 +158,11 @@ sudo dnf install hatch
 xbps-install hatch
 ```
 
-## Build system availability
+## 构建系统可用性
 
-Hatchling is Hatch's [build backend](config/build.md#build-system) which you will never need to install manually. See its [changelog](history/hatchling.md) for version information.
+Hatchling 是 Hatch 的 [构建后端](config/build.md#build-system)，你无需手动安装。版本信息请查看其 [更新日志](history/hatchling.md)。
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/hatchling.svg){ loading=lazy .off-glb }](https://repology.org/project/hatchling/versions)
+[![打包状态](https://repology.org/badge/vertical-allrepos/hatchling.svg){ loading=lazy .off-glb }](https://repology.org/project/hatchling/versions)
+```
+
+如需将以上内容嵌入到文档项目中或转换为其他格式，也可以继续告诉我。

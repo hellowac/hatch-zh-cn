@@ -1,12 +1,12 @@
-# Authors
+# 作者
 
 -----
 
-## Maintainers
+## 维护者
 
 - Ofek Lev [:material-web:](https://ofek.dev) [:material-github:](https://github.com/ofek) [:material-twitter:](https://twitter.com/Ofekmeister)
 
-## Contributors
+## 贡献者
 
 - Amjith Ramanujam [:material-twitter:](https://twitter.com/amjithr)
 - Arnaud Crowther [:material-github:](https://github.com/areknow)
