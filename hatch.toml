@@ -78,7 +78,7 @@ env.GH_TOKEN_MKDOCS_MATERIAL_INSIDERS.env-vars = [
 [envs.docs.env-vars]
 SOURCE_DATE_EPOCH = "1580601600"
 PYTHONUNBUFFERED = "1"
-MKDOCS_CONFIG = "mkdocs.yml"
+MKDOCS_CONFIG = "cn_mkdocs.yml"
 [envs.docs.scripts]
 build = "mkdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
 serve = "mkdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
